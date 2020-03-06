@@ -1,0 +1,30 @@
+book_filename: "ElegantBookdown"
+delete_merged_file: true
+language:
+  label:
+    fig: "图 "
+    tab: "表 "
+    thm: "定理 "
+    lem: "引理 "
+    cor: "推论 "
+    prp: "命题 "
+    def: "定义 "
+    exm: "例 "
+    exr: "练习 "
+  ui:
+    edit: "编辑"
+    chapter_name: ["第 ", " 章"]
+
+#new_session: yes
+
+rmd_files: 
+  - "index.Rmd"
+  - "01-bigdata.Rmd"
+  - "02-develop.Rmd"
+  - "03-collegecontr.Rmd"
+  - "04-peoplecontr.Rmd"
+  - "05-JCR.Rmd"
+  - "07-hmm.Rmd"
+
+
+  #- "08-references.Rmd"

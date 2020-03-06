@@ -1,0 +1,139 @@
+\documentclass[cn, 11pt, fancy, hide]{elegantbook}
+
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\hypersetup{
+  pdfcreator={LaTeX via pandoc}}
+
+
+\usepackage{longtable,booktabs}
+
+
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\setcounter{secnumdepth}{5}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+  \title{大数据背景下精准科研信息服务}
+
+\subtitle{以数学学科为例}
+
+  \author{王敏杰}
+
+  \date{2020-03-06}
+
+% logo 图案
+  \logo{figure/logo.png}
+% 封面图片
+  \cover{figure/cover.jpg}
+% 版本号
+  \version{0.1}
+% 机构名
+% 引用格言
+  \extrainfo{Victory won't come to us unless we go to it. --- M. Moore}
+% 导言区 preamble
+\usepackage{framed,color}
+\definecolor{shadecolor}{RGB}{248,248,248}
+
+\frontmatter
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+\begin{document}
+% 封面
+\maketitle
+% 插入 before_body.tex
+
+% 目录
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+% 表目录
+% 图目录
+% 书籍主体部分
+\mainmatter
+
+\hypersetup{pageanchor=true}
+
+\hypertarget{bigdata}{%
+\chapter{川师大数据}\label{bigdata}}
+
+\hypertarget{ux6570ux636eux6765ux6e90ux4e0eux5b66ux79d1ux5206ux7c7b}{%
+\section{数据来源与学科分类}\label{ux6570ux636eux6765ux6e90ux4e0eux5b66ux79d1ux5206ux7c7b}}
+
+检索 Web of Science 数据库的 SCI/SSCI/A \& HCI 数据，采用esi学科分类
+
+\hypertarget{ux6a2aux5411ux6bd4ux8f83ux5e08ux8303ux7c7bux9ad8ux6821}{%
+\section{横向比较师范类高校}\label{ux6a2aux5411ux6bd4ux8f83ux5e08ux8303ux7c7bux9ad8ux6821}}
+
+横向比较5所师范类高校的数学学科发展情况
+
+\hypertarget{develop}{%
+\chapter{学科发展}\label{develop}}
+
+\hypertarget{ux79d1ux7814ux4ea7ux51faux53caux5176ux9884ux6d4b}{%
+\section{科研产出及其预测}\label{ux79d1ux7814ux4ea7ux51faux53caux5176ux9884ux6d4b}}
+
+\hypertarget{ux5b66ux672fux5f71ux54cdux529bux53caux5176ux9884ux6d4b}{%
+\section{学术影响力及其预测}\label{ux5b66ux672fux5f71ux54cdux529bux53caux5176ux9884ux6d4b}}
+
+\hypertarget{collegecontr}{%
+\chapter{学院对学科的贡献}\label{collegecontr}}
+
+\hypertarget{ux89c4ux6a21ux8d21ux732e}{%
+\section{规模贡献}\label{ux89c4ux6a21ux8d21ux732e}}
+
+\hypertarget{ux5f71ux54cdux529bux8d21ux732e}{%
+\section{影响力贡献}\label{ux5f71ux54cdux529bux8d21ux732e}}
+
+\hypertarget{peoplecontr}{%
+\chapter{人员对学科的贡献}\label{peoplecontr}}
+
+\hypertarget{ux89c4ux6a21ux8d21ux732e-1}{%
+\section{规模贡献}\label{ux89c4ux6a21ux8d21ux732e-1}}
+
+\hypertarget{ux5f71ux54cdux529bux8d21ux732e-1}{%
+\section{影响力贡献}\label{ux5f71ux54cdux529bux8d21ux732e-1}}
+
+\hypertarget{jcr}{%
+\chapter{选刊倾向}\label{jcr}}
+
+\hypertarget{ux5404ux5b66ux79d1ux8bbaux6587ux5728ux5404ux7b49ux7ea7ux671fux520aux4e0aux7684ux5206ux5e03}{%
+\section{各学科论文在各等级期刊上的分布}\label{ux5404ux5b66ux79d1ux8bbaux6587ux5728ux5404ux7b49ux7ea7ux671fux520aux4e0aux7684ux5206ux5e03}}
+
+\cleardoublepage
+
+\hypertarget{appendix-ux9644ux5f55}{%
+\appendix}
+
+
+\hypertarget{sound}{%
+\chapter{统计口径}\label{sound}}
+% 参考文献
+\bibliography{book.bib}
+
+
+
+% 插入 after_body.tex
+
+\end{document}
