@@ -1,6 +1,6 @@
 --- 
 title: "大数据背景下精准科研信息服务"
-subtitle: "以数学学科为例"
+subtitle: "2020年版"
 author: 
   - 王敏杰
 date: "`r Sys.Date()`"
