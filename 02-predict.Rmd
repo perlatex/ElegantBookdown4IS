@@ -9,6 +9,7 @@
 - log10 scale
 
 ## 数学学科
+
 ## 物理学科
 ```{r}
 d2 <- readr::read_csv("./data/d2.csv")
@@ -16,53 +17,60 @@ d2 <- readr::read_csv("./data/d2.csv")
 
 
 ```{r, eval = FALSE}
-ggplot(data = d2, 
-	   aes(x = weight, y = height)) +
-	geom_point(shape = 1, size = 2) +
-	theme_bw() +
-	theme(panel.grid = element_blank())
+ggplot(
+  data = d2,
+  aes(x = weight, y = height)
+) +
+  geom_point(shape = 1, size = 2) +
+  theme_bw() +
+  theme(panel.grid = element_blank())
 
 
 
 # prior for mu $\text{Normal}(178, 100)$
-ggplot(data = tibble(x = seq(from = 100, to = 250, by = .1)), 
-	   aes(x = x, y = dnorm(x, mean = 178, sd = 20))) +
-	geom_line() +
-	ylab("density")
+ggplot(
+  data = tibble(x = seq(from = 100, to = 250, by = .1)),
+  aes(x = x, y = dnorm(x, mean = 178, sd = 20))
+) +
+  geom_line() +
+  ylab("density")
 
 
 # prior for beta $\text{Normal}(0, 10)$
-tibble(beta = -40:40) %>% 
-	mutate(density = dnorm(beta, mean = 0, sd = 10)) %>% 
-	
-	ggplot(aes(x = beta, ymin = 0, ymax = density)) +
-	geom_ribbon(size = 0, fill = "royalblue") +
-	scale_y_continuous(NULL, breaks = NULL) +
-	xlab(expression(beta)) +
-	theme(panel.grid = element_blank())
+tibble(beta = -40:40) %>%
+  mutate(density = dnorm(beta, mean = 0, sd = 10)) %>%
+  ggplot(aes(x = beta, ymin = 0, ymax = density)) +
+  geom_ribbon(size = 0, fill = "royalblue") +
+  scale_y_continuous(NULL, breaks = NULL) +
+  xlab(expression(beta)) +
+  theme(panel.grid = element_blank())
 
 # prior for sigma $\text{Uniform}(0, 50)$
 tibble(x = seq(from = -10, to = 60, by = .1)) %>%
-	
-	ggplot(aes(x = x, y = dunif(x, min = 0, max = 50))) +
-	geom_line() +
-	scale_y_continuous(NULL, breaks = NULL) +
-	theme(panel.grid = element_blank())
+
+  ggplot(aes(x = x, y = dunif(x, min = 0, max = 50))) +
+  geom_line() +
+  scale_y_continuous(NULL, breaks = NULL) +
+  theme(panel.grid = element_blank())
 ```
 
 
 
 ```{r}
-b4.3 <- 
-	brm(data = d2, 
-		family = gaussian,
-		height ~ 1 + weight,
-		prior = c(prior(normal(178, 100), class = Intercept),
-				  prior(normal(0, 10), class = b),
-				  prior(uniform(0, 50), class = sigma)),
-		iter = 41000, warmup = 40000, chains = 4, cores = 4,
-		seed = 4,
-		file = "fits/b04.03")
+b4.3 <-
+  brm(
+    data = d2,
+    family = gaussian,
+    height ~ 1 + weight,
+    prior = c(
+      prior(normal(178, 100), class = Intercept),
+      prior(normal(0, 10), class = b),
+      prior(uniform(0, 50), class = sigma)
+    ),
+    iter = 41000, warmup = 40000, chains = 4, cores = 4,
+    seed = 4,
+    file = "fits/b04.03"
+  )
 ```
 
 
@@ -73,40 +81,44 @@ names(b4.3)
 b4.3$prior
 
 brms::posterior_summary(b4.3)
-brms::posterior_summary(b4.3) %>% as.data.frame() %>% rownames_to_column()
+brms::posterior_summary(b4.3) %>%
+  as.data.frame() %>%
+  rownames_to_column()
 brms::posterior_samples(b4.3) %>% as_tibble()
 brms::posterior_samples(b4.3, add_chain = T) %>% as_tibble()
 
-# same as 
+# same as
 tidybayes::get_variables(b4.3)
 tidybayes::spread_draws(b4.3, b_Intercept, b_weight, sigma, lp__)
 
 
 
 tb <- tibble(
-	weight = 50
-	)
+  weight = 50
+)
 
 predict(b4.3, newdata = tb, summary = TRUE)
 predict(b4.3, newdata = tb, summary = FALSE)
- 
+
 post <- tibble(
-		pred_height = predict(b4.3, newdata = tb, summary = FALSE)
-	) 
+  pred_height = predict(b4.3, newdata = tb, summary = FALSE)
+)
 
 mean(post$pred_height > 150)
 
 
-post %>% 
-	ggplot(aes(x = pred_height, y = 0, fill = stat(x > 150))) +
-	stat_halfeyeh() +
-	geom_vline(xintercept = 150, linetype = "dashed", size = 2,
-			   color = "red") +
-
-	scale_fill_manual(values = c("gray80", "skyblue")) +
-    annotate(geom = "label", x = 160, y = 0.25, label = "N(bar(x), 10)", 
-    		 parse = TRUE)
-
+post %>%
+  ggplot(aes(x = pred_height, y = 0, fill = stat(x > 150))) +
+  stat_halfeyeh() +
+  geom_vline(
+    xintercept = 150, linetype = "dashed", size = 2,
+    color = "red"
+  ) +
+  scale_fill_manual(values = c("gray80", "skyblue")) +
+  annotate(
+    geom = "label", x = 160, y = 0.25, label = "N(bar(x), 10)",
+    parse = TRUE
+  )
 ```
 
 
@@ -116,47 +128,51 @@ post %>%
 ```{r, eval = FALSE}
 ########################################
 tb <- tibble(
-	weight = c(50, 51, 52)
+  weight = c(50, 51, 52)
 )
 
 
-post <- 
-	predict(b4.3, newdata = tb, summary = FALSE) %>% 
-	as_tibble() %>%
-	set_names(c(50, 51, 52)) %>% 
-	mutate(iter = 1:n())
+post <-
+  predict(b4.3, newdata = tb, summary = FALSE) %>%
+  as_tibble() %>%
+  set_names(c(50, 51, 52)) %>%
+  mutate(iter = 1:n())
 post
 
 
-post1 <- post %>% pivot_longer(
-	cols = -iter,
-	names_to = "weight",
-	values_to = "height"
-) %>% 
-	mutate(weight = as.numeric(weight))
+post1 <- post %>%
+  pivot_longer(
+    cols = -iter,
+    names_to = "weight",
+    values_to = "height"
+  ) %>%
+  mutate(weight = as.numeric(weight))
 post1
 
 
 library(tidybayes)
-post1 %>% 
-	ggplot(aes(x = height, y = factor(weight), fill = stat(x > 150))) +
-	stat_halfeyeh() +
-	geom_vline(xintercept = 150, linetype = "dashed", size = 2,
-			   color = "red") +
-	
-	scale_fill_manual(values = c("gray80", "skyblue")) +
-	annotate(geom = "label", x = 160, y = 1.5, label = "N(bar(x), 10)", 
-			 parse = TRUE)
+post1 %>%
+  ggplot(aes(x = height, y = factor(weight), fill = stat(x > 150))) +
+  stat_halfeyeh() +
+  geom_vline(
+    xintercept = 150, linetype = "dashed", size = 2,
+    color = "red"
+  ) +
+  scale_fill_manual(values = c("gray80", "skyblue")) +
+  annotate(
+    geom = "label", x = 160, y = 1.5, label = "N(bar(x), 10)",
+    parse = TRUE
+  )
 ########################################
 
 
-d2 %>% 
-	as_tibble() %>% 
-	summarise(
-		weight_rng = list(range(weight)),
-		height_rng = list(range(height))
-	) %>% 
-	unnest(cols = c(weight_rng, height_rng))
+d2 %>%
+  as_tibble() %>%
+  summarise(
+    weight_rng = list(range(weight)),
+    height_rng = list(range(height))
+  ) %>%
+  unnest(cols = c(weight_rng, height_rng))
 # A tibble: 2 x 2
 # weight_rng height_rng
 # <dbl>      <dbl>
@@ -170,56 +186,62 @@ d2 %>%
 
 ```{r}
 tb <- tibble(
-	weight = c(64, 68, 72)
+  weight = c(64, 68, 72)
 )
 
 
 # 这里的add_predicted_draws  = predict() + as_tibble() + pivot_longer()
-post_draw <- tb %>% add_predicted_draws(b4.3) 
-#post_draw
+post_draw <- tb %>% add_predicted_draws(b4.3)
+# post_draw
 
 
-prob_pred <- post_draw %>% 
-	group_by(weight) %>% 
-	summarise(
-	 pred_height_mean = mean(.prediction),
-	 prob_above_line = mean(.prediction >= 170)
-	)
+prob_pred <- post_draw %>%
+  group_by(weight) %>%
+  summarise(
+    pred_height_mean = mean(.prediction),
+    prob_above_line = mean(.prediction >= 170)
+  )
 prob_pred
 ```
 
 
 ```{r, eval=FALSE}
 # normal style
-post_draw %>% 
-	ggplot(aes(x = .prediction, y = factor(weight), fill = stat(x > 170))) +
-	stat_halfeyeh() +
-	geom_vline(xintercept = 170, linetype = "dashed", size = 2,
-			   color = "red") +
-	scale_fill_manual(values = c("gray80", "skyblue"))
+post_draw %>%
+  ggplot(aes(x = .prediction, y = factor(weight), fill = stat(x > 170))) +
+  stat_halfeyeh() +
+  geom_vline(
+    xintercept = 170, linetype = "dashed", size = 2,
+    color = "red"
+  ) +
+  scale_fill_manual(values = c("gray80", "skyblue"))
 
 
 
 # flip
-post_draw %>% 
-	ggplot(aes(x = .prediction, y = factor(weight), fill = stat(x > 170))) +
-	stat_halfeyeh() +
-	geom_vline(xintercept = 170, linetype = "dashed", size = 2,
-			   color = "red") +
-	scale_fill_manual(values = c("gray80", "skyblue")) +
-	coord_flip()
+post_draw %>%
+  ggplot(aes(x = .prediction, y = factor(weight), fill = stat(x > 170))) +
+  stat_halfeyeh() +
+  geom_vline(
+    xintercept = 170, linetype = "dashed", size = 2,
+    color = "red"
+  ) +
+  scale_fill_manual(values = c("gray80", "skyblue")) +
+  coord_flip()
 
 
 
 # best
-post_draw %>% 
-	ggplot(
-		aes(x = factor(weight), y = .prediction, fill = stat(y > 170)) 
-		) +
-   	stat_eye(side = "right") +
-	geom_hline(yintercept = 170, linetype = "dashed", size = 2,
-			   color = "red") +
-	scale_fill_manual(values = c("gray80", "skyblue"))
+post_draw %>%
+  ggplot(
+    aes(x = factor(weight), y = .prediction, fill = stat(y > 170))
+  ) +
+  stat_eye(side = "right") +
+  geom_hline(
+    yintercept = 170, linetype = "dashed", size = 2,
+    color = "red"
+  ) +
+  scale_fill_manual(values = c("gray80", "skyblue"))
 ```
 
 
@@ -228,39 +250,50 @@ post_draw %>%
 ```{r, fig.asp = 0.816}
 # plot original data and predict data together
 library(ggforce)
-desc <- '未来三年进入双一流学科的概率'
+desc <- "未来三年进入双一流学科的概率"
 
-post_draw %>% 
-	ggplot(
-		aes(x = weight, y = .prediction, fill = stat(y > 170)) 
-	) +
-	stat_eye(side = "right") +
-	geom_point(data = d2, aes(x = weight, y = height)) +
-	geom_hline(yintercept = 170, linetype = "dashed", size = 2,
-			   color = "red") +
-	scale_fill_manual(values = c("gray80", "skyblue")) +
-	annotate("text", x = 36, y = 170 - 2, 
-			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
-	geom_mark_ellipse(aes(x = 66, y = 188, 
-					   label = '贝叶斯预测', description = desc),
-					  #label.family = "Space Mono",
-					  label.fontsize = 11,
-					  label.colour = c("#CC79A7", "black"),
-					  label.fill = NA,
-					  label.buffer = unit(0.1, 'mm'), #间距
-					  colour = NA,
-					  fill = NA) +
-	geom_text(data = prob_pred, aes(x = weight + 2, 
-									y = pred_height_mean + 2, 
-									label = scales::percent(prob_above_line))) +
-	theme_bw() +
-	theme(legend.position = "none") +
-	labs(title = "物理学科未来三年进入双一流学科的概率",
-		 subtitle = "基于引文量的贝叶斯预测",
-		 x = "时间（年）",
-		 y = "被引量")
+post_draw %>%
+  ggplot(
+    aes(x = weight, y = .prediction, fill = stat(y > 170))
+  ) +
+  stat_eye(side = "right") +
+  geom_point(data = d2, aes(x = weight, y = height)) +
+  geom_hline(
+    yintercept = 170, linetype = "dashed", size = 2,
+    color = "red"
+  ) +
+  scale_fill_manual(values = c("gray80", "skyblue")) +
+  annotate("text",
+    x = 36, y = 170 - 2,
+    label = "进入双一流学科的阈值线", size = 4, color = "red"
+  ) +
+  geom_mark_ellipse(aes(
+    x = 66, y = 188,
+    label = "贝叶斯预测", description = desc
+  ),
+  # label.family = "Space Mono",
+  label.fontsize = 11,
+  label.colour = c("#CC79A7", "black"),
+  label.fill = NA,
+  label.buffer = unit(0.1, "mm"), # 标签与指定xy点的间距
+  colour = NA,
+  fill = NA
+  ) +
+  geom_text(data = prob_pred, aes(
+    x = weight + 2,
+    y = pred_height_mean + 2,
+    label = scales::percent(prob_above_line)
+  )) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  labs(
+    title = "物理学科未来三年进入双一流学科的概率",
+    subtitle = "基于引文量的贝叶斯预测",
+    x = "时间（年）",
+    y = "被引量"
+  )
 
-#ggsave("myplot.pdf", width = 8, height = 8, units = "in")
+# ggsave("myplot.pdf", width = 8, height = 8, units = "in")
 ```
 
 
@@ -268,4 +301,6 @@ post_draw %>%
 ## 化学学科
 ## 工程学科
 ## 计算机学科
-## 如果需要其他学科，请联系作者
+
+## 其他学科
+如果需要了解其他学科的信息，请联系本文作者^[38552109@qq.com]

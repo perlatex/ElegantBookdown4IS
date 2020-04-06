@@ -105,8 +105,13 @@
 \begin{itemize}
 \tightlist
 \item
-  吴欣益协助完成数据收集和整理（图书馆提供劳务费）
+  需要一名学生，协助完成数据收集和整理工作（图书馆提供劳务费）
 \end{itemize}
+
+\hypertarget{ux5173ux4e8eux672cux6587ux6863}{%
+\section{关于本文档}\label{ux5173ux4e8eux672cux6587ux6863}}
+
+本报告使用R语言完成，数据和代码存放在github仓库\url{https://github.com/perlatex/ElegantBookdown4IS}，欢迎批评指正。
 
 \hypertarget{bigdata}{%
 \chapter{川师大数据}\label{bigdata}}
@@ -150,9 +155,9 @@
 #> # A tibble: 3 x 3
 #>   weight pred_height_mean prob_above_line
 #>    <dbl>            <dbl>           <dbl>
-#> 1     64             172.           0.631
-#> 2     68             175.           0.848
-#> 3     72             179.           0.959
+#> 1     64             172.           0.633
+#> 2     68             175.           0.852
+#> 3     72             179.           0.960
 \end{verbatim}
 
 \begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-10-1} \end{center}
@@ -166,8 +171,10 @@
 \hypertarget{ux8ba1ux7b97ux673aux5b66ux79d1}{%
 \section{计算机学科}\label{ux8ba1ux7b97ux673aux5b66ux79d1}}
 
-\hypertarget{ux5982ux679cux9700ux8981ux5176ux4ed6ux5b66ux79d1ux8bf7ux8054ux7cfbux4f5cux8005}{%
-\section{如果需要其他学科，请联系作者}\label{ux5982ux679cux9700ux8981ux5176ux4ed6ux5b66ux79d1ux8bf7ux8054ux7cfbux4f5cux8005}}
+\hypertarget{ux5176ux4ed6ux5b66ux79d1}{%
+\section{其他学科}\label{ux5176ux4ed6ux5b66ux79d1}}
+
+如果需要了解其他学科的信息，请联系本文作者\footnote{\href{mailto:38552109@qq.com}{\nolinkurl{38552109@qq.com}}}
 
 \hypertarget{collegecontr}{%
 \chapter{学院对学科的贡献}\label{collegecontr}}
@@ -207,7 +214,7 @@
 \hypertarget{ux5b66ux79d1ux5206ux7c7b}{%
 \section{学科分类}\label{ux5b66ux79d1ux5206ux7c7b}}
 
-ESI22个学科
+ESI所收录的期刊会被分为22个学科，再依学科进行各项统计。在ESI数据库中，每种期刊只会被分入一个学科；只有被归类为跨学科学科(Multidisciplinary field)的Science、Nature与PNAS期刊，会被按照各篇文章的参考文献(reference)与引用文献(citation)，重新为每篇文章单独分类，但每篇文章仍只会被分类到一个学科。
 
 \begin{figure}[H]
 
@@ -221,40 +228,82 @@ ESI22个学科
 \hypertarget{ux5404ux5b66ux79d1ux8fdbux5165esiux7684ux9608ux503c}{%
 \section{各学科进入ESI的阈值}\label{ux5404ux5b66ux79d1ux8fdbux5165esiux7684ux9608ux503c}}
 
+\begin{verbatim}
+#> # A tibble: 22 x 3
+#>    学科门类      学科                                            阈值
+#>    <chr>         <chr>                                          <dbl>
+#>  1 工学（3）     计算机科学(Computer Science)                    1692
+#>  2 工学（3）     工程科学(Engineering)                           5079
+#>  3 工学（3）     材料科学(Materials Sciences)                    5981
+#>  4 生命科学（4） 生物与生化(Biology & Biochemistry)              1855
+#>  5 生命科学（4） 环境／生态学(Environment/Ecology)               2837
+#>  6 生命科学（4） 微生物学(Microbiology)                          3549
+#>  7 生命科学（4） 分子生物与遗传学(Molecular Biology & Genetics)  1876
+#>  8 社会科学（2） 一般社会科学(Social Sciences, General)          3319
+#>  9 社会科学（2） 经济与商学(Economics & Business)                4795
+#> 10 理学（5）     化学(Chemistry)                                 3844
+#> # ... with 12 more rows
+\end{verbatim}
+
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-12}各学科进入ESI的阈值(2017年8月数据)}
+\caption{\label{tab:unnamed-chunk-13}各学科进入ESI的阈值(2020年3月数据)}
 \centering
-\begin{tabular}[t]{lr}
+\begin{tabular}[t]{>{\bfseries\raggedright\arraybackslash}p{8em}lr}
 \toprule
-学科 & 阈值\\
+学科门类 & 学科 & 阈值\\
+\rowcolor{gray!6}
 \midrule
-农业科学 & 1692\\
-生物学与生物化学 & 5079\\
-化学 & 5981\\
-临床医学 & 1855\\
-计算机科学 & 2837\\
-\addlinespace
-经济与商业 & 3549\\
-工程学 & 1876\\
-环境科学与生态学 & 3319\\
-地球科学 & 4795\\
-免疫学 & 3844\\
-\addlinespace
-材料科学 & 3918\\
-数学 & 3620\\
-微生物学 & 4421\\
-分子生物学与遗传学 & 10243\\
-综合交叉学科 & 2087\\
-\addlinespace
-神经系统学与行为学 & 4959\\
-药理学和毒理学 & 2864\\
-物理学 & 14029\\
-植物学与动物学 & 2236\\
-精神病学与心理学 & 3464\\
-\addlinespace
-社会科学总论 & 1142\\
-空间科学 & 27851\\
+ & 计算机科学(Computer Science) & 1692\\
+
+\rowcolor{gray!6}
+ & 工程科学(Engineering) & 5079\\
+
+\rowcolor{gray!6}
+\multirow{-3}{8em}{\raggedright\arraybackslash 工学（3）} & 材料科学(Materials Sciences) & 5981\\
+
+ & 生物与生化(Biology \& Biochemistry) & 1855\\
+
+ & 环境／生态学(Environment/Ecology) & 2837\\
+
+ & 微生物学(Microbiology) & 3549\\
+
+\multirow{-4}{8em}{\raggedright\arraybackslash 生命科学（4）} & 分子生物与遗传学(Molecular Biology \& Genetics) & 1876\\
+
+\rowcolor{gray!6}
+ & 一般社会科学(Social Sciences, General) & 3319\\
+
+\rowcolor{gray!6}
+\multirow{-2}{8em}{\raggedright\arraybackslash 社会科学（2）} & 经济与商学(Economics \& Business) & 4795\\
+
+ & 化学(Chemistry) & 3844\\
+
+ & 地球科学(Geosciences) & 3918\\
+
+ & 数学(Mathematics) & 3620\\
+
+ & 物理学(Physics) & 4421\\
+
+\multirow{-5}{8em}{\raggedright\arraybackslash 理学（5）} & 空间科学(Space Science) & 10243\\
+
+\rowcolor{gray!6}
+ & 农业科学(Agricultural Sciences) & 2087\\
+
+\rowcolor{gray!6}
+\multirow{-2}{8em}{\raggedright\arraybackslash 农学（2）} & 植物与动物科学(Plant \& Animal Science) & 4959\\
+
+ & 临床医学(Clinical Medicine) & 2864\\
+
+ & 免疫学(Immunology) & 14029\\
+
+ & 神经科学与行为(Neuroscience \& Behavior) & 2236\\
+
+ & 药理学与毒物学(Pharmacology \& Toxicology) & 3464\\
+
+\multirow{-5}{8em}{\raggedright\arraybackslash 医学（5）} & 精神病学／心理学(Psychology/Psychiatry) & 1142\\
+
+\rowcolor{gray!6}
+其他（1） & 多学科(Multidisciplinary) & 27851\\
 \bottomrule
 \end{tabular}
 \end{table}

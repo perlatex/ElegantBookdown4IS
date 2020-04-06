@@ -4,22 +4,29 @@
 
 # 统计口径 {#sound}
 
-## 学科分类
- ESI22个学科
-```{r echo = FALSE, out.width = "90%",fig.cap= "ESI学科分类"}
-knitr::include_graphics("images/table.png")
-```
+## 学科分类以及各学科进入ESI的阈值
+
+ESI所收录的期刊会被分为22个学科，再依学科进行各项统计。在ESI数据库中，每种期刊只会被分入一个学科；只有被归类为跨学科学科(Multidisciplinary field)的Science、Nature与PNAS期刊，会被按照各篇文章的参考文献(reference)与引用文献(citation)，重新为每篇文章单独分类，但每篇文章仍只会被分类到一个学科。
 
 
-## 各学科进入ESI的阈值
 ```{r, message=FALSE, warning=FALSE}
 ThresholdESI <- readxl::read_excel("./data/thresholdESI.xlsx")
-ThresholdESI %>% 
-      knitr::kable( format = "latex",
-                    booktabs = T, 
-                    caption = "各学科进入ESI的阈值(2017年8月数据)") %>%
-      kable_styling("striped")
 ```
+
+
+```{r, message=FALSE, warning=FALSE}
+ThresholdESI %>%
+  knitr::kable(
+    format = "latex",
+    booktabs = T,
+    align = "llr",
+    caption = "ESI学科分类以及各学科进入ESI的阈值(2020年3月数据)"
+  ) %>%
+  column_spec(1, bold = T, width = "8em") %>%
+  row_spec(c(1:3, 8:9, 15:16, 22) - 1, extra_latex_after = "\\rowcolor{gray!15}") %>%
+  collapse_rows(1, latex_hline = "none")
+```
+
 
 
 ## 数据来源
@@ -32,7 +39,7 @@ ThresholdESI %>%
 
 ## 获取方法
 整理的raw-data 可以在这里找到
-
+<https://github.com/perlatex/ElegantBookdown4IS/tree/master/data>
 
 ## 学校列表
 
