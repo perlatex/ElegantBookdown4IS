@@ -6,7 +6,7 @@
 
 ## 学科分类
  ESI22个学科
-```{r echo = FALSE, out.width = "95%",fig.cap= "ESI学科分类"}
+```{r echo = FALSE, out.width = "90%",fig.cap= "ESI学科分类"}
 knitr::include_graphics("images/table.png")
 ```
 
