@@ -6,7 +6,11 @@
 
 ## 学科分类以及各学科进入ESI的阈值
 
-ESI所收录的期刊会被分为22个学科，再依学科进行各项统计。在ESI数据库中，每种期刊只会被分入一个学科；只有被归类为跨学科学科(Multidisciplinary field)的Science、Nature与PNAS期刊，会被按照各篇文章的参考文献(reference)与引用文献(citation)，重新为每篇文章单独分类，但每篇文章仍只会被分类到一个学科。
+ESI 学科分类
+一种较为宽泛的学科分类模式。ESI 学科分类模式基于期刊分类，由自然科学与
+社会科学的 22 个学科构成。艺术与人文期刊没有被包含。每一本期刊只被划分
+至 22 个 ESI 学科中的一个，没有重叠的学科设置使得分析变得更为简单。
+被归类为跨学科学科(Multidisciplinary field)的Science、Nature与PNAS期刊，会被按照各篇文章的参考文献(reference)与引用文献(citation)，重新为每篇文章单独分类，但每篇文章仍只会被分类到一个学科。
 
 
 ```{r, message=FALSE, warning=FALSE}
