@@ -32,11 +32,9 @@ knitr::opts_chunk$set(
   echo = FALSE,
   message = FALSE,
   warning = FALSE,
-  out.width = "99%",
+  out.width = "100%",
   fig.align = "center",
-  #fig.width = 8,
-  #fig.height = 4,
-  #fig.pos = "H",
+  fig.pos = "H",
   #fig.asp = 0.618, # 1 / phi
   fig.show = "hold",
   fig.showtext = TRUE
@@ -46,18 +44,26 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(tidyverse)
+library(tidybayes)
+library(patchwork)
+library(gghighlight)
+library(rstan)
+library(brms)
 library(scales)
 library(here)
 library(fs)
-library(purrr)
-library(haven)
 library(broom)
 library(bookdown)
 library(knitr)
 library(kableExtra)
-library(patchwork)
 library(showtext)
 showtext_auto()
 ```
 
+
+
+```{r}
+source("./scripts/01_read_raw_data.R")
+source("./scripts/02_read_thresholdESI.R")
+```
 

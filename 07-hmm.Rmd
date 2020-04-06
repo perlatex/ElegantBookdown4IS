@@ -4,3 +4,38 @@
 
 # 统计口径 {#sound}
 
+## 学科分类
+ ESI22个学科
+```{r echo = FALSE, out.width = "95%",fig.cap= "ESI学科分类"}
+knitr::include_graphics("images/table.png")
+```
+
+
+## 各学科进入ESI的阈值
+```{r, message=FALSE, warning=FALSE}
+ThresholdESI <- readxl::read_excel("./data/thresholdESI.xlsx")
+ThresholdESI %>% 
+      knitr::kable( format = "latex",
+                    booktabs = T, 
+                    caption = "各学科进入ESI的阈值(2017年8月数据)") %>%
+      kable_styling("striped")
+```
+
+
+## 数据来源
+
+- 用ESI 不用wos
+- 2010 - 2019 十年， 6个学科（数学，物理， 化学，工程， 计算机）
+- 获取下载地址
+  - 链接1，检索学校历年发文量的
+  - 链接2，近期进入ESI学科的阈值
+
+## 获取方法
+整理的raw-data 可以在这里找到
+
+
+## 学校列表
+
+- 师范类学校清单(https://www.dxsbb.com/news/1448.html)
+- 选取依据（top30）(川师25名)
+- 省份 中文名  英文名
