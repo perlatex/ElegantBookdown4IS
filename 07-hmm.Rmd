@@ -38,8 +38,8 @@ ThresholdESI %>%
 - 用ESI 不用wos
 - 2010 - 2019 十年， 6个学科（数学，物理， 化学，工程， 计算机）
 - 获取下载地址
-  - 链接1，检索学校历年发文量的
-  - 链接2，近期进入ESI学科的阈值
+  - 链接1，检索学校历年发文量的(https://incites.clarivate.com/zh/#/explore/0/subject)
+  - 链接2，近期进入ESI学科的阈值(https://esi.clarivate.com/ThresholdsAction.action)
 
 ## 获取方法
 整理的raw-data 可以在这里找到

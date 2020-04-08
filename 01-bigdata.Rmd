@@ -4,7 +4,11 @@
 ## 全景对比
 横向比较top30所师范类高校的学科发展情况
 
+- 全景大图
+高亮的（包括川师在内的四个学校）类似R4DS中的eda_covid2019
+吸取[Kieran Healy大神的配色方案](https://github.com/kjhealy/covid) 
 
+- 学科小图
 
 ## 学科对比
 

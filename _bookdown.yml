@@ -19,6 +19,7 @@ language:
 
 rmd_files: 
   - "index.Rmd"
+  - "author.Rmd"
   - "00-preface.Rmd"
   - "01-bigdata.Rmd"
   - "02-predict.Rmd"

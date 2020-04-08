@@ -17,4 +17,4 @@
 
 ## 关于本文档
 
-本报告使用R语言完成，数据和代码存放在github仓库<https://github.com/perlatex/ElegantBookdown4IS>，欢迎批评指正。
+本报告使用R和stan语言完成，数据和代码存放在GitHub仓库<https://github.com/perlatex/ElegantBookdown4IS>，欢迎批评指正。

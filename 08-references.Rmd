@@ -1,3 +1,10 @@
 `r if (knitr::is_html_output()) '
 # 参考文献 {#References .unnumbered}
 '`
+
+## 参考文件
+- stan
+- ggplot
+- tidybayes
+- tidyverse
+- 书籍
