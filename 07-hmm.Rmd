@@ -19,7 +19,8 @@ ThresholdESI <- readxl::read_excel("./data/thresholdESI.xlsx")
 
 
 ```{r, message=FALSE, warning=FALSE}
-ThresholdESI %>%
+ThresholdESI %>% 
+  dplyr::select(category, discipline, threshold202003) %>% 
   knitr::kable(
     format = "latex",
     booktabs = T,
@@ -50,3 +51,14 @@ ThresholdESI %>%
 - 师范类学校清单(https://www.dxsbb.com/news/1448.html)
 - 选取依据（top30）(川师25名)
 - 省份 中文名  英文名
+
+## 物理学科模型参数
+
+```{r}
+stan_hist(fit, pars = c("alpha", "beta"))
+```
+
+
+```{r}
+stan_trace(fit)
+```

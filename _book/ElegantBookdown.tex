@@ -27,7 +27,7 @@
 
   \author{王敏杰}
 
-  \date{2020-04-06}
+  \date{2020-04-09}
 
 % logo 图案
   \logo{figure/logo.png}
@@ -75,6 +75,13 @@
 
 \hypersetup{pageanchor=true}
 
+\hypertarget{author}{%
+\chapter*{作者简介}\label{author}}
+\addcontentsline{toc}{chapter}{作者简介}
+
+王敏杰，四川师范大学研究生公选课《数据科学中的R语言》授课老师，西南交通大学量子物理学博士，爱好数据科学，喜欢用R和stan编程，
+联系方式 \href{mailto:38552109@qq.com}{\nolinkurl{38552109@qq.com}}
+
 \hypertarget{preface}{%
 \chapter{前言}\label{preface}}
 
@@ -111,7 +118,7 @@
 \hypertarget{ux5173ux4e8eux672cux6587ux6863}{%
 \section{关于本文档}\label{ux5173ux4e8eux672cux6587ux6863}}
 
-本报告使用R语言完成，数据和代码存放在github仓库\url{https://github.com/perlatex/ElegantBookdown4IS}，欢迎批评指正。
+本报告使用R和stan语言完成，数据和代码存放在GitHub仓库\url{https://github.com/perlatex/ElegantBookdown4IS}，欢迎批评指正。
 
 \hypertarget{bigdata}{%
 \chapter{川师大数据}\label{bigdata}}
@@ -120,6 +127,15 @@
 \section{全景对比}\label{ux5168ux666fux5bf9ux6bd4}}
 
 横向比较top30所师范类高校的学科发展情况
+
+\begin{itemize}
+\item
+  全景大图
+  高亮的（包括川师在内的四个学校）类似R4DS中的eda\_covid2019
+  吸取\href{https://github.com/kjhealy/covid}{Kieran Healy大神的配色方案}
+\item
+  学科小图
+\end{itemize}
 
 \hypertarget{ux5b66ux79d1ux5bf9ux6bd4}{%
 \section{学科对比}\label{ux5b66ux79d1ux5bf9ux6bd4}}
@@ -145,22 +161,73 @@
   log10 scale
 \end{itemize}
 
+关于模型，学科的发展和很多方面都有关系，因此建立一个完全正确的模型是不可能的。正如英国统计学家George E. P. Box所说，所有模型都是错的，但其中有些是有用的。
+所以与其去建立复杂的模型，并给解释带来更多困扰，不如就从最简单的出发。
+
 \hypertarget{ux6570ux5b66ux5b66ux79d1}{%
 \section{数学学科}\label{ux6570ux5b66ux5b66ux79d1}}
 
 \hypertarget{ux7269ux7406ux5b66ux79d1}{%
 \section{物理学科}\label{ux7269ux7406ux5b66ux79d1}}
 
+\hypertarget{ux6570ux636e}{%
+\subsection{数据}\label{ux6570ux636e}}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-3-1} \end{center}
+
+\hypertarget{ux5148ux9a8cux6982ux7387}{%
+\subsection{先验概率}\label{ux5148ux9a8cux6982ux7387}}
+
 \begin{verbatim}
-#> # A tibble: 3 x 3
-#>   weight pred_height_mean prob_above_line
-#>    <dbl>            <dbl>           <dbl>
-#> 1     64             172.           0.633
-#> 2     68             175.           0.852
-#> 3     72             179.           0.960
+#>  Family: gaussian 
+#>   Links: mu = identity; sigma = identity 
+#> Formula: n_cited ~ 1 + year 
+#>    Data: d2 (Number of observations: 20) 
+#> Samples: 4 chains, each with iter = 41000; warmup = 40000; thin = 1;
+#>          total post-warmup samples = 4000
+#> 
+#> Population-Level Effects: 
+#>           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+#> Intercept -2266.03    516.07 -3265.95 -1229.33 1.00     2670     2280
+#> year          2.63      0.26     2.12     3.13 1.00     2671     2294
+#> 
+#> Family Specific Parameters: 
+#>       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+#> sigma     6.51      1.20     4.68     9.34 1.00     2543     2096
+#> 
+#> Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+#> and Tail_ESS are effective sample size measures, and Rhat is the potential
+#> scale reduction factor on split chains (at convergence, Rhat = 1).
 \end{verbatim}
 
-\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-10-1} \end{center}
+\begin{verbatim}
+#> # A tibble: 12,000 x 6
+#> # Groups:   year, .row [3]
+#>     year  .row .chain .iteration .draw .prediction
+#>    <dbl> <int>  <int>      <int> <int>       <dbl>
+#>  1  2020     1     NA         NA     1       3049.
+#>  2  2020     1     NA         NA     2       3052.
+#>  3  2020     1     NA         NA     3       3064.
+#>  4  2020     1     NA         NA     4       3056.
+#>  5  2020     1     NA         NA     5       3044.
+#>  6  2020     1     NA         NA     6       3044.
+#>  7  2020     1     NA         NA     7       3051.
+#>  8  2020     1     NA         NA     8       3056.
+#>  9  2020     1     NA         NA     9       3041.
+#> 10  2020     1     NA         NA    10       3056.
+#> # ... with 11,990 more rows
+\end{verbatim}
+
+\begin{verbatim}
+#> # A tibble: 3 x 3
+#>    year pred_mean prob_above_line
+#>   <dbl>     <dbl>           <dbl>
+#> 1  2020     3050.           0.911
+#> 2  2021     3053.           0.956
+#> 3  2022     3055.           0.974
+\end{verbatim}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 \hypertarget{ux5316ux5b66ux5b66ux79d1}{%
 \section{化学学科}\label{ux5316ux5b66ux5b66ux79d1}}
@@ -170,6 +237,89 @@
 
 \hypertarget{ux8ba1ux7b97ux673aux5b66ux79d1}{%
 \section{计算机学科}\label{ux8ba1ux7b97ux673aux5b66ux79d1}}
+
+具体参考 \url{https://mc-stan.org/docs/2_22/stan-users-guide/prediction-forecasting-and-backcasting.html}
+
+\begin{verbatim}
+#> Inference for Stan model: simple.
+#> 4 chains, each with iter=41000; warmup=40000; thin=1; 
+#> post-warmup draws per chain=1000, total post-warmup draws=4000.
+#> 
+#>              mean se_mean     sd     2.5%      25%      50%      75%    97.5%
+#> alpha    -2007.74    3.83 102.57 -2211.51 -2074.88 -2008.05 -1941.31 -1800.92
+#> beta         2.50    0.00   0.05     2.40     2.47     2.50     2.54     2.60
+#> sigma        6.35    0.03   1.07     4.65     5.59     6.19     6.97     8.79
+#> new_y[1]  3048.54    0.11   6.59  3035.59  3044.20  3048.30  3052.82  3061.71
+#> new_y[2]  3051.05    0.11   6.74  3037.94  3046.68  3051.01  3055.41  3064.60
+#> new_y[3]  3053.55    0.10   6.63  3040.36  3049.32  3053.61  3058.00  3066.21
+#> lp__       -63.35    0.05   1.26   -66.57   -63.94   -63.03   -62.44   -61.94
+#>          n_eff Rhat
+#> alpha      718 1.01
+#> beta       717 1.01
+#> sigma     1148 1.00
+#> new_y[1]  3784 1.00
+#> new_y[2]  3863 1.00
+#> new_y[3]  4034 1.00
+#> lp__       755 1.00
+#> 
+#> Samples were drawn using NUTS(diag_e) at Thu Apr 09 18:56:26 2020.
+#> For each parameter, n_eff is a crude measure of effective sample size,
+#> and Rhat is the potential scale reduction factor on split chains (at 
+#> convergence, Rhat=1).
+\end{verbatim}
+
+\hypertarget{ux9884ux6d4b}{%
+\subsection{预测}\label{ux9884ux6d4b}}
+
+\begin{verbatim}
+#> # A tibble: 12,000 x 5
+#> # Groups:   condition [3]
+#>    condition new_y .chain .iteration .draw
+#>        <int> <dbl>  <int>      <int> <int>
+#>  1         1 3048.      1          1     1
+#>  2         1 3047.      1          2     2
+#>  3         1 3049.      1          3     3
+#>  4         1 3044.      1          4     4
+#>  5         1 3058.      1          5     5
+#>  6         1 3041.      1          6     6
+#>  7         1 3054.      1          7     7
+#>  8         1 3051.      1          8     8
+#>  9         1 3050.      1          9     9
+#> 10         1 3050.      1         10    10
+#> # ... with 11,990 more rows
+\end{verbatim}
+
+\begin{verbatim}
+#> # A tibble: 12,000 x 6
+#>    condition new_y .chain .iteration .draw  year
+#>        <int> <dbl>  <int>      <int> <int> <dbl>
+#>  1         1 3048.      1          1     1  2020
+#>  2         1 3047.      1          2     2  2020
+#>  3         1 3049.      1          3     3  2020
+#>  4         1 3044.      1          4     4  2020
+#>  5         1 3058.      1          5     5  2020
+#>  6         1 3041.      1          6     6  2020
+#>  7         1 3054.      1          7     7  2020
+#>  8         1 3051.      1          8     8  2020
+#>  9         1 3050.      1          9     9  2020
+#> 10         1 3050.      1         10    10  2020
+#> # ... with 11,990 more rows
+\end{verbatim}
+
+\begin{verbatim}
+#> # A tibble: 3 x 3
+#>    year pred_mean prob_above_line
+#>   <dbl>     <dbl>           <dbl>
+#> 1  2020     3049.           0.911
+#> 2  2021     3051.           0.950
+#> 3  2022     3054.           0.978
+\end{verbatim}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-27-1} \end{center}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-28-1} \end{center}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-29-1} \end{center}
 
 \hypertarget{ux5176ux4ed6ux5b66ux79d1}{%
 \section{其他学科}\label{ux5176ux4ed6ux5b66ux79d1}}
@@ -211,55 +361,30 @@
 \hypertarget{sound}{%
 \chapter{统计口径}\label{sound}}
 
-\hypertarget{ux5b66ux79d1ux5206ux7c7b}{%
-\section{学科分类}\label{ux5b66ux79d1ux5206ux7c7b}}
+\hypertarget{ux5b66ux79d1ux5206ux7c7bux4ee5ux53caux5404ux5b66ux79d1ux8fdbux5165esiux7684ux9608ux503c}{%
+\section{学科分类以及各学科进入ESI的阈值}\label{ux5b66ux79d1ux5206ux7c7bux4ee5ux53caux5404ux5b66ux79d1ux8fdbux5165esiux7684ux9608ux503c}}
 
-ESI所收录的期刊会被分为22个学科，再依学科进行各项统计。在ESI数据库中，每种期刊只会被分入一个学科；只有被归类为跨学科学科(Multidisciplinary field)的Science、Nature与PNAS期刊，会被按照各篇文章的参考文献(reference)与引用文献(citation)，重新为每篇文章单独分类，但每篇文章仍只会被分类到一个学科。
-
-\begin{figure}[H]
-
-{\centering \includegraphics[width=0.9\linewidth]{images/table} 
-
-}
-
-\caption{ESI学科分类}\label{fig:unnamed-chunk-11}
-\end{figure}
-
-\hypertarget{ux5404ux5b66ux79d1ux8fdbux5165esiux7684ux9608ux503c}{%
-\section{各学科进入ESI的阈值}\label{ux5404ux5b66ux79d1ux8fdbux5165esiux7684ux9608ux503c}}
-
-\begin{verbatim}
-#> # A tibble: 22 x 3
-#>    学科门类      学科                                            阈值
-#>    <chr>         <chr>                                          <dbl>
-#>  1 工学（3）     计算机科学(Computer Science)                    1692
-#>  2 工学（3）     工程科学(Engineering)                           5079
-#>  3 工学（3）     材料科学(Materials Sciences)                    5981
-#>  4 生命科学（4） 生物与生化(Biology & Biochemistry)              1855
-#>  5 生命科学（4） 环境／生态学(Environment/Ecology)               2837
-#>  6 生命科学（4） 微生物学(Microbiology)                          3549
-#>  7 生命科学（4） 分子生物与遗传学(Molecular Biology & Genetics)  1876
-#>  8 社会科学（2） 一般社会科学(Social Sciences, General)          3319
-#>  9 社会科学（2） 经济与商学(Economics & Business)                4795
-#> 10 理学（5）     化学(Chemistry)                                 3844
-#> # ... with 12 more rows
-\end{verbatim}
+ESI 学科分类
+一种较为宽泛的学科分类模式。ESI 学科分类模式基于期刊分类，由自然科学与
+社会科学的 22 个学科构成。艺术与人文期刊没有被包含。每一本期刊只被划分
+至 22 个 ESI 学科中的一个，没有重叠的学科设置使得分析变得更为简单。
+被归类为跨学科学科(Multidisciplinary field)的Science、Nature与PNAS期刊，会被按照各篇文章的参考文献(reference)与引用文献(citation)，重新为每篇文章单独分类，但每篇文章仍只会被分类到一个学科。
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-13}各学科进入ESI的阈值(2020年3月数据)}
+\caption{\label{tab:unnamed-chunk-31}ESI学科分类以及各学科进入ESI的阈值(2020年3月数据)}
 \centering
 \begin{tabular}[t]{>{\bfseries\raggedright\arraybackslash}p{8em}lr}
 \toprule
-学科门类 & 学科 & 阈值\\
-\rowcolor{gray!6}
+category & discipline & threshold202003\\
+\rowcolor{gray!15}
 \midrule
  & 计算机科学(Computer Science) & 1692\\
 
-\rowcolor{gray!6}
+\rowcolor{gray!15}
  & 工程科学(Engineering) & 5079\\
 
-\rowcolor{gray!6}
+\rowcolor{gray!15}
 \multirow{-3}{8em}{\raggedright\arraybackslash 工学（3）} & 材料科学(Materials Sciences) & 5981\\
 
  & 生物与生化(Biology \& Biochemistry) & 1855\\
@@ -270,10 +395,10 @@ ESI所收录的期刊会被分为22个学科，再依学科进行各项统计。
 
 \multirow{-4}{8em}{\raggedright\arraybackslash 生命科学（4）} & 分子生物与遗传学(Molecular Biology \& Genetics) & 1876\\
 
-\rowcolor{gray!6}
+\rowcolor{gray!15}
  & 一般社会科学(Social Sciences, General) & 3319\\
 
-\rowcolor{gray!6}
+\rowcolor{gray!15}
 \multirow{-2}{8em}{\raggedright\arraybackslash 社会科学（2）} & 经济与商学(Economics \& Business) & 4795\\
 
  & 化学(Chemistry) & 3844\\
@@ -286,10 +411,10 @@ ESI所收录的期刊会被分为22个学科，再依学科进行各项统计。
 
 \multirow{-5}{8em}{\raggedright\arraybackslash 理学（5）} & 空间科学(Space Science) & 10243\\
 
-\rowcolor{gray!6}
+\rowcolor{gray!15}
  & 农业科学(Agricultural Sciences) & 2087\\
 
-\rowcolor{gray!6}
+\rowcolor{gray!15}
 \multirow{-2}{8em}{\raggedright\arraybackslash 农学（2）} & 植物与动物科学(Plant \& Animal Science) & 4959\\
 
  & 临床医学(Clinical Medicine) & 2864\\
@@ -302,7 +427,7 @@ ESI所收录的期刊会被分为22个学科，再依学科进行各项统计。
 
 \multirow{-5}{8em}{\raggedright\arraybackslash 医学（5）} & 精神病学／心理学(Psychology/Psychiatry) & 1142\\
 
-\rowcolor{gray!6}
+\rowcolor{gray!15}
 其他（1） & 多学科(Multidisciplinary) & 27851\\
 \bottomrule
 \end{tabular}
@@ -323,9 +448,9 @@ ESI所收录的期刊会被分为22个学科，再依学科进行各项统计。
   \begin{itemize}
   \tightlist
   \item
-    链接1，检索学校历年发文量的
+    链接1，检索学校历年发文量的(\url{https://incites.clarivate.com/zh/\#/explore/0/subject})
   \item
-    链接2，近期进入ESI学科的阈值
+    链接2，近期进入ESI学科的阈值(\url{https://esi.clarivate.com/ThresholdsAction.action})
   \end{itemize}
 \end{itemize}
 
@@ -333,6 +458,7 @@ ESI所收录的期刊会被分为22个学科，再依学科进行各项统计。
 \section{获取方法}\label{ux83b7ux53d6ux65b9ux6cd5}}
 
 整理的raw-data 可以在这里找到
+\url{https://github.com/perlatex/ElegantBookdown4IS/tree/master/data}
 
 \hypertarget{ux5b66ux6821ux5217ux8868}{%
 \section{学校列表}\label{ux5b66ux6821ux5217ux8868}}
@@ -345,6 +471,30 @@ ESI所收录的期刊会被分为22个学科，再依学科进行各项统计。
   选取依据（top30）(川师25名)
 \item
   省份 中文名 英文名
+\end{itemize}
+
+\hypertarget{ux7269ux7406ux5b66ux79d1ux6a21ux578bux53c2ux6570}{%
+\section{物理学科模型参数}\label{ux7269ux7406ux5b66ux79d1ux6a21ux578bux53c2ux6570}}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-32-1} \end{center}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-33-1} \end{center}
+
+\hypertarget{ux53c2ux8003ux6587ux4ef6}{%
+\section{参考文件}\label{ux53c2ux8003ux6587ux4ef6}}
+
+\begin{itemize}
+\tightlist
+\item
+  stan
+\item
+  ggplot
+\item
+  tidybayes
+\item
+  tidyverse
+\item
+  书籍
 \end{itemize}
 % 参考文献
 \bibliography{book.bib}
