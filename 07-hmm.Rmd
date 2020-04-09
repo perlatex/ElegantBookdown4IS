@@ -21,6 +21,7 @@ ThresholdESI <- readxl::read_excel("./data/thresholdESI.xlsx")
 ```{r, message=FALSE, warning=FALSE}
 ThresholdESI %>% 
   dplyr::select(category, discipline, threshold202003) %>% 
+  dplyr::rename("学科类型", "学科", "阈值202003") %>% 
   knitr::kable(
     format = "latex",
     booktabs = T,
@@ -54,11 +55,11 @@ ThresholdESI %>%
 
 ## 物理学科模型参数
 
-```{r}
+```{r, out.width= "85%"}
 stan_hist(fit, pars = c("alpha", "beta"))
 ```
 
 
-```{r}
+```{r, out.width= "85%"}
 stan_trace(fit)
 ```
