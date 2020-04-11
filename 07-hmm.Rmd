@@ -18,10 +18,12 @@ ThresholdESI <- readxl::read_excel("./data/thresholdESI.xlsx")
 ```
 
 
+
 ```{r, message=FALSE, warning=FALSE}
 ThresholdESI %>% 
   dplyr::select(category, discipline, threshold202003) %>% 
-  dplyr::rename("学科类型", "学科", "阈值202003") %>% 
+  dplyr::rename("学科类型" = category, "学科" = discipline, 
+  			  "阈值202003" = threshold202003) %>%  
   knitr::kable(
     format = "latex",
     booktabs = T,
@@ -44,6 +46,7 @@ ThresholdESI %>%
   - 链接2，近期进入ESI学科的阈值(https://esi.clarivate.com/ThresholdsAction.action)
 
 ## 获取方法
+
 整理的raw-data 可以在这里找到
 <https://github.com/perlatex/ElegantBookdown4IS/tree/master/data>
 
@@ -55,6 +58,20 @@ ThresholdESI %>%
 
 ## 物理学科模型参数
 
+### 先验概率
+
+Our univariable model has three priors: does not use `$$`
+
+\begin{align*}
+\alpha & \sim \text{Normal}(178, 100), \\
+\beta & \sim \text{Normal}(0, 10), \; \text{and} \\
+\sigma & \sim \text{Uniform}(0, 50).
+\end{align*}
+
+
+
+
+### 后验分布
 ```{r, out.width= "85%"}
 stan_hist(fit, pars = c("alpha", "beta"))
 ```
@@ -63,3 +80,15 @@ stan_hist(fit, pars = c("alpha", "beta"))
 ```{r, out.width= "85%"}
 stan_trace(fit)
 ```
+
+### 预测值的置信区间
+
+```{r}
+post_draw2 %>% 
+	ggplot(aes(x = new_y, y = factor(year), fill = stat(x > 3040))) +
+	stat_halfeyeh() +
+	geom_vline(xintercept = 3040, linetype = "dashed", size = 2,
+			   color = "red") +
+	scale_fill_manual(values = c("gray80", "skyblue")) 
+```
+

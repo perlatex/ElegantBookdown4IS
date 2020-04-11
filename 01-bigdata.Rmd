@@ -1,7 +1,96 @@
 # 川师大数据 {#bigdata}
 
 
+
 ## 全景对比
+```{r}
+d <- tidyr::crossing(
+	school = c("北京师大", "华南师大", "杭州师大", "四川师大", "陕西师大"),
+	discipline = c("物理", "化学", "数学", "工程"),
+	year = c(2000:2019)
+) %>% 
+  group_by(school, discipline) %>%
+  mutate(
+    n_paper = cumsum(runif(20, 0, 100))
+  ) %>%
+  ungroup()
+
+d
+```
+
+```{r}
+# without gghighlight
+
+highlight_school <- c("北京师大", "四川师大")
+
+d1 <- d %>%
+  group_by(school) %>%
+  mutate(
+    end_label = ifelse(year == max(year), school, NA_character_)
+  ) %>%
+  mutate(
+    end_label = case_when(
+      school %in% highlight_school ~ end_label,
+      TRUE ~ NA_character_
+    ),
+    color_group = case_when(
+      school %in% highlight_school ~ school,
+      TRUE ~ "ZZOTHER"
+    )
+  ) %>%
+  ungroup()
+
+
+
+d1 %>%
+  ggplot(aes(
+    x = year, y = n_paper,
+    color = color_group, label = end_label,
+    group = school
+  )) +
+  geom_line(size = 0.8) +
+  geom_text_repel(
+    nudge_x = 1.1,
+    nudge_y = 0.1,
+    segment.color = NA
+  ) +
+  scale_color_manual(
+  	values = c("北京师大" = "#195F90FF", 
+  			   "四川师大" = "#D76500FF", 
+  			    "ZZOTHER" = "gray70")
+  	) +
+  guides(color = FALSE) +
+  facet_wrap(vars(discipline), scales = "free_x") +
+  labs(
+    x = NULL, y = NULL,
+    title = "label for each facet"
+  )
+
+```
+use gghighlight
+```{r}
+d %>% 
+	ungroup() %>% 
+	ggplot(aes(x = year, y = n_paper, color = school)) +
+	geom_line() +
+	facet_wrap(vars(discipline), scales = "free_x") +
+     gghighlight(school %in% c("北京师大", "四川师大"),
+ 			 calculate_per_facet = TRUE,
+ 			 use_direct_label = TRUE,
+ 			 label_key = school,
+             keep_scales = TRUE
+ 			 ) +
+	
+	labs(title = "各校",
+		 x = NULL,
+		 y = NULL) #+
+	#theme(legend.position = "none")
+```
+
+
+
+
+
 横向比较top30所师范类高校的学科发展情况
 
 - 全景大图
@@ -10,6 +99,58 @@
 
 - 学科小图
 
+
+```{r}
+state_cols <- c("gray70",
+                prismatic::clr_darken(paletteer::paletteer_d("ggsci::category20_d3"), 0.2))
+scales::show_col(state_cols)
+```
+```{r}
+d1 %>%
+  ggplot(aes(
+    x = year, y = n_paper,
+    color = color_group, label = end_label,
+    group = school
+  )) +
+  geom_line(size = 0.8) +
+  geom_text_repel(
+    force        = 1,
+    nudge_x      = 0.25,
+    direction    = "y",
+    hjust        = 1,
+    segment.size = 0.2
+  )  +
+  scale_color_manual(
+  	values = c("北京师大" = "#195F90FF", 
+  			   "四川师大" = "#D76500FF", 
+  			    "ZZOTHER" = "gray70")
+  	) +
+  guides(color = FALSE) +
+  facet_wrap(vars(discipline), scales = "free_x") +
+  labs(
+    x = NULL, y = NULL,
+    title = "label for each facet"
+  ) +
+   theme_minimal()
+
+```
+
 ## 学科对比
 
 分面各校，高亮川师  
+
+现在我们可以试试 **bookdown** 的一些初级功能了，例如图表。图 \@ref(fig:hello) 是一幅无趣的散点图，表 \@ref(tab:iris) 是一份枯燥的数据。
+
+```{r hello, fig.cap='雷猴啊，散点图！', out.width='90%'}
+par(mar = c(4, 4, 1, .1))
+plot(cars, pch = 19)
+```
+
+```{r iris}
+knitr::kable(
+  head(iris), caption = '雷猴啊，iris 数据！',
+  booktabs = TRUE
+)
+```
+
+就这样，你可以一直编下去，直到编不下去。

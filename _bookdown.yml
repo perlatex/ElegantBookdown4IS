@@ -19,11 +19,10 @@ language:
 
 rmd_files: 
   - "index.Rmd"
-  - "author.Rmd"
-  - "00-preface.Rmd"
+  - "00-author.Rmd"
   - "01-bigdata.Rmd"
   - "02-predict.Rmd"
-  - "03-collegecontr.Rmd"
-  - "05-JCR.Rmd"
+  #- "03-collegecontr.Rmd"
+  #- "05-JCR.Rmd"
   - "07-hmm.Rmd"
   - "08-references.Rmd"

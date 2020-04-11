@@ -26,6 +26,8 @@ description: "This is a bookdown template based on ElegantBook. The output forma
 
 
 ```{r setup, include=FALSE}
+set.seed(1024)
+
 knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,
@@ -39,14 +41,16 @@ knitr::opts_chunk$set(
   fig.show = "hold",
   fig.showtext = TRUE
 )
-
 ```
+
+# 前言 {-}
 
 ```{r}
 library(tidyverse)
 library(tidybayes)
 library(patchwork)
 library(gghighlight)
+library(ggrepel)
 library(ggforce)
 library(rstan)
 library(brms)
@@ -67,4 +71,25 @@ showtext_auto()
 source("./scripts/01_read_raw_data.R")
 source("./scripts/02_read_thresholdESI.R")
 ```
+
+
+## 进度表 {-}
+
+- 文献调研（3月底完成）
+- 数据获取（4月中旬完成）
+- 数学分析和模型评估（5月中旬完成）
+- 可视化（6月初完成）
+- 报告初稿（6月底完成）
+- 研讨会（待定）
+- 正式稿发布（7月初）
+
+
+
+## 关于本文档 {-}
+
+本报告使用R和stan语言完成，数据和代码存放在GitHub仓库<https://github.com/perlatex/ElegantBookdown4IS>，欢迎批评指正。
+
+## 感谢 {-}
+
+感谢彭凤老师在图书购买上提供的帮助，感谢**同学协助完成数据收集和整理工作，感谢黄湘云老师帮忙检查了Stan代码。
 

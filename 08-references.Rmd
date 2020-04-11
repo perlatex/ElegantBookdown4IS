@@ -1,10 +1,11 @@
-`r if (knitr::is_html_output()) '
 # 参考文献 {#References .unnumbered}
-'`
 
-## 参考文件
-- stan
-- ggplot
-- tidybayes
-- tidyverse
-- 书籍
+
+
+
+```{r eval=TRUE, echo=FALSE}
+# generate a BibTeX database automatically for some R packages
+knitr::write_bib('book.bib')
+```
+
+[McElreath, R. (2015). *Statistical rethinking: A Bayesian course with examples in R and Stan.* Chapman & Hall/CRC Press.](https://xcelab.net/rm/statistical-rethinking/)

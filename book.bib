@@ -1,3 +1,13 @@
+@Manual{R-core,
+    title = {R: A Language and Environment for Statistical Computing},
+    author = {{R Core Team}},
+    organization = {R Foundation for Statistical Computing},
+    address = {Vienna, Austria},
+    year = {2019},
+    url = {https://www.R-project.org/},
+  }
+  
+  
 @Book{xie2015,
   title = {Dynamic Documents with {R} and knitr},
   author = {Yihui Xie},
@@ -7,4 +17,99 @@
   edition = {2nd},
   note = {ISBN 978-1498716963},
   url = {http://yihui.name/knitr/},
+}
+
+@book{r4ds,
+  title={R for Data Science: Import, Tidy, Transform, Visualize, and Model Data},
+  author={Wickham, Hadley and Grolemund, Garrett},
+  year={2017},
+  publisher={O'Reilly Media, Inc.}
+}
+
+@book{ggplot2,
+	Title = {{ggplot2}: Elegant graphics for data analysis},
+	Author = {Wickham, Hadley},
+	Publisher = {Springer},
+	Series = {{useR}},
+	Year = {2016},
+}
+
+@Manual{R-rmarkdown,
+    title = {{rmarkdown}: Dynamic Documents for {R}},
+    author = {JJ Allaire and Yihui Xie and Jonathan McPherson and Javier Luraschi and Kevin Ushey and Aron Atkins and Hadley Wickham and Joe Cheng and Winston Chang and Richard Iannone},
+    year = {2018},
+    note = {R package version 1.12},
+    url = {https://rmarkdown.rstudio.com},
+  }
+  
+@Article{tidyverse,
+     title = {Welcome to the {tidyverse}},
+     author = {Hadley Wickham and Mara Averick and Jennifer Bryan and Winston Chang and Lucy D'Agostino McGowan and Romain François and Garrett Grolemund and Alex Hayes and Lionel Henry and Jim Hester and Max Kuhn and Thomas Lin Pedersen and Evan Miller and Stephan Milton Bache and Kirill Müller and Jeroen Ooms and David Robinson and Dana Paige Seidel and Vitalie Spinu and Kohske Takahashi and Davis Vaughan and Claus Wilke and Kara Woo and Hiroaki Yutani},
+     year = {2019},
+     journal = {Journal of Open Source Software},
+     volume = {4},
+     number = {43},
+     pages = {1686},
+     doi = {10.21105/joss.01686},
+}
+
+@article{Stan,
+   author = {Bob Carpenter and Andrew Gelman and Matthew Hoffman and Daniel Lee and Ben Goodrich and Michael Betancourt and Marcus Brubaker and Jiqiang Guo and Peter Li and Allen Riddell},
+   title = {Stan: A Probabilistic Programming Language},
+   journal = {Journal of Statistical Software, Articles},
+   volume = {76},
+   number = {1},
+   year = {2017},
+   keywords = {probabilistic programming; Bayesian inference; algorithmic differentiation; Stan},
+   abstract = {Stan is a probabilistic programming language for specifying statistical models. A Stan program imperatively defines a log probability function over parameters conditioned on specified data and constants. As of version 2.14.0, Stan provides full Bayesian inference for continuous-variable models through Markov chain Monte Carlo methods such as the No-U-Turn sampler, an adaptive form of Hamiltonian Monte Carlo sampling. Penalized maximum likelihood estimates are calculated using optimization methods such as the limited memory Broyden-Fletcher-Goldfarb-Shanno algorithm. Stan is also a platform for computing log densities and their gradients and Hessians, which can be used in alternative algorithms such as variational Bayes, expectation propagation, and marginal inference using approximate integration. To this end, Stan is set up so that the densities, gradients, and Hessians, along with intermediate quantities of the algorithm such as acceptance probabilities, are easily accessible. Stan can be called from the command line using the cmdstan package, through R using the rstan package, and through Python using the pystan package. All three interfaces support sampling and optimization-based inference with diagnostics and posterior analysis. rstan and pystan also provide access to log probabilities, gradients, Hessians, parameter transforms, and specialized plotting.},
+   issn = {1548-7660},
+   pages = {1--32},
+   doi = {10.18637/jss.v076.i01},
+   url = {https://www.jstatsoft.org/v076/i01}
+}
+
+
+
+@Article{brms,
+  author   = {Paul-Christian B\"urkner},
+  title    = {\pkg{brms}: An {R} Package for Bayesian Multilevel Models using Stan},
+  journal  = {Journal of Statistical Software},
+  year     = {2017},
+  encoding = {UTF-8},
+}
+
+
+@Manual{tidybayes,
+    title = {{tidybayes}: Tidy Data and Geoms for {Bayesian} Models},
+    author = {Matthew Kay},
+    year = {2020},
+    note = {R package version 2.0.3},
+    url = {http://mjskay.github.io/tidybayes/},
+    doi = {10.5281/zenodo.1308151},
+  }
+  
+@BOOK{gelman2014,
+  title = {Bayesian Data Analysis},
+  publisher = {Taylor \& Francis},
+  year = {2014},
+  author = {Gelman, Andrew and Carlin, John B and Stern, Hal S and Rubin, Donald
+	B},
+  volume = {2},
+  owner = {Paul},
+  timestamp = {2015.06.20}
+}
+
+@book{kruschke2014doing,
+  title={Doing {Bayesian Data Analysis}: {A} Tutorial with {R, JAGS, and Stan}},
+  author={Kruschke, John},
+  year={2014},
+  publisher={Academic Press}
+}
+
+@book{rethinking,
+  title={Statistical rethinking: {A} {B}ayesian Course with Examples in {R} and {Stan}},
+  series={Texts in Statistical Science},
+  author={Richard {McElreath}},
+  publisher={Chapman and Hall},
+  year = {2016}
 }
