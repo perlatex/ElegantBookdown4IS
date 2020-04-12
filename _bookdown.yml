@@ -23,6 +23,6 @@ rmd_files:
   - "01-bigdata.Rmd"
   - "02-predict.Rmd"
   #- "03-collegecontr.Rmd"
-  #- "05-JCR.Rmd"
+  - "05-JCR.Rmd"
   - "07-hmm.Rmd"
   - "08-references.Rmd"
