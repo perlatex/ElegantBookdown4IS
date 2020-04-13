@@ -39,9 +39,10 @@ d1 <- d %>%
     )
   ) %>%
   ungroup()
+```
 
 
-
+```{r}
 d1 %>%
   ggplot(aes(
     x = year, y = n_paper,
@@ -49,6 +50,10 @@ d1 %>%
     group = school
   )) +
   geom_line(size = 0.8) +
+  geom_point(data = . %>% filter(!is.na(end_label)),
+  		   aes(fill = end_label),
+  		   shape = 21, size = 2, 
+  		   color = "white") +
   geom_text_repel(
     nudge_x = 1.1,
     nudge_y = 0.1,
@@ -57,15 +62,23 @@ d1 %>%
   scale_color_manual(
   	values = c("北京师大" = "#195F90FF", 
   			   "四川师大" = "#D76500FF", 
-  			    "ZZOTHER" = "gray70")
+  			    "ZZOTHER" = "gray80")
+  	) +
+  scale_fill_manual(
+  	values = c("北京师大" = "#195F90FF", 
+  			   "四川师大" = "#D76500FF", 
+  			    "ZZOTHER" = "gray80")
   	) +
   guides(color = FALSE) +
   facet_wrap(vars(discipline), scales = "free_x") +
+  #theme_minimal() +
+  myriad::theme_myriad(base_family = "wqy-microhei") +
+  theme(legend.position = "none") +
+  scale_x_continuous(breaks = c(seq(2000, 2019, by = 4), 2019) ) +
   labs(
     x = NULL, y = NULL,
     title = "label for each facet"
-  )
-
+  ) 
 ```
 use gghighlight
 ```{r}
