@@ -3,6 +3,12 @@
 ```{r}
 ThresholdESI
 ```
+```{r}
+univ_discip_timeserial
+```
+
+应该有30*8*20
+
 
 
 ```{r}
@@ -57,7 +63,7 @@ d1 <- d %>%
   ungroup()
 d1
 ```
-应该有30*8*20
+
 
 
 
@@ -103,6 +109,8 @@ d1 %>%
     title = "label for each facet"
   ) 
 ```
+
+
 ```{r}
 ggsave("p.pdf", height = 8, width = 6)
 ```

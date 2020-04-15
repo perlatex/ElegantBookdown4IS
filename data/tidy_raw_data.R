@@ -58,6 +58,13 @@ univ_discip_timeserial %>%
 	filter(	discipline != "ALL") %>% 
 	filter(stringr::str_detect(discipline, "^A"))
 
+univ_discip_timeserial %>% count(school, discipline)
+
+univ_discip_timeserial %>% 
+	filter(school == "北京师范大学") %>% 
+	count(discipline)
+
+here::here("data", "UnivTimeSerial","北京师范大学.csv") %>% read_csv()
 ######################################################
 
 
