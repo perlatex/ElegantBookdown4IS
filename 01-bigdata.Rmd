@@ -1,5 +1,13 @@
 # 川师大数据 {#bigdata}
 
+```{r}
+ThresholdESI
+```
+
+
+```{r}
+univ_discip_timeserial
+```
 
 
 ## 全景对比

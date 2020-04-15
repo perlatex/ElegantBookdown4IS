@@ -15,17 +15,13 @@ ESI 学科分类
 被归类为跨学科学科(Multidisciplinary field)的Science、Nature与PNAS期刊，会被按照各篇文章的参考文献(reference)与引用文献(citation)，重新为每篇文章单独分类，但每篇文章仍只会被分类到一个学科。
 
 
-```{r, message=FALSE, warning=FALSE}
-ThresholdESI <- readxl::read_excel("./data/thresholdESI.xlsx")
-```
-
 
 
 ```{r, message=FALSE, warning=FALSE}
 ThresholdESI %>% 
-  dplyr::select(category, discipline, threshold202003) %>% 
-  dplyr::rename("学科类型" = category, "学科" = discipline, 
-  			  "阈值202003" = threshold202003) %>%  
+  dplyr::select(category, discipline_mix, Threshold0326) %>% 
+  dplyr::rename("学科类型" = category, "学科" = discipline_mix, 
+  			  "阈值20200326" = Threshold0326) %>%  
   knitr::kable(
     format = "latex",
     booktabs = T,
