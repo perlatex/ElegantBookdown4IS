@@ -31,7 +31,7 @@ read_plus <- function(flnm) {
     dplyr::mutate(
       school = flnm %>% stringr::str_extract(., "(?<=UnivTimeSerial/).*?(?=\\.csv)")
     ) %>%
-    dplyr::select(school, discipline, year, n_paper, n_cited)
+    dplyr::select(school, discipline, year, n_paper, n_cited)  
 }
 
 
@@ -52,6 +52,12 @@ univ_discip_timeserial <-
     )
   )
 univ_discip_timeserial
+
+
+univ_discip_timeserial %>% 
+	filter(	discipline != "ALL") %>% 
+	filter(stringr::str_detect(discipline, "^A"))
+
 ######################################################
 
 
@@ -59,7 +65,8 @@ univ_discip_timeserial
 ######################################################
 # univ discipline development data.frame summary from last ten years
 # 2010-2020 
-univ_discip_summary <- readr::read_csv("UnivSummary/university_summary.xlsx")
+univ_discip_summary <- 
+	readr::read_csv(here::here("data", "UnivSummary", "university_summary.xlsx"))
 univ_discip_summary
 ######################################################
 
@@ -70,13 +77,14 @@ univ_discip_summary
 
 ######################################################
 # tidy newest ESI Threshold
-esi22 <- readxl::read_excel("ESI/ESI_22.xlsx") %>% 
+esi22 <- readxl::read_excel(here::here("data", "ESI", "ESI_22.xlsx")) %>% 
 	dplyr::mutate(discipline = stringr::str_to_title(discipline))
 esi22
 
 
 Threshold <- 
-	readxl::read_excel("ESI/ThresholdESI0326.xlsx", skip = 2, n_max = 22) %>% 
+	readxl::read_excel(here::here("data", "ESI", "ThresholdESI0326.xlsx"), 
+					   skip = 2, n_max = 22) %>% 
 	janitor::clean_names() %>% 
 	dplyr::select(discipline = research_fields, Threshold0326 = institution) %>% 
 	dplyr::mutate(discipline = stringr::str_to_title(discipline))
@@ -98,3 +106,5 @@ save(univ_discip_timeserial, ThresholdESI, #univ_discip_summary,
 
 #load("myData.Rdata")
 ######################################################
+
+

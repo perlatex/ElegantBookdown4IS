@@ -6,12 +6,18 @@ ThresholdESI
 
 
 ```{r}
-univ_discip_timeserial
+d <- univ_discip_timeserial %>% 
+	filter(	discipline != "ALL") %>% 
+	drop_na()
+d
 ```
 
 
+
+
+
 ## 全景对比
-```{r}
+```{r, eval = FALSE}
 d <- tidyr::crossing(
 	school = c("北京师大", "华南师大", "杭州师大", "四川师大", "陕西师大"),
 	discipline = c("物理", "化学", "数学", "工程"),
@@ -26,10 +32,12 @@ d <- tidyr::crossing(
 d
 ```
 
+
+
 ```{r}
 # without gghighlight
 
-highlight_school <- c("北京师大", "四川师大")
+highlight_school <- c("北京师范大学", "四川师范大学")
 
 d1 <- d %>%
   group_by(school) %>%
@@ -47,11 +55,18 @@ d1 <- d %>%
     )
   ) %>%
   ungroup()
+d1
 ```
+应该有30*8*20
 
 
-```{r}
-d1 %>%
+
+```{r, fig.height = 8, fig.width = 6}
+d1 %>% 
+	mutate(school = factor(school) %>% 
+		   	       fct_relevel("北京师范大学", "四川师范大学", after = Inf)
+		   ) %>% 
+	
   ggplot(aes(
     x = year, y = n_paper,
     color = color_group, label = end_label,
@@ -68,19 +83,19 @@ d1 %>%
     segment.color = NA
   ) +
   scale_color_manual(
-  	values = c("北京师大" = "#195F90FF", 
-  			   "四川师大" = "#D76500FF", 
+  	values = c("北京师范大学" = "#195F90FF", 
+  			   "四川师范大学" = "#D76500FF", 
   			    "ZZOTHER" = "gray80")
   	) +
   scale_fill_manual(
-  	values = c("北京师大" = "#195F90FF", 
-  			   "四川师大" = "#D76500FF", 
+  	values = c("北京师范大学" = "#195F90FF", 
+  			   "四川师范大学" = "#D76500FF", 
   			    "ZZOTHER" = "gray80")
   	) +
   guides(color = FALSE) +
-  facet_wrap(vars(discipline), scales = "free_x") +
+  facet_wrap(vars(discipline), scales = "free", ncol = 2) +
   #theme_minimal() +
-  myriad::theme_myriad(base_family = "wqy-microhei") +
+  #myriad::theme_myriad(base_family = "wqy-microhei") +
   theme(legend.position = "none") +
   scale_x_continuous(breaks = c(seq(2000, 2019, by = 4), 2019) ) +
   labs(
@@ -88,14 +103,19 @@ d1 %>%
     title = "label for each facet"
   ) 
 ```
+```{r}
+ggsave("p.pdf", height = 8, width = 6)
+```
+
+
 use gghighlight
 ```{r}
 d %>% 
 	ungroup() %>% 
 	ggplot(aes(x = year, y = n_paper, color = school)) +
 	geom_line() +
-	facet_wrap(vars(discipline), scales = "free_x") +
-     gghighlight(school %in% c("北京师大", "四川师大"),
+	facet_wrap(vars(discipline), scales = "free", ncol = 2) +
+     gghighlight(school %in% c("北京师范大学", "四川师范大学"),
  			 calculate_per_facet = TRUE,
  			 use_direct_label = TRUE,
  			 label_key = school,
