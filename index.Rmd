@@ -69,6 +69,27 @@ load("data/myData.Rdata")
 
 
 ```{r}
+ThresholdESI
+```
+
+
+```{r}
+univ_discip_timeserial
+```
+
+应该有30*8*20
+
+
+
+```{r}
+univ_discip_summary
+```
+
+
+
+
+
+```{r}
 source("./scripts/theme_mystyle.R")
 ```
 

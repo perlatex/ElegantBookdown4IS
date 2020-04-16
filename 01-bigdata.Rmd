@@ -1,17 +1,6 @@
 # 川师大数据 {#bigdata}
 
 ```{r}
-ThresholdESI
-```
-```{r}
-univ_discip_timeserial
-```
-
-应该有30*8*20
-
-
-
-```{r}
 d <- univ_discip_timeserial %>% 
 	filter(	discipline != "ALL") %>% 
 	drop_na()
@@ -183,6 +172,63 @@ d1 %>%
    theme_minimal()
 
 ```
+## one in percent
+```{r}
+focus_discipline <- c("工程学")
+
+univ_discip_summary %>% 
+	filter(discipline_cn %in% focus_discipline) %>% 
+	arrange(-cum_cited)
+
+```
+
+```{r}
+focus_discipline <- c("工程学")
+label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
+				  "杭州师范大学", "华南师范大学", "陕西师范大学")
+
+univ_discip_summary %>% 
+	filter(discipline_cn %in% focus_discipline) %>% 
+	mutate(
+    label = ifelse(school %in% label_school, school, "")
+  ) %>%
+	
+  ggplot(aes(x = cum_paper, y = cum_cited)) +
+  geom_point(
+    size = 3.5,
+    alpha = .9,
+    shape = 21,
+    col = "white",
+    fill = "#0162B2"
+  ) +
+  geom_text_repel(
+    aes(label = label),
+    size = 4.5,
+    point.padding = .2,
+    box.padding = .3,
+    force = 1,
+    min.segment.length = 0
+  ) +
+ geom_hline(aes(yintercept = Threshold0326)) +
+ annotate("text", x = 1250, y = 3200, 
+			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
+  theme_minimal(14) +
+  theme(
+    legend.position = "none",
+    panel.grid.minor = element_blank()
+  ) +
+  labs(
+  	title = "师范类院校工程学科进入前1%ESI学科",
+	subtitle = "ESI数据库2020年03月26日数据",
+    x = "累积发文量(2010-2020)",
+    y = "累积引文量(2010-2020)"
+  )
+	
+```
+```{r}
+ggsave("mypdf.pdf", height = 6, width = 8)
+```
+
 
 ## 学科对比
 

@@ -69,15 +69,6 @@ here::here("data", "UnivTimeSerial","北京师范大学.csv") %>% read_csv()
 
 
 
-######################################################
-# univ discipline development data.frame summary from last ten years
-# 2010-2020 
-univ_discip_summary <- 
-	readr::read_csv(here::here("data", "UnivSummary", "university_summary.xlsx"))
-univ_discip_summary
-######################################################
-
-
 
 
 
@@ -106,9 +97,35 @@ ThresholdESI
 
 
 
+
+
+######################################################
+# univ discipline development data.frame summary from last ten years
+# 2010-2020 
+univ_discip_stat <- 
+	readxl::read_excel(here::here("data", "UnivSummary", "university_summary.xlsx")) %>% 
+	dplyr::filter(!is.na(school)) %>% 
+	dplyr::mutate(discipline = stringr::str_to_title(discipline))
+univ_discip_stat
+
+univ_discip_summary <- univ_discip_stat %>% 
+	dplyr::left_join(
+	ThresholdESI %>% select(discipline, discipline_cn, Threshold0326), 
+	by = "discipline"
+) %>% 
+	dplyr::select(school, univ, discipline_cn, discipline, cum_paper, cum_cited, Threshold0326)
+
+univ_discip_summary
+univ_discip_summary %>% dplyr::filter(is.na(discipline_cn)) # have 5 NA
+######################################################
+
+
+
+
+
 ######################################################
 # save to Rdata
-save(univ_discip_timeserial, ThresholdESI, #univ_discip_summary, 
+save(univ_discip_timeserial, ThresholdESI, univ_discip_summary, 
 	 file = "myData.Rdata")
 
 #load("myData.Rdata")
