@@ -12,8 +12,110 @@
 关于模型，学科的发展和很多方面都有关系，因此建立一个完全正确的模型是不可能的。正如英国统计学家George E. P. Box所说，所有模型都是错的，但其中有些是有用的。
 所以与其去建立复杂的模型，并给解释带来更多困扰，不如就从最简单的出发。
 
+```{r}
+focus <- c("Computer Science", "Engineering", "Chemistry", "Materials Science")
+
+d <- univ_discip_timeserial_2000_to_2019 %>% 
+	filter(univ_cn == "四川师范大学") %>% 
+	filter(discipline %in% focus) 
+d
+```
+```{r}
+d1 <- d %>% 
+	select(discipline_cn, year, n_paper, n_cited) %>% 
+	complete(discipline_cn, year) %>% 
+    group_by(discipline_cn) %>% 
+    mutate(
+	cum_cited = slider::slide_dbl(n_cited, sum, na.rm = TRUE, .before = 9, .step = 1, .complete = TRUE)
+) %>% 
+	ungroup()
+d1
+```
 
 
+
+
+```{r}
+d1 %>% 
+	filter(!is.na(cum_cited)) %>% 
+	ggplot(aes(x = year, y = cum_cited)) +
+	geom_point() +
+	geom_smooth(method = lm, se = FALSE) +
+	facet_wrap(vars(discipline_cn), scales = "free_y") +
+	scale_x_continuous(breaks = seq(2009, 2019, by = 2),
+					   labels = seq(2009, 2019, by = 2)
+					   )
+```
+
+
+
+
+```{r}
+tb <- tibble(
+	year = c(2020)
+)
+
+```
+
+
+```{r}
+d_eng <- d1 %>%  
+	filter(discipline_cn %in% "工程学") %>% 
+	filter(between(year, 2009, 2019)) 
+d_eng
+```
+弥补2012-2013年期间的短板有所下滑，从而导致
+
+```{r}
+b_eng <- brms::brm(cum_cited ~ year,  data = d_eng)
+```
+
+
+```{r}
+b_eng
+plot(b_eng)
+```
+
+
+```{r}
+post_draw <- tb %>% add_predicted_draws(b_eng) 
+
+prob_pred <- post_draw %>% 
+	group_by(year) %>% 
+	summarise(
+		pred_mean = mean(.prediction),
+		prob_above_line = mean(.prediction >= 2843)
+	)
+prob_pred
+```
+
+```{r}
+post_draw %>% 
+	ggplot(aes(x = .prediction, y = factor(year), fill = stat(x > 2843))) +
+	stat_halfeyeh() +
+	geom_vline(xintercept = 2843, linetype = "dashed", size = 2,
+			   color = "red") +
+	scale_fill_manual(values = c("gray80", "skyblue")) #+
+#scale_x_continuous(limits = c(150, 200))
+```
+
+
+```{r}
+post_draw %>% 
+	ggplot(
+		aes(x = year, y = .prediction, fill = stat(y > 2843)) 
+	) +
+	stat_eye(side = "right") +
+	geom_point(data = d_eng, aes(x = year, y = cum_cited)) +
+	geom_hline(yintercept = 2843, linetype = "dashed", size = 1,
+			   color = "red") +
+	scale_fill_manual(values = c("gray80", "skyblue")) +
+	annotate("text", x = 2012, y = 3000, 
+			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
+	scale_x_continuous(breaks = c(seq(2009, 2019, by = 2), 2020),
+					   labels = c(seq(2009, 2019, by = 2), 2020)
+					   )
+```
 
 ## 数学学科
 

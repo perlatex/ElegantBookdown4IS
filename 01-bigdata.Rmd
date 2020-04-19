@@ -1,33 +1,24 @@
 # 川师大数据 {#bigdata}
 
+
 ```{r}
-d <- univ_discip_timeserial %>% 
-	filter(	discipline != "ALL") %>% 
-	drop_na()
-d
+univ_discip_timeserial_2010_to_2019
 ```
 
+
+```{r}
+focus_discipline_cn <- c("工程学", "物理学", "数学", "化学", 
+						 "材料科学", "计算机科学")
+
+d <- univ_discip_timeserial_2010_to_2019 %>% 
+	filter(	discipline_cn %in% focus_discipline_cn) 
+d
+```
 
 
 
 
 ## 全景对比
-```{r, eval = FALSE}
-d <- tidyr::crossing(
-	school = c("北京师大", "华南师大", "杭州师大", "四川师大", "陕西师大"),
-	discipline = c("物理", "化学", "数学", "工程"),
-	year = c(2000:2019)
-) %>% 
-  group_by(school, discipline) %>%
-  mutate(
-    n_paper = cumsum(runif(20, 0, 100))
-  ) %>%
-  ungroup()
-
-d
-```
-
-
 
 ```{r}
 # without gghighlight
@@ -35,17 +26,17 @@ d
 highlight_school <- c("北京师范大学", "四川师范大学")
 
 d1 <- d %>%
-  group_by(school) %>%
+  group_by(univ_cn) %>%
   mutate(
-    end_label = ifelse(year == max(year), school, NA_character_)
+    end_label = ifelse(year == max(year), univ_cn, NA_character_)
   ) %>%
   mutate(
     end_label = case_when(
-      school %in% highlight_school ~ end_label,
+      univ_cn %in% highlight_school ~ end_label,
       TRUE ~ NA_character_
     ),
     color_group = case_when(
-      school %in% highlight_school ~ school,
+      univ_cn %in% highlight_school ~ univ_cn,
       TRUE ~ "ZZOTHER"
     )
   ) %>%
@@ -58,14 +49,14 @@ d1
 
 ```{r, fig.height = 8, fig.width = 6}
 d1 %>% 
-	mutate(school = factor(school) %>% 
+	mutate(univ_cn = factor(univ_cn) %>% 
 		   	       fct_relevel("北京师范大学", "四川师范大学", after = Inf)
 		   ) %>% 
 	
   ggplot(aes(
     x = year, y = n_paper,
     color = color_group, label = end_label,
-    group = school
+    group = univ_cn
   )) +
   geom_line(size = 0.8) +
   geom_point(data = . %>% filter(!is.na(end_label)),
@@ -88,42 +79,18 @@ d1 %>%
   			    "ZZOTHER" = "gray80")
   	) +
   guides(color = FALSE) +
-  facet_wrap(vars(discipline), scales = "free", ncol = 2) +
+  facet_wrap(vars(discipline_cn), scales = "free", ncol = 2) +
   #theme_minimal() +
   #myriad::theme_myriad(base_family = "wqy-microhei") +
   theme(legend.position = "none") +
   scale_x_continuous(breaks = c(seq(2000, 2019, by = 4), 2019) ) +
   labs(
     x = NULL, y = NULL,
-    title = "label for each facet"
+    title = "历年发文情况"
   ) 
 ```
 
 
-```{r}
-ggsave("p.pdf", height = 8, width = 6)
-```
-
-
-use gghighlight
-```{r}
-d %>% 
-	ungroup() %>% 
-	ggplot(aes(x = year, y = n_paper, color = school)) +
-	geom_line() +
-	facet_wrap(vars(discipline), scales = "free", ncol = 2) +
-     gghighlight(school %in% c("北京师范大学", "四川师范大学"),
- 			 calculate_per_facet = TRUE,
- 			 use_direct_label = TRUE,
- 			 label_key = school,
-             keep_scales = TRUE
- 			 ) +
-	
-	labs(title = "各校",
-		 x = NULL,
-		 y = NULL) #+
-	#theme(legend.position = "none")
-```
 
 
 
@@ -138,55 +105,44 @@ d %>%
 - 学科小图
 
 
-```{r}
-state_cols <- c("gray70",
-                prismatic::clr_darken(paletteer::paletteer_d("ggsci::category20_d3"), 0.2))
-scales::show_col(state_cols)
-```
-```{r}
-d1 %>%
-  ggplot(aes(
-    x = year, y = n_paper,
-    color = color_group, label = end_label,
-    group = school
-  )) +
-  geom_line(size = 0.8) +
-  geom_text_repel(
-    force        = 1,
-    nudge_x      = 0.25,
-    direction    = "y",
-    hjust        = 1,
-    segment.size = 0.2
-  )  +
-  scale_color_manual(
-  	values = c("北京师大" = "#195F90FF", 
-  			   "四川师大" = "#D76500FF", 
-  			    "ZZOTHER" = "gray70")
-  	) +
-  guides(color = FALSE) +
-  facet_wrap(vars(discipline), scales = "free_x") +
-  labs(
-    x = NULL, y = NULL,
-    title = "label for each facet"
-  ) +
-   theme_minimal()
-
-```
-
 
 
 ## 进入百分之一的
 
 https://www.hznu.edu.cn/c/2020-03-14/2338324.shtml
 ```{r}
-univ_discip_summary %>% 
-	group_by(school) %>% 
-	summarise( 
-		num = sum(is_enter_one_percent, na.rm = T)
-	) %>% 
-	arrange(desc(num))
+univ_discip_enter_top_one_percent %>% 
+	count(univ_cn) %>% 
+	arrange(desc(n))
 
 ```
+
+```{r}
+univ_discip_enter_top_one_percent %>% 
+	add_count(discipline_cn, name = "discip_occur_num") %>% 
+	add_count(univ_cn, name = "univ_occur_num") %>% 
+	mutate(univ_cn = glue::glue("{univ_cn}({univ_occur_num})")) 
+```
+
+
+```{r, fig.height = 6, fig.width = 8}
+univ_discip_enter_top_one_percent %>% 
+	add_count(discipline_cn, name = "discip_occur_num") %>% 
+	add_count(univ_cn, name = "univ_occur_num") %>% 
+	mutate(univ_cn = glue::glue("{univ_cn}({univ_occur_num})")) %>% 
+	select(discipline_cn, univ_cn, top_papers, discip_occur_num, univ_occur_num) %>% 
+
+	ggplot(aes(x = fct_reorder(discipline_cn, univ_occur_num, .desc = T), 
+			   y = reorder(univ_cn, -1*discip_occur_num)) ) +
+	geom_tile(color = "white", fill = "orange") +
+	geom_text(aes(label = top_papers), size = 3) +
+	theme_classic() +
+	theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
+	labs(x = NULL, y = NULL) +
+   ggtitle("师范大学进入情况", subtitle = '（数据来源 ESI）') 
+	
+```
+
 
 
 
@@ -194,7 +150,7 @@ univ_discip_summary %>%
 ```{r}
 focus_discipline <- c("工程学")
 
-univ_discip_summary %>% 
+univ_discip_cum_last_ten_year %>% 
 	filter(discipline_cn %in% focus_discipline) %>% 
 	arrange(-cum_cited)
 
@@ -205,10 +161,10 @@ focus_discipline <- c("工程学")
 label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
 				  "杭州师范大学", "华南师范大学", "陕西师范大学")
 
-univ_discip_summary %>% 
+univ_discip_cum_last_ten_year %>% 
 	filter(discipline_cn %in% focus_discipline) %>% 
 	mutate(
-    label = ifelse(school %in% label_school, school, "")
+    label = ifelse(univ_cn %in% label_school, univ_cn, "")
   ) %>%
 	
   ggplot(aes(x = cum_paper, y = cum_cited, fill = is_enter_one_percent)) +
@@ -243,21 +199,12 @@ univ_discip_summary %>%
   )
 	
 ```
-```{r}
-ggsave("mypdf.pdf", height = 6, width = 8)
-```
+
 发文量超过杭州师大 ，但引文差一点点
 
 
 
-```{r}
-focus_discipline <- c("工程学")
 
-univ_discip_summary %>% 
-	filter(discipline_cn %in% focus_discipline) %>% 
-	arrange(-cum_cited)
-
-```
 
 
 
@@ -267,11 +214,12 @@ focus_discipline <- c("化学")
 label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
 				  "杭州师范大学", "华南师范大学", "陕西师范大学")
 
-univ_discip_summary %>% 
+univ_discip_cum_last_ten_year %>% 
 	filter(discipline_cn %in% focus_discipline) %>% 
 	mutate(
-    label = ifelse(school %in% label_school, school, "")
+    label = ifelse(univ_cn %in% label_school, univ_cn, "")
   ) %>%
+	
 	
   ggplot(aes(x = cum_paper, y = cum_cited, fill = is_enter_one_percent)) +
   geom_point(
@@ -298,7 +246,7 @@ univ_discip_summary %>%
     panel.grid.minor = element_blank()
   ) +
   labs(
-  	title = "师范类院校工程学科进入前1%ESI学科",
+  	title = "师范类院校化学学科进入前1%ESI学科",
 	subtitle = "ESI数据库2020年03月26日数据",
     x = "累积发文量(2010-2020)",
     y = "累积引文量(2010-2020)"
@@ -312,11 +260,12 @@ focus_discipline <- c("物理学")
 label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
 				  "杭州师范大学", "华南师范大学", "陕西师范大学")
 
-univ_discip_summary %>% 
+univ_discip_cum_last_ten_year %>% 
 	filter(discipline_cn %in% focus_discipline) %>% 
 	mutate(
-    label = ifelse(school %in% label_school, school, "")
+    label = ifelse(univ_cn %in% label_school, univ_cn, "")
   ) %>%
+	
 	
   ggplot(aes(x = cum_paper, y = cum_cited, fill = is_enter_one_percent)) +
   geom_point(
@@ -343,7 +292,7 @@ univ_discip_summary %>%
     panel.grid.minor = element_blank()
   ) +
   labs(
-  	title = "师范类院校工程学科进入前1%ESI学科",
+  	title = "师范类院校物理学科进入前1%ESI学科",
 	subtitle = "ESI数据库2020年03月26日数据",
     x = "累积发文量(2010-2020)",
     y = "累积引文量(2010-2020)"
@@ -357,11 +306,12 @@ focus_discipline <- c("数学")
 label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
 				  "杭州师范大学", "华南师范大学", "陕西师范大学")
 
-univ_discip_summary %>% 
+univ_discip_cum_last_ten_year %>% 
 	filter(discipline_cn %in% focus_discipline) %>% 
 	mutate(
-    label = ifelse(school %in% label_school, school, "")
+    label = ifelse(univ_cn %in% label_school, univ_cn, "")
   ) %>%
+	
 	
   ggplot(aes(x = cum_paper, y = cum_cited, fill = is_enter_one_percent)) +
   geom_point(
@@ -388,7 +338,7 @@ univ_discip_summary %>%
     panel.grid.minor = element_blank()
   ) +
   labs(
-  	title = "师范类院校工程学科进入前1%ESI学科",
+  	title = "师范类院校数学学科进入前1%ESI学科",
 	subtitle = "ESI数据库2020年03月26日数据",
     x = "累积发文量(2010-2020)",
     y = "累积引文量(2010-2020)"

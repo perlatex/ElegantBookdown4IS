@@ -18,7 +18,7 @@ ESI 学科分类
 
 
 ```{r, message=FALSE, warning=FALSE}
-ThresholdESI %>% 
+ESI_and_Threshold %>% 
   dplyr::select(category, discipline_mix, Threshold0326) %>% 
   dplyr::rename("学科类型" = category, "学科" = discipline_mix, 
   			  "阈值20200326" = Threshold0326) %>%  
