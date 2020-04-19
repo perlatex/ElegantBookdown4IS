@@ -94,9 +94,15 @@ univ_discip_enter_top_one_percent
 
 
 ```{r}
-univ_discip_cum_last_ten_year
+univ_discip_enter_top_one_percent %>% 
+  filter(discipline_cn == "数学") %>% 
+  arrange(-cites)
 ```
 
+
+```{r}
+univ_discip_cum_last_ten_year
+```
 
 
 

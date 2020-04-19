@@ -53,6 +53,9 @@ ESI_and_Threshold %>%
 - 师范类学校清单(https://www.dxsbb.com/news/1448.html)
 - 选取依据（top30）(川师25名)
 - 省份 中文名  英文名
+```{r}
+Normal_University_Top30
+```
 
 ## 物理学科模型参数
 

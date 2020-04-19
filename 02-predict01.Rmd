@@ -3,16 +3,6 @@
 本章的主要工作是，计算并预测川师未来三年进入双一流学科的概率。
 可能一点意义也没有
 
-```{r}
-univ_discip_cum_last_ten_year %>% 
-  filter(univ_cn == "四川师范大学") %>% 
-  select(univ_cn, discipline_cn, cum_cited, Threshold0326) %>% 
-  mutate(prop = cum_cited/Threshold0326) %>% 
-  arrange(desc(prop)) %>% 
-  mutate(prop = scales::percent(prop, accuracy = 0.01))
-```
-
-
 ## 统计方法
 - 贝叶斯数据分析
 - 模型不好怎么办？
@@ -23,89 +13,41 @@ univ_discip_cum_last_ten_year %>%
 所以与其去建立复杂的模型，并给解释带来更多困扰，不如就从最简单的出发。
 
 ```{r}
-focus <- c("计算机科学", "工程学", "化学", "材料科学")
+focus <- c("Computer Science", "Engineering", "Chemistry", "Materials Science")
 
 d <- univ_discip_timeserial_2000_to_2019 %>% 
 	filter(univ_cn == "四川师范大学") %>% 
-	filter(discipline_cn %in% focus) %>% 
-	select(discipline_cn, year, n_paper, n_cited) %>% 
-	complete(discipline_cn, year) 
-	
+	filter(discipline %in% focus) 
 d
 ```
-
-
 ```{r}
-d %>% 
-	ggplot(aes(x = year, y = n_cited)) +
-	geom_point() +
-	geom_smooth(method = lm, se = FALSE) +
-	facet_wrap(vars(discipline_cn), scales = "free_y")
-	
-	
-```
-
-## 工程学
-```{r}
-d_eng <- d %>%  
-	filter(discipline_cn %in% "工程学") %>% 
-	filter(between(year, 2000, 2019)) 
-d_eng
-```
-
-弥补2012-2013年期间的短板有所下滑，从而导致
-
-```{r}
-d_eng_cum <- d_eng %>% 
+d1 <- d %>% 
+	select(discipline_cn, year, n_paper, n_cited) %>% 
+	complete(discipline_cn, year) %>% 
+    group_by(discipline_cn) %>% 
     mutate(
 	cum_cited = slider::slide_dbl(n_cited, sum, na.rm = TRUE, .before = 9, .step = 1, .complete = TRUE)
 ) %>% 
-	filter(between(year, 2009, 2019))
-
-d_eng_cum
+	ungroup()
+d1
 ```
 
 
 
-```{r}
-d_eng %>% 
-	ggplot(aes(x = year, y = n_cited)) +
-	geom_point() +
-	geom_smooth(method = lm, se = FALSE)
 
-d_eng_cum %>% 
+```{r}
+d1 %>% 
+	filter(!is.na(cum_cited)) %>% 
 	ggplot(aes(x = year, y = cum_cited)) +
 	geom_point() +
-	geom_smooth(method = lm, se = FALSE)
-```
-
-```{r}
-b_eng <- brms::brm(
-    data = d_eng,
-    family = gaussian,
-    n_cited ~ 1 + year,
-    #prior = c(
-    #  prior(normal(178, 100), class = Intercept),
-    #  prior(normal(2.5, 10), class = b),
-    #  prior(uniform(0, 50), class = sigma)
-    #),
-    iter = 41000, warmup = 40000, chains = 4, cores = 4,
-    seed = 1024,
-    control = list(adapt_delta = 0.99, 
-                 max_treedepth = 13),
-    file = "fits/b_eng"
-  )
+	geom_smooth(method = lm, se = FALSE) +
+	facet_wrap(vars(discipline_cn), scales = "free_y") +
+	scale_x_continuous(breaks = seq(2009, 2019, by = 2),
+					   labels = seq(2009, 2019, by = 2)
+					   )
 ```
 
 
-```{r}
-b_eng
-```
-
-
-```{r}
-plot(b_eng)
-```
 
 
 ```{r}
@@ -113,34 +55,31 @@ tb <- tibble(
 	year = c(2020)
 )
 
-# 需要2011-2019九年的累积量
-exist_nine_year_cum_cited <- d_eng %>% 
-	filter(between(year, 2011, 2019)) %>% 
-	summarise(
-		exist_cum_cited = sum(n_cited)
-	) %>% 
-	pull()
-
-exist_nine_year_cum_cited
 ```
 
 
 ```{r}
-post_draw <- tb %>% add_predicted_draws(b_eng)
-post_draw
+d_eng <- d1 %>%  
+	filter(discipline_cn %in% "工程学") %>% 
+	filter(between(year, 2009, 2019)) 
+d_eng
 ```
+弥补2012-2013年期间的短板有所下滑，从而导致
 
 ```{r}
-post_draw <- post_draw %>% 
-	mutate(
-	.prediction = .prediction +  exist_nine_year_cum_cited
-)
-post_draw
+b_eng <- brms::brm(cum_cited ~ year,  data = d_eng)
 ```
-
 
 
 ```{r}
+b_eng
+plot(b_eng)
+```
+
+
+```{r}
+post_draw <- tb %>% add_predicted_draws(b_eng) 
+
 prob_pred <- post_draw %>% 
 	group_by(year) %>% 
 	summarise(
@@ -156,7 +95,8 @@ post_draw %>%
 	stat_halfeyeh() +
 	geom_vline(xintercept = 2843, linetype = "dashed", size = 2,
 			   color = "red") +
-	scale_fill_manual(values = c("gray80", "skyblue"))
+	scale_fill_manual(values = c("gray80", "skyblue")) #+
+#scale_x_continuous(limits = c(150, 200))
 ```
 
 
@@ -166,7 +106,7 @@ post_draw %>%
 		aes(x = year, y = .prediction, fill = stat(y > 2843)) 
 	) +
 	stat_eye(side = "right") +
-	geom_point(data = d_eng_cum, aes(x = year, y = cum_cited)) +
+	geom_point(data = d_eng, aes(x = year, y = cum_cited)) +
 	geom_hline(yintercept = 2843, linetype = "dashed", size = 1,
 			   color = "red") +
 	scale_fill_manual(values = c("gray80", "skyblue")) +
@@ -177,247 +117,39 @@ post_draw %>%
 					   )
 ```
 
-
-
-```{r, fig.asp = 0.618}
-# plot original data and predict data together
-library(ggforce)
-desc <- "高于阈值线的概率"
-
-
-post_draw %>% 
-	ggplot(
-	  aes(x = year, y = .prediction, fill = stat(y > 2843)) 
-	) +
-  stat_eye(side = "right") +
-  geom_point(data = d_eng_cum, aes(x = year, y = cum_cited)) +
-  geom_hline(
-    yintercept = 2843, linetype = "dashed", size = 1,
-    color = "red"
-  ) +
-  scale_fill_manual(values = c("gray80", "skyblue")) +
-  annotate("text",
-    x = 2012, y = 2975,
-    label = "进入ESI前1%学科的阈值线(2020-03-26数据)", size = 4, color = "red"
-  ) +
-  geom_mark_ellipse(aes(
-    x = 2020, y = 3200,
-    label = "贝叶斯预测", description = desc
-  ),
-  # label.family = "Space Mono",
-   label.fontsize = 11,
-   label.colour = c("#CC79A7", "black"),
-   label.fill = NA,
-   label.buffer = unit(0.1, "mm"), # 标签与指定xy点的间距
-   colour = NA,
-   fill = NA
-  ) +
-  geom_text(data = prob_pred, aes(
-    x = year + 0.5,
-    y = pred_mean,
-    label = scales::percent(prob_above_line, accuracy = 0.1)
-  )) +
-  scale_y_continuous(
-  	limits = c(600,NA),
-  	expand = expansion(mult = c(0, NA))
-  	) +
- scale_x_continuous(
- 	breaks = c(seq(2009, 2020, by = 1)),
-	labels = c(seq(2009, 2020, by = 1)),
- 	expand = expansion(mult = c(0.05, 0.1))
- ) + 
-  theme_classic() +
-  theme(legend.position = "none",
-  	  #axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)
-  	  ) +
-  labs(
-    title = "工程学科未来一年进入ESI前1%学科的概率",
-    subtitle = "基于引文量的贝叶斯预测",
-    x = "时间（年）",
-    y = "前十年累积引文量"
-  )
-```
-
-
-
-
-## 化学
-```{r}
-d_chem <- d %>%  
-	filter(discipline_cn %in% "化学") %>% 
-	filter(between(year, 2000, 2019)) 
-d_chem
-```
-
-
-
-```{r}
-d_chem_cum <- d_chem %>% 
-    mutate(
-	cum_cited = slider::slide_dbl(n_cited, sum, na.rm = TRUE, .before = 9, .step = 1, .complete = TRUE)
-) %>% 
-	filter(between(year, 2009, 2019))
-
-d_chem_cum
-```
-
-
-
-```{r}
-d_chem %>% 
-	ggplot(aes(x = year, y = n_cited)) +
-	geom_point() +
-	geom_smooth(method = lm, se = FALSE)
-
-d_chem_cum %>% 
-	ggplot(aes(x = year, y = cum_cited)) +
-	geom_point() +
-	geom_smooth(method = lm, se = FALSE)
-```
-
-```{r}
-b_chem <- brms::brm(
-    data = d_chem,
-    family = gaussian,
-    n_cited ~ 1 + year,
-    #prior = c(
-    #  prior(normal(178, 100), class = Intercept),
-    #  prior(normal(2.5, 10), class = b),
-    #  prior(uniform(0, 50), class = sigma)
-    #),
-    iter = 41000, warmup = 40000, chains = 4, cores = 4,
-    seed = 1024,
-    control = list(adapt_delta = 0.99, 
-                 max_treedepth = 13),
-    file = "fits/b_chem"
-  )
-```
-
-
-```{r}
-b_chem
-```
-
-
-```{r}
-plot(b_chem)
-```
-
-
-```{r}
-tb <- tibble(
-	year = c(2020)
-)
-
-# 需要2011-2019九年的累积量
-exist_nine_year_cum_cited <- d_chem %>% 
-	filter(between(year, 2011, 2019)) %>% 
-	summarise(
-		exist_cum_cited = sum(n_cited)
-	) %>% 
-	pull()
-
-exist_nine_year_cum_cited
-```
-
-
-```{r}
-post_draw <- tb %>% add_predicted_draws(b_chem)
-post_draw
-```
-
-```{r}
-post_draw <- post_draw %>% 
-	mutate(
-	.prediction = .prediction +  exist_nine_year_cum_cited
-)
-post_draw
-```
-
-
-
-```{r}
-prob_pred <- post_draw %>% 
-	group_by(year) %>% 
-	summarise(
-		pred_mean = mean(.prediction),
-		prob_above_line = mean(.prediction >= 8502)
-	)
-prob_pred
-```
-
-
-
-
-
-```{r, fig.asp = 0.618}
-# plot original data and predict data together
-library(ggforce)
-desc <- "高于阈值线的概率"
-
-
-post_draw %>% 
-	ggplot(
-	  aes(x = year, y = .prediction, fill = stat(y > 8502)) 
-	) +
-  stat_eye(side = "right") +
-  geom_point(data = d_chem_cum, aes(x = year, y = cum_cited)) +
-  geom_hline(
-    yintercept = 8502, linetype = "dashed", size = 1,
-    color = "red"
-  ) +
-  scale_fill_manual(values = c("gray80", "skyblue")) +
-  annotate("text",
-    x = 2013, y = 8200,
-    label = "进入ESI前1%学科的阈值线(2020-03-26数据)", size = 4, color = "red"
-  ) +
-  geom_mark_ellipse(aes(
-    x = 2020, y = 6000,
-    label = "贝叶斯预测", description = desc
-  ),
-  # label.family = "Space Mono",
-   label.fontsize = 11,
-   label.colour = c("#CC79A7", "black"),
-   label.fill = NA,
-   label.buffer = unit(0.1, "mm"), # 标签与指定xy点的间距
-   colour = NA,
-   fill = NA
-  ) +
-  geom_text(data = prob_pred, aes(
-    x = year + 0.5,
-    y = pred_mean,
-    label = scales::percent(prob_above_line)
-  )) +
-  scale_y_continuous(
-  	limits = c(1800,10000),
-  	expand = expansion(mult = c(0, NA))
-  	) +
- scale_x_continuous(
- 	breaks = c(seq(2009, 2020, by = 1)),
-	labels = c(seq(2009, 2020, by = 1)),
- 	expand = expansion(mult = c(0.05, 0.1))
- ) + 
-  theme_classic() +
-  theme(legend.position = "none",
-  	  #axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)
-  	  ) +
-  labs(
-    title = "化学学科未来一年进入ESI前1%学科的概率",
-    subtitle = "基于引文量的贝叶斯预测",
-    x = "时间（年）",
-    y = "前十年累积引文量"
-  )
-```
-
-
-
-
-
 ## 数学学科
 
 ## 物理学科
 
 ### 数据
+
+
+```{r}
+set.seed(1024)
+N <- 20
+sigma <- 5
+x <- c(2000:2019)
+y <- rnorm(N, -2000 + 2.5 * x, sigma)
+
+d2 <- 
+  tibble::tibble(
+  year = x,
+  n_cited = y
+)
+
+d2 %>% 
+  ggplot(aes(x = year, y = n_cited)) +
+  geom_point()
+```
+
+
+```{r}
+# predict future three years
+tb <- tibble(
+	year = c(2020, 2021, 2022)
+)
+```
+
 
 
 ### 先验概率
@@ -461,6 +193,141 @@ tibble(x = seq(from = -10, to = 60, by = .1)) %>%
 
 
 
+```{r}
+b4.3 <-
+  brm(
+    data = d2,
+    family = gaussian,
+    n_cited ~ 1 + year,
+    #prior = c(
+    #  prior(normal(178, 100), class = Intercept),
+    #  prior(normal(2.5, 10), class = b),
+    #  prior(uniform(0, 50), class = sigma)
+    #),
+    iter = 41000, warmup = 40000, chains = 4, cores = 4,
+    seed = 1024,
+    control = list(adapt_delta = 0.99, 
+                 max_treedepth = 13),
+    file = "fits/b04.03"
+  )
+```
+
+
+```{r, eval=FALSE}
+plot(b4.3)
+```
+
+
+```{r}
+summary(b4.3)
+```
+
+
+```{r, eval=FALSE}
+#b4.3$prior
+prior_summary(b4.3)
+```
+
+
+
+```{r, eval=FALSE}
+brms::posterior_summary(b4.3)
+brms::posterior_summary(b4.3) %>%
+  as.data.frame() %>%
+  rownames_to_column()
+
+brms::posterior_samples(b4.3) %>% as_tibble()
+brms::posterior_samples(b4.3, add_chain = T) %>% as_tibble()
+
+# same as
+tidybayes::get_variables(b4.3)
+tidybayes::spread_draws(b4.3, b_Intercept, b_weight, sigma, lp__)
+```
+
+
+
+
+
+
+```{r}
+# 这里的add_predicted_draws  = predict() + as_tibble() + pivot_longer()
+post_draw <- tb %>% tidybayes::add_predicted_draws(b4.3)
+post_draw
+```
+
+
+```{r}
+prob_pred <- post_draw %>%
+  group_by(year) %>%
+  summarise(
+    pred_mean = mean(.prediction),
+    prob_above_line = mean(.prediction >= 3040)
+  )
+prob_pred
+```
+
+
+
+
+
+
+```{r, fig.asp = 0.618}
+# plot original data and predict data together
+library(ggforce)
+desc <- "未来三年进入双一流学科的概率"
+
+
+post_draw %>% 
+	ggplot(
+		aes(x = year, y = .prediction, fill = stat(y > 3040)) 
+	) +
+  stat_eye(side = "right") +
+  geom_point(data = d2, aes(x = year, y = n_cited)) +
+  geom_hline(
+    yintercept = 3040, linetype = "dashed", size = 1,
+    color = "red"
+  ) +
+  scale_fill_manual(values = c("gray80", "skyblue")) +
+  annotate("text",
+    x = 2004, y = 3040 + 3,
+    label = "进入双一流学科的阈值线", size = 4, color = "red"
+  ) +
+  geom_mark_ellipse(aes(
+    x = 2020, y = 3060,
+    label = "贝叶斯预测", description = desc
+  ),
+  # label.family = "Space Mono",
+   label.fontsize = 11,
+   label.colour = c("#CC79A7", "black"),
+   label.fill = NA,
+   label.buffer = unit(0.1, "mm"), # 标签与指定xy点的间距
+   colour = NA,
+   fill = NA
+  ) +
+  geom_text(data = prob_pred, aes(
+    x = year,
+    y = pred_mean,
+    label = scales::percent(prob_above_line)
+  )) +
+  scale_y_continuous(
+  	expand = expansion(mult = c(0, NA))
+  	) +
+ scale_x_continuous(
+ 	breaks = c(2000:2022),
+ 	labels = c(2000:2022),
+ 	expand = expansion(mult = c(0.05, 0.1))
+ ) + 
+  theme_classic() +
+  theme(legend.position = "none",
+  	  axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)
+  	  ) +
+  labs(
+    title = "物理学科未来三年进入双一流学科的概率",
+    subtitle = "基于引文量的贝叶斯预测",
+    x = "时间（年）",
+    y = "被引量"
+  )
+```
 
 
 
