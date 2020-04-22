@@ -80,32 +80,41 @@ d_eng_cum %>%
 ```
 
 ```{r}
-b_eng <- brms::brm(
+brms_eng <- brms::brm(
     data = d_eng,
     family = gaussian,
-    n_cited ~ 1 + year,
+    n_cited | trunc(lb = 0) ~ 1 + year,
+    set_prior("normal(22, 10)", lb = 0, class = "b"),
     #prior = c(
-    #  prior(normal(178, 100), class = Intercept),
-    #  prior(normal(2.5, 10), class = b),
+     # prior(normal(20, 100),  class = Intercept),
+    #  prior(normal(22, 100), class = b)
     #  prior(uniform(0, 50), class = sigma)
-    #),
-    iter = 41000, warmup = 40000, chains = 4, cores = 4,
+   # ),
+    iter = 4000, warmup = 2000, chains = 4, cores = 4,
     seed = 1024,
     control = list(adapt_delta = 0.99, 
-                 max_treedepth = 13),
+                   max_treedepth = 13),
     file = "fits/b_eng"
   )
 ```
 
 
 ```{r}
-b_eng
+brms_eng
 ```
 
 
 ```{r}
-plot(b_eng)
+plot(brms_eng)
 ```
+```{r}
+brms_eng %>% posterior_summary()
+```
+
+```{r}
+pp_check(brms_eng)
+```
+
 
 
 ```{r}
@@ -126,9 +135,16 @@ exist_nine_year_cum_cited
 
 
 ```{r}
-post_draw <- tb %>% add_predicted_draws(b_eng)
+post_draw <- tb %>% add_predicted_draws(brms_eng)
 post_draw
 ```
+```{r}
+post_draw %>% 
+	ggplot(aes(x = .prediction, y = year)) +
+    stat_halfeyeh()
+```
+
+
 
 ```{r}
 post_draw <- post_draw %>% 
@@ -138,6 +154,10 @@ post_draw <- post_draw %>%
 post_draw
 ```
 
+```{r}
+post_draw %>% tidybayes::mode_hdi()
+post_draw %>% tidybayes::mean_qi()
+```
 
 
 ```{r}
@@ -276,16 +296,16 @@ d_chem_cum %>%
 ```
 
 ```{r}
-b_chem <- brms::brm(
+brms_chem <- brms::brm(
     data = d_chem,
     family = gaussian,
-    n_cited ~ 1 + year,
+    n_cited | trunc(lb = 0) ~ 1 + year,
     #prior = c(
     #  prior(normal(178, 100), class = Intercept),
     #  prior(normal(2.5, 10), class = b),
     #  prior(uniform(0, 50), class = sigma)
     #),
-    iter = 41000, warmup = 40000, chains = 4, cores = 4,
+    iter = 4000, warmup = 2000, chains = 4, cores = 4,
     seed = 1024,
     control = list(adapt_delta = 0.99, 
                  max_treedepth = 13),
@@ -295,14 +315,20 @@ b_chem <- brms::brm(
 
 
 ```{r}
-b_chem
+brms_chem
 ```
 
 
 ```{r}
-plot(b_chem)
+plot(brms_chem)
+```
+```{r}
+brms_chem %>% posterior_summary()
 ```
 
+```{r}
+pp_check(brms_chem)
+```
 
 ```{r}
 tb <- tibble(
@@ -322,8 +348,13 @@ exist_nine_year_cum_cited
 
 
 ```{r}
-post_draw <- tb %>% add_predicted_draws(b_chem)
+post_draw <- tb %>% add_predicted_draws(brms_chem)
 post_draw
+```
+```{r}
+post_draw %>% 
+	ggplot(aes(x = .prediction, y = year)) +
+    stat_halfeyeh()
 ```
 
 ```{r}
@@ -347,7 +378,8 @@ prob_pred
 ```
 
 
-
+8502-4697 还差3805，预测1000
+即使三月份累积了5545，但2010年848是一大托
 
 
 ```{r, fig.asp = 0.618}

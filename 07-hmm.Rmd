@@ -73,6 +73,10 @@ Our univariable model has three priors: does not use `$$`
 
 
 ### 后验分布
+```{r}
+plot(brms_eng)
+```
+
 ```{r, out.width= "85%"}
 stan_hist(fit, pars = c("alpha", "beta"))
 ```
@@ -85,11 +89,10 @@ stan_trace(fit)
 ### 预测值的置信区间
 
 ```{r}
-post_draw2 %>% 
-	ggplot(aes(x = new_y, y = factor(year), fill = stat(x > 3040))) +
+post_draw %>% 
+	ggplot(aes(x = .prediction, y = factor(year), fill = stat(x > 2843))) +
 	stat_halfeyeh() +
-	geom_vline(xintercept = 3040, linetype = "dashed", size = 2,
+	geom_vline(xintercept = 2843, linetype = "dashed", size = 2,
 			   color = "red") +
-	scale_fill_manual(values = c("gray80", "skyblue")) 
+	scale_fill_manual(values = c("gray80", "skyblue"))
 ```
-
