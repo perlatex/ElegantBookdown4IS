@@ -1,7 +1,15 @@
 # 川师大数据 {#bigdata}
 
 
-```{r}
+横向比较top30所师范类高校的学科发展情况
+
+- 全景大图
+高亮的（包括川师在内的四个学校）类似R4DS中的eda_covid2019
+吸取[Kieran Healy大神的配色方案](https://github.com/kjhealy/covid) 
+
+
+
+```{r, eval=FALSE}
 univ_discip_timeserial_2010_to_2019
 ```
 
@@ -21,8 +29,6 @@ d
 ## 全景对比
 
 ```{r}
-# without gghighlight
-
 highlight_school <- c("北京师范大学", "四川师范大学")
 
 d1 <- d %>%
@@ -96,33 +102,15 @@ d1 %>%
 
 
 
-横向比较top30所师范类高校的学科发展情况
+## 师范类院校进入百分之一ESI学科的数量
 
-- 全景大图
-高亮的（包括川师在内的四个学校）类似R4DS中的eda_covid2019
-吸取[Kieran Healy大神的配色方案](https://github.com/kjhealy/covid) 
-
-- 学科小图
-
-
-
-
-## 进入百分之一的
-
-https://www.hznu.edu.cn/c/2020-03-14/2338324.shtml
-```{r}
+```{r, eval=FALSE}
 univ_discip_enter_top_one_percent %>% 
 	count(univ_cn) %>% 
 	arrange(desc(n))
-
 ```
 
-```{r}
-univ_discip_enter_top_one_percent %>% 
-	add_count(discipline_cn, name = "discip_occur_num") %>% 
-	add_count(univ_cn, name = "univ_occur_num") %>% 
-	mutate(univ_cn = glue::glue("{univ_cn}({univ_occur_num})")) 
-```
+
 
 
 ```{r, fig.height = 6, fig.width = 8}
@@ -142,19 +130,61 @@ univ_discip_enter_top_one_percent %>%
    ggtitle("师范大学进入情况", subtitle = '（数据来源 ESI）') 
 	
 ```
-
-
-
-
-## one in percent
 ```{r}
-focus_discipline <- c("工程学")
+is_enter <- univ_discip_enter_top_one_percent %>% 
+	select(univ_cn, discipline_cn, is_enter_one_percent)
 
-univ_discip_cum_last_ten_year %>% 
-	filter(discipline_cn %in% focus_discipline) %>% 
-	arrange(-cum_cited)
-
+dc <- crossing(univ_cn = Normal_University_Top30$school, 
+		 discipline_cn = ESI_and_Threshold$discipline_cn) 
+dcc <- dc %>% 
+	left_join(is_enter, by = c("univ_cn", "discipline_cn")) %>% 
+	mutate(is_enter_one_percent = if_else(is.na(is_enter_one_percent), FALSE, TRUE))
+dcc
 ```
+
+
+
+```{r, fig.asp=0.8}
+dcc %>% 
+	group_by(univ_cn) %>% 
+	mutate(univ_occur_num = sum(is_enter_one_percent)) %>% 
+	ungroup() %>% 
+	group_by(discipline_cn) %>% 
+	mutate(discip_occur_num = sum(is_enter_one_percent)) %>% 
+	ungroup() %>% 
+	
+	
+	mutate(univ_cn = glue::glue("{univ_cn}({univ_occur_num})") ) %>% 
+	select(discipline_cn, univ_cn, is_enter_one_percent,
+		   discip_occur_num, univ_occur_num) %>% 
+
+	ggplot(aes(x = fct_reorder2(discipline_cn, univ_occur_num, discip_occur_num), 
+			   y = fct_reorder2(univ_cn, discip_occur_num, univ_occur_num))
+		   ) +
+	geom_point(color = "gray75") +
+	geom_point(data = . %>% filter(is_enter_one_percent),
+			   color = "red",
+			   size = 3,
+			   stroke = 1.2
+			   ) +
+	theme(legend.position = "none",
+	      axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
+	labs(x = NULL, y = NULL,
+         title = "Top30师范大学进入1%ESI学科情况", 
+    	  subtitle = 'ESI数据库2020年03月26日数据'
+    	) 
+```
+
+
+
+
+
+
+
+## 师范类院校各学科进入百分之一ESI学科的情况
+
+### 工程学
+
 
 ```{r}
 focus_discipline <- c("工程学")
@@ -184,7 +214,7 @@ univ_discip_cum_last_ten_year %>%
     min.segment.length = 0
   ) +
  geom_hline(aes(yintercept = Threshold0326)) +
- annotate("text", x = 1250, y = 3200, 
+ annotate("text", x = 1250, y = 3400, 
 			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
   theme_minimal(14) +
   theme(
@@ -208,7 +238,7 @@ univ_discip_cum_last_ten_year %>%
 
 
 
-## 化学
+### 化学
 ```{r}
 focus_discipline <- c("化学")
 label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
@@ -226,8 +256,7 @@ univ_discip_cum_last_ten_year %>%
     size = 3.5,
     alpha = .9,
     shape = 21,
-    col = "white"#,
-    #fill = "#0162B2"
+    col = "white"
   ) +
   geom_text_repel(
     aes(label = label),
@@ -238,7 +267,7 @@ univ_discip_cum_last_ten_year %>%
     min.segment.length = 0
   ) +
  geom_hline(aes(yintercept = Threshold0326)) +
- annotate("text", x = 3500, y = 12000, 
+ annotate("text", x = 3500, y = 11500, 
 			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
   theme_minimal(14) +
   theme(
@@ -254,7 +283,7 @@ univ_discip_cum_last_ten_year %>%
 	
 ```
 
-## 物理
+### 物理学
 ```{r}
 focus_discipline <- c("物理学")
 label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
@@ -272,8 +301,7 @@ univ_discip_cum_last_ten_year %>%
     size = 3.5,
     alpha = .9,
     shape = 21,
-    col = "white"#,
-    #fill = "#0162B2"
+    col = "white"
   ) +
   geom_text_repel(
     aes(label = label),
@@ -300,7 +328,9 @@ univ_discip_cum_last_ten_year %>%
 	
 ```
 
-## 数学
+
+
+### 数学
 ```{r}
 focus_discipline <- c("数学")
 label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
@@ -318,8 +348,7 @@ univ_discip_cum_last_ten_year %>%
     size = 3.5,
     alpha = .9,
     shape = 21,
-    col = "white"#,
-    #fill = "#0162B2"
+    col = "white"
   ) +
   geom_text_repel(
     aes(label = label),
@@ -330,7 +359,7 @@ univ_discip_cum_last_ten_year %>%
     min.segment.length = 0
   ) +
  geom_hline(aes(yintercept = Threshold0326)) +
- annotate("text", x = 300, y = 5300, 
+ annotate("text", x = 300, y = 5200, 
 			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
   theme_minimal(14) +
   theme(
@@ -345,22 +374,5 @@ univ_discip_cum_last_ten_year %>%
   )
 	
 ```
-## 学科对比
 
-分面各校，高亮川师  
 
-现在我们可以试试 **bookdown** 的一些初级功能了，例如图表。图 \@ref(fig:hello) 是一幅无趣的散点图，表 \@ref(tab:iris) 是一份枯燥的数据。
-
-```{r hello, fig.cap='雷猴啊，散点图！', out.width='90%'}
-par(mar = c(4, 4, 1, .1))
-plot(cars, pch = 19)
-```
-
-```{r iris}
-knitr::kable(
-  head(iris), caption = '雷猴啊，iris 数据！',
-  booktabs = TRUE
-)
-```
-
-就这样，你可以一直编下去，直到编不下去。

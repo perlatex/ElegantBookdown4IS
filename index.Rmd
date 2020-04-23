@@ -66,41 +66,41 @@ showtext_auto()
 load("data/myData.Rdata")
 ```
 
-```{r}
+```{r, eval=FALSE}
 Normal_University_Top30
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 ESI_and_Threshold
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 univ_discip_timeserial_2000_to_2019 
 ```
 
 
 
-```{r}
+```{r, eval=FALSE}
 univ_discip_timeserial_2010_to_2019
 ```
 
 
 
-```{r}
+```{r, eval=FALSE}
 univ_discip_enter_top_one_percent
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 univ_discip_enter_top_one_percent %>% 
   filter(discipline_cn == "数学") %>% 
   arrange(-cites)
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 univ_discip_cum_last_ten_year
 ```
 
@@ -108,7 +108,7 @@ univ_discip_cum_last_ten_year
 
 
 
-```{r}
+```{r, eval=FALSE}
 source("./scripts/theme_mystyle.R")
 ```
 
@@ -130,9 +130,9 @@ source("./scripts/theme_mystyle.R")
 
 ## 关于本文档 {-}
 
-本报告使用R和stan语言完成，数据和代码存放在GitHub仓库<https://github.com/perlatex/ElegantBookdown4IS>，欢迎批评指正。
+本报告使用R和Stan语言完成，数据和代码存放在GitHub仓库<https://github.com/perlatex/ElegantBookdown4IS>，欢迎批评指正。
 
 ## 感谢 {-}
 
-感谢彭凤老师在图书购买上提供的帮助，感谢同学协助完成数据收集和整理工作，感谢黄湘云老师帮忙检查了Stan代码。
+感谢彭凤老师在图书购买上提供的帮助，感谢生命科学学院研究生李晨阳同学协助完成数据收集和整理工作，感谢黄湘云老师帮忙检查了Stan代码。
 

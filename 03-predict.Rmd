@@ -1,0 +1,278 @@
+# 学科预测 {#predict}
+ 
+本章的主要工作是，计算并预测川师未来三年进入双一流学科的概率。
+可能一点意义也没有
+
+
+
+
+
+
+## 统计方法
+- 贝叶斯数据分析
+
+::: sidebar
+关于模型，学科的发展和很多方面都有关系，因此建立一个完全正确的模型是不可能的。正如英国统计学家George E. P. Box所说 "All models are wrong, but some are useful."， 因此我们的模型是错误的，也可能没什么用，但我们依然坚持呈现出来，用我们质朴的方式为我校的发展呐喊助威。
+::: 
+
+
+
+
+```{r}
+focus <- c("计算机科学", "工程学", "化学", "材料科学")
+
+d <- univ_discip_timeserial_2000_to_2019 %>% 
+	filter(univ_cn == "四川师范大学") %>% 
+	filter(discipline_cn %in% focus) %>% 
+	select(discipline_cn, year, n_paper, n_cited) %>% 
+	complete(discipline_cn, year) 
+	
+#d
+```
+
+
+```{r, eval=FALSE}
+d %>% 
+	ggplot(aes(x = year, y = n_cited)) +
+	geom_point() +
+	geom_smooth(method = lm, se = FALSE) +
+	facet_wrap(vars(discipline_cn), scales = "free_y")
+	
+```
+
+
+
+## 工程学
+
+```{r}
+d_eng <- d %>%  
+	filter(discipline_cn %in% "工程学") %>% 
+	filter(between(year, 2000, 2019)) 
+#d_eng
+```
+
+弥补2012-2013年期间的短板有所下滑，从而导致
+
+```{r}
+d_eng_cum <- d_eng %>% 
+    mutate(
+	cum_cited = slider::slide_dbl(n_cited, sum, na.rm = TRUE, .before = 9, .step = 1, .complete = TRUE)
+) %>% 
+	filter(between(year, 2009, 2019))
+
+#d_eng_cum
+```
+
+
+
+```{r, eval=FALSE}
+d_eng %>% 
+	ggplot(aes(x = year, y = n_cited)) +
+	geom_point() +
+	geom_smooth(method = lm, se = FALSE)
+
+d_eng_cum %>% 
+	ggplot(aes(x = year, y = cum_cited)) +
+	geom_point() +
+	geom_smooth(method = lm, se = FALSE)
+```
+
+
+
+```{r}
+brms_eng <- brms::brm(
+    data = d_eng,
+    family = gaussian,
+    n_cited | trunc(lb = 0) ~ 1 + year,
+    set_prior("normal(22, 10)", lb = 0, class = "b"),
+    #prior = c(
+     # prior(normal(20, 100),  class = Intercept),
+    #  prior(normal(22, 100), class = b)
+    #  prior(uniform(0, 50), class = sigma)
+   # ),
+    iter = 4000, warmup = 2000, chains = 4, cores = 4,
+    seed = 1024,
+    control = list(adapt_delta = 0.99, 
+                   max_treedepth = 13),
+    file = "fits/b_eng"
+  )
+```
+
+
+```{r, eval=FALSE}
+brms_eng
+```
+
+
+```{r, eval=FALSE}
+plot(brms_eng)
+```
+
+```{r}
+brms_eng %>% posterior_summary()
+```
+
+
+```{r, eval=FALSE}
+pp_check(brms_eng)
+```
+
+
+
+```{r}
+tb <- tibble(
+	year = c(2020)
+)
+
+# 需要2011-2019九年的累积量
+exist_nine_year_cum_cited <- d_eng %>% 
+	filter(between(year, 2011, 2019)) %>% 
+	summarise(
+		exist_cum_cited = sum(n_cited)
+	) %>% 
+	pull()
+
+#exist_nine_year_cum_cited
+```
+
+
+```{r}
+post_draw <- tb %>% add_predicted_draws(brms_eng)
+#post_draw
+```
+
+
+```{r}
+post_draw %>% 
+	ggplot(aes(x = .prediction, y = year)) +
+    stat_halfeyeh()
+```
+
+
+
+```{r}
+post_draw <- post_draw %>% 
+	mutate(
+	.prediction = .prediction +  exist_nine_year_cum_cited
+)
+#post_draw
+```
+
+```{r}
+#post_draw %>% tidybayes::mode_hdi()
+post_draw %>% tidybayes::mean_qi()
+```
+
+
+
+```{r}
+post_draw %>% 
+	ggplot(aes(x = .prediction, y = factor(year), fill = stat(x > 2843))) +
+	stat_halfeyeh() +
+	geom_vline(xintercept = 2843, linetype = "dashed", size = 2,
+			   color = "red") +
+	scale_fill_manual(values = c("gray80", "skyblue"))
+```
+
+
+
+
+```{r}
+post_draw %>% 
+	ggplot(
+		aes(x = year, y = .prediction, fill = stat(y > 2843)) 
+	) +
+	stat_eye(side = "right") +
+	geom_point(data = d_eng_cum, aes(x = year, y = cum_cited)) +
+	geom_hline(yintercept = 2843, linetype = "dashed", size = 1,
+			   color = "red") +
+	scale_fill_manual(values = c("gray80", "skyblue")) +
+	annotate("text", x = 2012, y = 3000, 
+			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
+	scale_x_continuous(breaks = c(seq(2009, 2019, by = 2), 2020),
+					   labels = c(seq(2009, 2019, by = 2), 2020)
+					   )
+```
+
+
+
+
+```{r}
+prob_pred <- post_draw %>% 
+	group_by(year) %>% 
+	summarise(
+		pred_mean = mean(.prediction),
+		prob_above_line = mean(.prediction >= 2843)
+	)
+
+prob_pred %>% 
+	gt::gt()
+```
+
+
+
+```{r, fig.width = 6, fig.asp = 0.9}
+# plot original data and predict data together
+library(ggforce)
+desc <- "高于阈值线的概率"
+
+
+post_draw %>% 
+	ggplot(
+	  aes(x = year, y = .prediction, fill = stat(y > 2843)) 
+	) +
+  stat_eye(side = "right") +
+  geom_point(data = d_eng_cum, aes(x = year, y = cum_cited)) +
+  geom_hline(
+    yintercept = 2843, linetype = "dashed", size = 1,
+    color = "red"
+  ) +
+  scale_fill_manual(values = c("gray80", "skyblue")) +
+  annotate("text",
+    x = 2012, y = 2950,
+    label = "进入ESI前1%学科的阈值线(2020-03-26数据)", size = 3.5, color = "red"
+  ) +
+  geom_mark_ellipse(aes(
+    x = 2020, y = 3200,
+    label = "贝叶斯预测", description = desc
+  ),
+  # label.family = "Space Mono",
+   label.fontsize = 11,
+   label.colour = c("#CC79A7", "black"),
+   label.fill = NA,
+   label.buffer = unit(0.1, "mm"), # 标签与指定xy点的间距
+   colour = NA,
+   fill = NA
+  ) +
+  geom_text(data = prob_pred, aes(
+    x = year + 0.7,
+    y = pred_mean,
+    label = scales::percent(prob_above_line, accuracy = 0.1)
+  )) +
+  scale_y_continuous(
+  	limits = c(600,NA),
+  	expand = expansion(mult = c(0, NA))
+  	) +
+ scale_x_continuous(
+ 	breaks = c(seq(2009, 2020, by = 1)),
+	labels = c(seq(2009, 2020, by = 1)),
+ 	expand = expansion(mult = c(0.05, 0.08))
+ ) + 
+  theme_classic() +
+  theme(legend.position = "none",
+  	  #axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)
+  	  ) +
+  labs(
+    title = "工程学科未来一年进入ESI前1%学科的概率",
+    subtitle = "基于引文量的贝叶斯预测",
+    x = "时间（年）",
+    y = "前十年累积引文量"
+  )
+```
+
+
+
+
+
+## 其他学科
+如果需要了解其他学科的信息，可联系本文作者^[38552109@qq.com]

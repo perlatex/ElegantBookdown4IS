@@ -54,7 +54,8 @@ ESI_and_Threshold %>%
 - 选取依据（top30）(川师25名)
 - 省份 中文名  英文名
 ```{r}
-Normal_University_Top30
+Normal_University_Top30 %>% 
+	gt::gt()
 ```
 
 ## 物理学科模型参数
@@ -77,14 +78,6 @@ Our univariable model has three priors: does not use `$$`
 plot(brms_eng)
 ```
 
-```{r, out.width= "85%"}
-stan_hist(fit, pars = c("alpha", "beta"))
-```
-
-
-```{r, out.width= "85%"}
-stan_trace(fit)
-```
 
 ### 预测值的置信区间
 
