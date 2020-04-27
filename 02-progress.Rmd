@@ -1,34 +1,49 @@
 # 学科发展 {#progress}
  
-本章的主要工作是，川师学科发展进展
+当前川师在励精图治奋力耕耘，推动学科发展，其中工程学科与阈值线最为接近，达到97.8%。其他各学科的学科发展进展见表 \@ref(tab:iris) 。
 
+## 潜力学科
 
-```{r}
+```{r iris}
 univ_discip_cum_last_ten_year %>% 
   filter(univ_cn == "四川师范大学") %>% 
   select(discipline_cn, cum_cited, Threshold0326) %>% 
   mutate(prop = cum_cited/Threshold0326) %>% 
   arrange(desc(prop)) %>% 
   mutate(prop = scales::percent(prop, accuracy = 0.01)) %>% 
-  gt::gt()
+  dplyr::rename("学科" = discipline_cn, "被引频次" = cum_cited, 
+         "阈值线" = Threshold0326, "接近程度" = prop) %>% 
+  knitr::kable(
+  caption = '四川师范大学进入22ESI学科接近程度',
+  booktabs = TRUE
+)
+  
 ```
 
-## 学科对比
+## 竞争对手
 
-分面各校，高亮川师  
-
-现在我们可以试试 **bookdown** 的一些初级功能了，例如图表。图 \@ref(fig:hello) 是一幅无趣的散点图，表 \@ref(tab:iris) 是一份枯燥的数据。
-
-```{r hello, fig.cap='雷猴啊，散点图！', out.width='90%'}
-par(mar = c(4, 4, 1, .1))
-plot(cars, pch = 19)
+师范院校top30高校工程学进入ESI学科的14所，未进入的16所
+```{r}
+univ_discip_cum_last_ten_year %>% 
+	filter(discipline_cn %in% "工程学")  %>% 
+  count(is_enter_one_percent)
 ```
 
-```{r iris}
-knitr::kable(
-  head(iris), caption = '雷猴啊，iris 数据！',
+
+```{r}
+univ_discip_cum_last_ten_year %>% 
+	filter(discipline_cn %in% "工程学") %>% 
+  filter(is.na(is_enter_one_percent)) %>% 
+  mutate(prop = cum_cited / Threshold0326) %>% 
+  select(univ_cn, cum_paper, cum_cited, Threshold0326, prop) %>% 
+  arrange(desc(prop)) %>% 
+  mutate(prop = scales::percent(prop, accuracy = 0.01)) %>% 
+  
+  dplyr::rename("学校" = univ_cn, "累积论文数" = cum_paper, "被引频次" = cum_cited, 
+         "阈值线" = Threshold0326, "接近程度" = prop) %>% 
+  knitr::kable(
+  caption = '工程学科有可能ESI学科的师范大学',
   booktabs = TRUE
 )
 ```
 
-就这样，你可以一直编下去，直到编不下去。

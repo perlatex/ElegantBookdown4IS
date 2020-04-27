@@ -1,12 +1,10 @@
-# 川师大数据 {#bigdata}
+# 师范院校 {#bigdata}
+
+本章横向比较中国师范类高校Top30的发展情况，以及各学科进入百分之一ESI学科的情况
 
 
-横向比较top30所师范类高校的学科发展情况
 
-- 全景大图
-高亮的（包括川师在内的四个学校）类似R4DS中的eda_covid2019
-吸取[Kieran Healy大神的配色方案](https://github.com/kjhealy/covid) 
-
+## 全景大数据
 
 
 ```{r, eval=FALSE}
@@ -26,7 +24,7 @@ d
 
 
 
-## 全景对比
+
 
 ```{r}
 highlight_school <- c("北京师范大学", "四川师范大学")
@@ -65,7 +63,7 @@ d1 %>%
     group = univ_cn
   )) +
   geom_line(size = 0.8) +
-  geom_point(data = . %>% filter(!is.na(end_label)),
+  geom_point(data = . %>% dplyr::filter(!is.na(end_label)),
   		   aes(fill = end_label),
   		   shape = 21, size = 2, 
   		   color = "white") +
@@ -130,6 +128,8 @@ univ_discip_enter_top_one_percent %>%
    ggtitle("师范大学进入情况", subtitle = '（数据来源 ESI）') 
 	
 ```
+
+
 ```{r}
 is_enter <- univ_discip_enter_top_one_percent %>% 
 	select(univ_cn, discipline_cn, is_enter_one_percent)
@@ -181,10 +181,9 @@ dcc %>%
 
 
 
-## 师范类院校各学科进入百分之一ESI学科的情况
+## 师范类院校各学科发展状态
 
 ### 工程学
-
 
 ```{r}
 focus_discipline <- c("工程学")
@@ -192,9 +191,9 @@ label_school <- c("四川师范大学", "北京师范大学", "南京师范大�
 				  "杭州师范大学", "华南师范大学", "陕西师范大学")
 
 univ_discip_cum_last_ten_year %>% 
-	filter(discipline_cn %in% focus_discipline) %>% 
-	mutate(
-    label = ifelse(univ_cn %in% label_school, univ_cn, "")
+	dplyr::filter(discipline_cn %in% focus_discipline) %>% 
+	dplyr::mutate(
+    label = dplyr::if_else(univ_cn %in% label_school, univ_cn, "")
   ) %>%
 	
   ggplot(aes(x = cum_paper, y = cum_cited, fill = is_enter_one_percent)) +
@@ -216,7 +215,7 @@ univ_discip_cum_last_ten_year %>%
  geom_hline(aes(yintercept = Threshold0326)) +
  annotate("text", x = 1250, y = 3400, 
 			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
-  theme_minimal(14) +
+  theme_minimal() +
   theme(
     legend.position = "none",
     panel.grid.minor = element_blank()
@@ -242,7 +241,8 @@ univ_discip_cum_last_ten_year %>%
 ```{r}
 focus_discipline <- c("化学")
 label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
-				  "杭州师范大学", "华南师范大学", "陕西师范大学")
+				  "杭州师范大学", "华南师范大学", "陕西师范大学",
+				  "华东师范大学")
 
 univ_discip_cum_last_ten_year %>% 
 	filter(discipline_cn %in% focus_discipline) %>% 
@@ -269,7 +269,7 @@ univ_discip_cum_last_ten_year %>%
  geom_hline(aes(yintercept = Threshold0326)) +
  annotate("text", x = 3500, y = 11500, 
 			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
-  theme_minimal(14) +
+  theme_minimal() +
   theme(
     legend.position = "none",
     panel.grid.minor = element_blank()
@@ -287,7 +287,7 @@ univ_discip_cum_last_ten_year %>%
 ```{r}
 focus_discipline <- c("物理学")
 label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
-				  "杭州师范大学", "华南师范大学", "陕西师范大学")
+				  "杭州师范大学", "华南师范大学", "陕西师范大学","华中师范大学")
 
 univ_discip_cum_last_ten_year %>% 
 	filter(discipline_cn %in% focus_discipline) %>% 
@@ -314,7 +314,7 @@ univ_discip_cum_last_ten_year %>%
  geom_hline(aes(yintercept = Threshold0326)) +
  annotate("text", x = 500, y = 23000, 
 			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
-  theme_minimal(14) +
+  theme_minimal() +
   theme(
     legend.position = "none",
     panel.grid.minor = element_blank()
@@ -334,7 +334,7 @@ univ_discip_cum_last_ten_year %>%
 ```{r}
 focus_discipline <- c("数学")
 label_school <- c("四川师范大学", "北京师范大学", "南京师范大学", 
-				  "杭州师范大学", "华南师范大学", "陕西师范大学")
+				  "杭州师范大学", "华南师范大学", "陕西师范大学","曲阜师范大学")
 
 univ_discip_cum_last_ten_year %>% 
 	filter(discipline_cn %in% focus_discipline) %>% 
@@ -361,7 +361,7 @@ univ_discip_cum_last_ten_year %>%
  geom_hline(aes(yintercept = Threshold0326)) +
  annotate("text", x = 300, y = 5200, 
 			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
-  theme_minimal(14) +
+  theme_minimal() +
   theme(
     legend.position = "none",
     panel.grid.minor = element_blank()

@@ -58,16 +58,18 @@ Normal_University_Top30 %>%
 	gt::gt()
 ```
 
-## 物理学科模型参数
+## 工程学科模型参数
 
 ### 先验概率
 
 Our univariable model has three priors: does not use `$$`
 
 \begin{align*}
-\alpha & \sim \text{Normal}(178, 100), \\
-\beta & \sim \text{Normal}(0, 10), \; \text{and} \\
-\sigma & \sim \text{Uniform}(0, 50).
+y & \sim \text{NegBinomial}(\mu, \phi) \\
+\log(\mu) & = \alpha + \beta x \\
+\alpha & \sim \text{Normal}(0, 100) \\
+\beta & \sim \text{Normal}(0, 10)  \\
+\phi & \sim \text{HalfCauchy}(0, 2.5)
 \end{align*}
 
 
@@ -79,7 +81,7 @@ plot(brms_eng)
 ```
 
 
-### 预测值的置信区间
+
 
 ```{r}
 post_draw %>% 
