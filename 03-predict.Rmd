@@ -140,10 +140,11 @@ brms_eng %>% posterior_samples() %>% pull(b_year) %>% min()
 brms_eng %>% posterior_summary()
 ```
 
+模型评估 见附录
 
 ```{r, eval=FALSE}
 #pp_check(brms_eng, nsamples = 300)
-pp_check(brms_eng)
+pp_check(brms_eng, nsamples = 200)
 ```
 
 

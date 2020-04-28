@@ -81,6 +81,9 @@ plot(brms_eng)
 ```
 
 
+```{r}
+pp_check(brms_eng, nsamples = 200)
+```
 
 
 ```{r}
