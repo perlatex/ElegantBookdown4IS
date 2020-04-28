@@ -130,6 +130,12 @@ brms_eng
 plot(brms_eng)
 ```
 
+
+```{r}
+brms_eng %>% posterior_samples() %>% pull(b_year) %>% min()
+```
+
+
 ```{r}
 brms_eng %>% posterior_summary()
 ```
@@ -171,7 +177,7 @@ post_draw %>% tidybayes::mode_hdi(.width = c(0.95, 0.5))
 
 ```{r}
 tab <- post_draw %>% 
-	tidybayes::mode_hdi(.width = c(0.95,0.5)) %>% 
+	tidybayes::mode_hdi(.width = c(0.95, 0.5)) %>% 
 	ungroup() %>% 
 	select(.prediction, .lower, .upper, .width, .interval)
 ```
@@ -183,9 +189,9 @@ library(ggpmisc)
 post_draw %>% 
 	ggplot(aes(x = .prediction, y = year)) +
     stat_halfeyeh(fill = "skyblue", point_interval = mode_hdi, 
+    			  .width = c(0.95, 0.5),
     			  interval_colour = "red", point_colour ="red",
-    			  justification = 0.01,
-    			  .width = c(0.95, 0.5)) +
+    			  justification = 0.01) +
 	coord_cartesian(xlim = c(NA, 2500)) +
 	annotate(x = 300, y = 2020 + 0.1, label = "50%HDI", color = "red",
     		 geom = "text", size = rel(5)) +
@@ -270,6 +276,7 @@ prob_pred %>%
 
 
 
+    			  
 ```{r, fig.width = 6.5, fig.asp = 0.75}
 # plot original data and predict data together
 
@@ -277,7 +284,10 @@ post_draw %>%
 	ggplot(
 	  aes(x = year, y = .prediction, fill = stat(y > 2843)) 
 	) +
-  stat_eye(side = "right", width = 4.5, height = 4.5) +
+  stat_eye(side = "right", 
+  		 point_interval = mode_hdi, .width = c(0.95, 0.5),
+    	 interval_colour = "red", point_colour ="red",
+  		 width = 4.5, height = 4.5) +
   geom_point(data = d_eng_cum, aes(x = year, y = cum_cited)) +
   geom_hline(
     yintercept = 2843, linetype = "dashed", size = 1
@@ -288,13 +298,13 @@ post_draw %>%
     label = "进入ESI前1%学科的阈值线(2020-03-26数据)"
   ) +
   ggforce::geom_mark_ellipse(aes(
-    x = 2020, y = 3500,
-    label = "贝叶斯预测", description = "高于阈值线的概率"
+    x = 2018, y = 3500,
+    label = "贝叶斯预测", description = "高于阈值线的概率\t\t"
   ),
    label.fontsize = 11,
    label.colour = c("#CC79A7", "black"),
    label.fill = NA,
-   label.buffer = unit(1, "mm"), 
+   label.buffer = unit(0.1, "mm"), 
    colour = NA,
    fill = NA
   ) +

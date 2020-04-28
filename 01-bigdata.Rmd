@@ -14,7 +14,7 @@ univ_discip_timeserial_2010_to_2019
 
 ```{r}
 focus_discipline_cn <- c("工程学", "物理学", "数学", "化学", 
-						 "材料科学", "计算机科学")
+						 "材料科学", "计算机科学", "经济与商业", "社会科学总论")
 
 d <- univ_discip_timeserial_2010_to_2019 %>% 
 	filter(	discipline_cn %in% focus_discipline_cn) 
@@ -51,7 +51,7 @@ d1
 
 
 
-```{r, fig.height = 8, fig.width = 6}
+```{r, fig.height = 10, fig.width = 6}
 d1 %>% 
 	mutate(univ_cn = factor(univ_cn) %>% 
 		   	       fct_relevel("北京师范大学", "四川师范大学", after = Inf)
