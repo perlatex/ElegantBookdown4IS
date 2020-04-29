@@ -216,7 +216,7 @@ univ_discip_cum_last_ten_year %>%
   ) +
  geom_hline(aes(yintercept = Threshold0326)) +
  annotate("text", x = 1250, y = 3400, 
-			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
+			 label = "进入ESI前1%学科阈值线", size = 4, color = "red") +
   theme_minimal() +
   theme(
     legend.position = "none",
@@ -270,7 +270,7 @@ univ_discip_cum_last_ten_year %>%
   ) +
  geom_hline(aes(yintercept = Threshold0326)) +
  annotate("text", x = 3500, y = 11500, 
-			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
+			 label = "进入ESI前1%学科阈值线", size = 4, color = "red") +
   theme_minimal() +
   theme(
     legend.position = "none",
@@ -315,7 +315,7 @@ univ_discip_cum_last_ten_year %>%
   ) +
  geom_hline(aes(yintercept = Threshold0326)) +
  annotate("text", x = 500, y = 23000, 
-			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
+			 label = "进入ESI前1%学科阈值线", size = 4, color = "red") +
   theme_minimal() +
   theme(
     legend.position = "none",
@@ -362,7 +362,7 @@ univ_discip_cum_last_ten_year %>%
   ) +
  geom_hline(aes(yintercept = Threshold0326)) +
  annotate("text", x = 300, y = 5200, 
-			 label = "进入双一流学科的阈值线", size = 4, color = "red") +
+			 label = "进入ESI前1%学科阈值线", size = 4, color = "red") +
   theme_minimal() +
   theme(
     legend.position = "none",

@@ -109,7 +109,7 @@ brms_eng <- brms::brm(
     #set_prior("normal(0.1, 2)", lb = 0, class = "b"),
     prior = c(
       prior(normal(0, 100),  class = Intercept),
-      prior(normal(0.1, 2), lb = 0, class = b),
+      prior(normal(0, 2), lb = 0, class = b),
       prior(cauchy(0, 2), class = shape)
     ),
     iter = 4000, warmup = 2000, chains = 4, cores = 4,
