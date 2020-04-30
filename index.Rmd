@@ -108,8 +108,9 @@ univ_discip_cum_last_ten_year
 
 
 
-```{r, eval=FALSE}
+```{r}
 source("./scripts/theme_mystyle.R")
+source("./scripts/predict_prob_above_threshold.R")
 ```
 
 时隔5年，重新做评价，兼顾客观性、科学性和建设性，不是一件容易的事情

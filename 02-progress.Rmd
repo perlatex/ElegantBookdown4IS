@@ -7,11 +7,12 @@
 ```{r iris}
 univ_discip_cum_last_ten_year %>% 
   filter(univ_cn == "四川师范大学") %>% 
-  select(discipline_cn, cum_cited, Threshold0326) %>% 
+  select(discipline_cn, cum_paper, cum_cited, Threshold0326) %>% 
   mutate(prop = cum_cited/Threshold0326) %>% 
   arrange(desc(prop)) %>% 
   mutate(prop = scales::percent(prop, accuracy = 0.01)) %>% 
-  dplyr::rename("学科" = discipline_cn, "被引频次" = cum_cited, 
+  dplyr::select("学科" = discipline_cn, "累积论文数" = cum_paper, 
+                "被引频次" = cum_cited, 
          "阈值线" = Threshold0326, "接近程度" = prop) %>% 
   knitr::kable(
   caption = '四川师范大学进入22ESI学科接近程度',
@@ -39,7 +40,7 @@ univ_discip_cum_last_ten_year %>%
   arrange(desc(prop)) %>% 
   mutate(prop = scales::percent(prop, accuracy = 0.01)) %>% 
   
-  dplyr::rename("学校" = univ_cn, "累积论文数" = cum_paper, "被引频次" = cum_cited, 
+  dplyr::select("学校" = univ_cn, "累积论文数" = cum_paper, "被引频次" = cum_cited, 
          "阈值线" = Threshold0326, "接近程度" = prop) %>% 
   knitr::kable(
   caption = '工程学科有可能ESI学科的师范大学',

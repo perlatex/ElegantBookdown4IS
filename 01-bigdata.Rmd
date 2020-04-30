@@ -18,7 +18,7 @@ focus_discipline_cn <- c("工程学", "物理学", "数学", "化学",
 
 d <- univ_discip_timeserial_2010_to_2019 %>% 
 	filter(	discipline_cn %in% focus_discipline_cn) 
-d
+#d
 ```
 
 
@@ -45,7 +45,7 @@ d1 <- d %>%
     )
   ) %>%
   ungroup()
-d1
+#d1
 ```
 
 
@@ -100,7 +100,7 @@ d1 %>%
 
 
 
-## 师范类院校进入百分之一ESI学科的数量
+## 师范类院校进入前百分之一ESI学科的数量
 
 ```{r, eval=FALSE}
 univ_discip_enter_top_one_percent %>% 
@@ -111,7 +111,7 @@ univ_discip_enter_top_one_percent %>%
 
 
 
-```{r, fig.height = 6, fig.width = 8}
+```{r, eval = FALSE, fig.height = 6, fig.width = 8}
 univ_discip_enter_top_one_percent %>% 
 	add_count(discipline_cn, name = "discip_occur_num") %>% 
 	add_count(univ_cn, name = "univ_occur_num") %>% 
@@ -181,7 +181,7 @@ dcc %>%
 
 
 
-## 师范类院校各学科发展状态
+## 师范院校各学科发展态势
 
 是否进入（颜色标注）的是最新的，引文和发文量更新是滞后的
 
