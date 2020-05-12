@@ -12,13 +12,14 @@
 
 
 
-一般来说，论文被引频次服从负二项分布（具体分析见附录），我们建立贝叶斯线性模型，并给定参数的先验概率：
+相关研究表明，科研论文被引频次服从负二项分布（具体可见附录），我们建立贝叶斯线性模型，并给定参数的先验概率：
 
 \begin{align*}
-y & \sim \text{NegBinomial}(\mu, \phi) \\
-\log(\mu) & = \alpha + \beta x \\
+y_i & \sim \text{NegBinomial}(\mu_i, \phi) \\
+\log(\mu_i) & = \alpha + \gamma_{j[i]} + \beta x_i \\
 \alpha & \sim \text{Normal}(0, 100) \\
 \beta & \sim \text{Normal}(0, 10)  \\
+\gamma & \sim \text{Normal}(0, 2)  \\
 \phi & \sim \text{HalfCauchy}(0, 2.5)
 \end{align*}
 
@@ -57,7 +58,7 @@ d_eng <- d %>%
 #d_eng
 ```
 
-弥补2012-2013年期间的短板有所下滑，从而导致
+
 
 ```{r}
 d_eng_cum <- d_eng %>% 
@@ -84,7 +85,7 @@ d_eng_cum %>%
 ```
 
 
-```{r prior_dist_halfeyeh}
+```{r prior_dist_halfeyeh, eval=FALSE}
 c(    prior(normal(0, 100),  class = Intercept),
       prior(normal(0.1, 2), lb = 0, class = b),
       prior(cauchy(0, 2), class = shape)
@@ -105,7 +106,7 @@ c(    prior(normal(0, 100),  class = Intercept),
 brms_eng <- brms::brm(
     data = d_eng,
     family = "negbinomial",
-    n_cited ~ 1 + year,
+    n_cited ~ 1 + year + (1 || year),
     #set_prior("normal(0.1, 2)", lb = 0, class = "b"),
     prior = c(
       prior(normal(0, 100),  class = Intercept),
@@ -116,7 +117,7 @@ brms_eng <- brms::brm(
     seed = 1024,
     control = list(adapt_delta = 0.99, 
                    max_treedepth = 13),
-    file = "fits/b_eng"
+    file = "fits/b_eng2"
   )
 ```
 
@@ -131,16 +132,16 @@ plot(brms_eng)
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 brms_eng %>% posterior_samples() %>% pull(b_year) %>% min()
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 brms_eng %>% posterior_summary()
 ```
 
-模型评估 见附录
+
 
 ```{r, eval=FALSE}
 #pp_check(brms_eng, nsamples = 300)
@@ -167,11 +168,11 @@ exist_nine_year_cum_cited <- d_eng %>%
 
 
 ```{r}
-post_draw <- tb %>% add_predicted_draws(brms_eng)
-post_draw
+post_draw <- tb %>% add_predicted_draws(brms_eng, allow_new_levels = TRUE)
+#post_draw
 ```
 
-### 预测值的可信赖区间
+<!-- ### 预测值的可信赖区间 -->
 ```{r,eval=FALSE}
 post_draw %>% tidybayes::mode_hdi(.width = c(0.95, 0.5))
 ```
@@ -184,7 +185,7 @@ tab <- post_draw %>%
 ```
 
 
-
+根据模型计算，我们预测了工程学科2020年的科研产出量的估计值282，以及50%的可信赖区间(107, 417)，模型评估见附录。
 ```{r, fig.asp=0.618, fig.width= 6}
 library(ggpmisc)
 post_draw %>% 
@@ -256,8 +257,8 @@ post_draw %>%
 
 
 
-
-```{r}
+因此，四川师范大学近十年的累计科研影响力估计值以及分位数区间见下表\@ref(tab:tabestimate) ，在阈值线变化不大或者不变的前提下，2020年进入ESI前百分之一学科的概率将为79.0%
+```{r tabestimate}
 prob_pred <- post_draw %>% 
 	group_by(year) %>% 
 	summarise(
@@ -272,7 +273,12 @@ prob_pred %>%
 	mutate(pred_mean = round(pred_mean, 0),
 		   quantile2.5 = round(quantile2.5, 0),
 		   quantile97.5 = round(quantile97.5, 0)) %>% 
- mutate(prob_above_line = scales::percent(prob_above_line, accuracy = 0.1)) 
+ mutate(prob_above_line = scales::percent(prob_above_line, accuracy = 0.1)) %>% 
+ knitr::kable(
+  caption = '四川师范大学工程学累计科研影响力估计值以及2020年进入ESI前百分之一学科的概率',
+  booktabs = TRUE
+ ) %>% 
+  kable_styling(latex_options = "hold_position")
 ```
 
 
@@ -336,15 +342,15 @@ post_draw %>%
 ```
 
 
+
 ## 竞争对手的概率
 
+是否进入ESI前百分之一学科，取决于这个机构近十年累计被引频次，统计的周期是一个滚动的窗口，我们在预测2020年的情况，需要计算2001年-2020年这个时间周期，如果2010年的被引频次很高，而2020年很低，那么十年为窗口的累计量就下滑，因此当前各学校的接近程度高不代表入选的概率也高。这里，我们采用相同的贝叶斯模型，计算竞争对手的工程学科入选概率.
 
-工程学科，竞争对手的入选概率
-
-- 华中师范大学105.84%   ()  2010太高了
-- 四川师范大学 97.82% （79.8%）
-- 重庆师范大学96.83%   (58.4%)
-- 广西师范大学93.60%
+<!-- - 华中师范大学105.84%   ()  2010太高了 -->
+<!-- - 四川师范大学 97.82% （79.8%） -->
+<!-- - 重庆师范大学96.83%   (58.4%) -->
+<!-- - 广西师范大学93.60% -->
 
 ```{r, eval=FALSE}
 focus_discip <- c("工程学")
@@ -360,6 +366,30 @@ dt <- univ_discip_timeserial_2000_to_2019 %>%
 
 
 
+
+```{r, eval=FALSE}
+dt %>%
+  group_split(univ_cn) %>%
+  as.list() %>% 
+  brms::brm_multiple(
+    data = .,
+    family = "negbinomial",
+    n_cited ~ 1 + year + (1 || year),
+    prior = c(
+      prior(normal(0, 100),  class = Intercept),
+      prior(normal(0, 2), lb = 0, class = b),
+      prior(cauchy(0, 2), class = shape)
+    ),
+    iter = 4000, warmup = 2000, chains = 4, cores = 4,
+    seed = 1024, combine = F,
+    control = list(
+      adapt_delta = 0.99,
+      max_treedepth = 13
+    )
+  )
+```
+
+
 ```{r, eval=FALSE}
 dt %>% 
 	group_by(univ_cn) %>% 
@@ -370,17 +400,17 @@ dt %>%
 
 |   | univ_cn     | year | pred_mean | Q2.5       | Q97.5 |   prob_above_line |
 |---|-------------|------|-----------|------------|-------------|-------------|
-| 1 | 广西师范大学 | 2020 | 2694.     | 2012        | 5038.        | 0.256    |
-| 2 | 华中师范大学 | 2020 | 3160.     | 2543        | 4686.        | 0.678    |
-| 3 | 四川师范大学 | 2020 | 3168.     | 2696.       | 4269.        | 0.806    |
-| 4 | 重庆师范大学 | 2020 | 2957.     | 2638        | 3667.        | 0.582    |
+| 1 | 广西师范大学 | 2020 | 2694.     | 2012        | 5038.        | 25.6%    |
+| 2 | 华中师范大学 | 2020 | 3160.     | 2543        | 4686.        | 68.0%    |
+| 3 | 四川师范大学 | 2020 | 3168.     | 2696.       | 4269.        | 79.3%    |
+| 4 | 重庆师范大学 | 2020 | 2957.     | 2638        | 3667.        | 60.5%    |
 
 
-::: note
-我们是以阈值线不变或者变化很小为前提，进行的预测， 事实上，阈值线没两个月就会调整一次，尽管我们进入ESI学科概率比较大，但也不能掉以轻心。
+::: sidebar
+我们是以阈值线不变或者变化很小为前提，进行的预测， 事实上，阈值线每两个月就会调整一次，尽管我们进入ESI学科概率比较大，但也不能掉以轻心。如果需要了解其他学科的预测信息或者对预测模型有不同见解的，非常欢迎与本文作者交流探讨。
 :::
 
 
 
 
-如果需要了解其他学科的预测信息，可联系本文作者^[38552109@qq.com]
+

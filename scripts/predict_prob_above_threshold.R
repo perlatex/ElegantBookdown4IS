@@ -6,11 +6,11 @@ predict_prob_above_threshold <- function(.data) {
   brms_eng <- brms::brm(
     data = d_eng,
     family = "negbinomial",
-    n_cited ~ 1 + year,
+    n_cited ~ 1 + year + (1 || year),
     prior = c(
-      #  prior(normal(0, 100),  class = Intercept),
-      prior(normal(0, 2), lb = 0, class = b) # ,
-      #  prior(cauchy(0, 2), class = shape)
+      prior(normal(0, 100),  class = Intercept),
+      prior(normal(0, 2), lb = 0, class = b),
+      prior(cauchy(0, 2), class = shape)
     ),
     iter = 4000, warmup = 2000, chains = 4, cores = 4,
     seed = 1024,
@@ -30,7 +30,7 @@ predict_prob_above_threshold <- function(.data) {
 
   
   result <- tibble::tibble( year = c(2020)) %>% 
-    tidybayes::add_predicted_draws(brms_eng) %>%
+    tidybayes::add_predicted_draws(brms_eng, allow_new_levels = TRUE) %>%
     mutate(
       .prediction = .prediction + exist_nine_year_cum_cited
     ) %>%

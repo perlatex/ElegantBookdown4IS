@@ -1,7 +1,18 @@
 # 师范院校 {#bigdata}
 
-本章横向比较中国师范类高校Top30的发展情况，以及各学科进入百分之一ESI学科的情况
+本章横向比较了我国师范类高校(Top30)近十年的发展情况，然后统计了各学科进入前百分之一ESI学科的情况。
 
+## 学校列表
+
+<!-- 我国师范类学校[top30列表](https://www.dxsbb.com/news/1448.html) -->
+```{r}
+Normal_University_Top30 %>% 
+ knitr::kable(
+  caption = "我国师范类学校(top30)列表",
+  booktabs = TRUE
+) %>% 
+  kable_styling(latex_options = "hold_position")
+```
 
 
 ## 全景大数据
@@ -90,11 +101,12 @@ d1 %>%
   scale_x_continuous(breaks = c(seq(2000, 2019, by = 4), 2019) ) +
   labs(
     x = NULL, y = NULL,
-    title = "历年发文情况"
+    title = "我国师范类高校科研论文的产出情况"
   ) 
 ```
 
-
+这里我们高亮了**北京师范大学**和**四川师范大学**两所高校的发展曲线， 灰色背景的其他28所高校的发展情况。可见，近几年我国师范类高校科研论文的产出整体上稳步提升，
+符合科学发展规律。但也明显看到，四川师范大学作为西部高校，与东部发达地区的院校还存在一定的距离。
 
 
 
@@ -102,6 +114,7 @@ d1 %>%
 
 ## 师范类院校进入前百分之一ESI学科的数量
 
+这里我们整理了师范类院校进入前百分之一ESI学科的数量。从学校来看，师范类院校有ESI学科的25所，其中最多的是北京师范大学14个学科，华东师范大学12个学科， 南京师范大学8个学科。从入选的学科来看，化学学科、材料学科和工程学入选频次最高。
 ```{r, eval=FALSE}
 univ_discip_enter_top_one_percent %>% 
 	count(univ_cn) %>% 
@@ -125,7 +138,7 @@ univ_discip_enter_top_one_percent %>%
 	theme_classic() +
 	theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
 	labs(x = NULL, y = NULL) +
-   ggtitle("师范大学进入情况", subtitle = '（数据来源 ESI）') 
+   ggtitle("师范类高校入选情况", subtitle = '（数据来源 ESI）') 
 	
 ```
 
@@ -139,7 +152,7 @@ dc <- crossing(univ_cn = Normal_University_Top30$school,
 dcc <- dc %>% 
 	left_join(is_enter, by = c("univ_cn", "discipline_cn")) %>% 
 	mutate(is_enter_one_percent = if_else(is.na(is_enter_one_percent), FALSE, TRUE))
-dcc
+
 ```
 
 
@@ -183,7 +196,7 @@ dcc %>%
 
 ## 师范院校各学科发展态势
 
-是否进入（颜色标注）的是最新的，引文和发文量更新是滞后的
+为跟踪学科发展态势，这里我们考察了各师范类高校在两个维度（累计产出和累计影响力）上的科研表现情况，图中红色标注表示该校已经进入前百分之一ESI学科，灰色表示还没有进入前百分之一ESI学科，由于ESI数据库比SCI数据库滞后两个月，因此图中阈值线附近的点，会有细微的偏差（可以理解为图中的阈值线会有细微的偏差）。
 
 ### 工程学
 
@@ -231,7 +244,7 @@ univ_discip_cum_last_ten_year %>%
 	
 ```
 
-发文量超过杭州师大 ，但引文差一点点
+四川师范大学的科研产出超过杭州师范大学，但科研影响力差一点点，因此杭州师范大学率先进入了前百分之一ESI学科。
 
 
 

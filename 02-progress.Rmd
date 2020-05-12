@@ -1,8 +1,9 @@
 # 学科发展 {#progress}
  
-当前川师在励精图治奋力耕耘，推动学科发展，其中工程学科与阈值线最为接近，达到97.8%。其他各学科的学科发展进展见表 \@ref(tab:iris) 。
-
 ## 潜力学科
+
+当前四川师范大学在励精图治奋力耕耘，推动学科发展，其中**工程学**学科与进入ESI学科的阈值线最为接近，接近程度达到97.8%。其他各学科的发展情况见表 \@ref(tab:iris) 。
+
 
 ```{r iris}
 univ_discip_cum_last_ten_year %>% 
@@ -17,21 +18,24 @@ univ_discip_cum_last_ten_year %>%
   knitr::kable(
   caption = '四川师范大学进入22ESI学科接近程度',
   booktabs = TRUE
-)
+) %>% 
+  kable_styling(latex_options = "hold_position")
   
 ```
 
+
 ## 竞争对手
 
-师范院校top30高校工程学进入ESI学科的14所，未进入的16所
-```{r}
+由表 \@ref(tab:iris)可以看出**工程学**是入选前百分之一ESI学科的 潜力学科，但我们也要意识到，当前师范院校高校中，工程学进入ESI学科的有14所，未进入的16所，表 \@ref(tab:iris2)列出了这未进入的16所高校的工程学科与阈值线的接近程度，可以看到，大学彼此之间竞争还很激烈。
+
+```{r, eval=FALSE}
 univ_discip_cum_last_ten_year %>% 
 	filter(discipline_cn %in% "工程学")  %>% 
   count(is_enter_one_percent)
 ```
 
 
-```{r}
+```{r iris2}
 univ_discip_cum_last_ten_year %>% 
 	filter(discipline_cn %in% "工程学") %>% 
   filter(is.na(is_enter_one_percent)) %>% 
@@ -43,8 +47,9 @@ univ_discip_cum_last_ten_year %>%
   dplyr::select("学校" = univ_cn, "累积论文数" = cum_paper, "被引频次" = cum_cited, 
          "阈值线" = Threshold0326, "接近程度" = prop) %>% 
   knitr::kable(
-  caption = '工程学科有可能ESI学科的师范大学',
+  caption = '工程学科有可能进入ESI学科的师范大学',
   booktabs = TRUE
-)
+) %>% 
+  kable_styling(latex_options = "hold_position")
 ```
 
