@@ -103,6 +103,33 @@ plot(brms_eng)
 ```
 
 
+
+```{r, eval=FALSE}
+fitted_draw <- d_eng %>% add_fitted_draws(brms_eng)
+fitted_draw
+```
+```{r, eval=FALSE}
+fitted_draw %>%
+  group_by(year) %>%
+  summarise(
+    pred_mean = mean(.value, na.rm = T),
+    Q2.5 = quantile(.value, probs = c(0.025)),
+    Q97.5 = quantile(.value, probs = c(0.975))
+  ) %>% 
+  ggplot(aes(x = year)) +
+  geom_pointrange(
+   aes(y = pred_mean,
+       ymin = Q2.5,
+       ymax = Q97.5),
+    color = "red",  shape = 20
+  ) +
+  geom_point(
+    data = d_eng,
+    aes(y = n_cited), color = "black"
+  )
+```
+
+
 ### 后验概率检验
 ```{r}
 pp_check(brms_eng, nsamples = 200)

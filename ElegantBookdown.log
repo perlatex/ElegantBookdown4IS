@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.5.11)  12 MAY 2020 15:20
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.5.11)  18 MAY 2020 16:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1365,7 +1365,7 @@ LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
 Package hyperref Info: Option `pageanchor' set `true' on input line 76.
 
 Package hyperref Warning: The anchor of a bookmark and its parent's must not
-(hyperref)                be the same. Added a new anchor on input line 92.
+(hyperref)                be the same. Added a new anchor on input line 93.
 
 
 Package fontspec Info: Could not resolve font "FangSong/BI" (it probably
@@ -1398,9 +1398,9 @@ Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
 ]
 第\nobreakspace {}1{}\nobreakspace {}章 1.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 10.0pt on input line 139.
+(Font)              scaled to size 10.0pt on input line 140.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 10.0pt on input line 139.
+(Font)              scaled to size 10.0pt on input line 140.
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-14-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-14-1.pdf>
@@ -1410,13 +1410,13 @@ ype pdf)
 Overfull \vbox (33.25189pt too high) has occurred while \output is active []
 
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 8.0pt on input line 187.
+(Font)              scaled to size 8.0pt on input line 188.
 [4]
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-18-1.pdf>
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 12.0pt on input line 205.
+(Font)              scaled to size 12.0pt on input line 206.
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-19-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-19-1.pdf>
@@ -1441,7 +1441,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 ] [9]
 第\nobreakspace {}3{}\nobreakspace {}章 3.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 6.0pt on input line 331.
+(Font)              scaled to size 6.0pt on input line 332.
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-39-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-39-1.pdf>
@@ -1454,7 +1454,7 @@ ype pdf)
 [11] [12]
 附录\nobreakspace {}A A.
 
-Overfull \hbox (6.75562pt too wide) in paragraph at lines 407--464
+Overfull \hbox (6.75562pt too wide) in paragraph at lines 408--465
  [][] 
  []
 
@@ -1478,21 +1478,21 @@ File: ElegantBookdown_files/figure-latex/unnamed-chunk-51-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-51-1.pdf>
 [15]
-File: ElegantBookdown_files/figure-latex/unnamed-chunk-52-1.pdf Graphic file (t
+File: ElegantBookdown_files/figure-latex/unnamed-chunk-54-1.pdf Graphic file (t
 ype pdf)
-<use ElegantBookdown_files/figure-latex/unnamed-chunk-52-1.pdf>
+<use ElegantBookdown_files/figure-latex/unnamed-chunk-54-1.pdf>
 [16]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
-(Font)              scaled to size 10.95pt on input line 510.
+(Font)              scaled to size 10.95pt on input line 511.
 No file ElegantBookdown.bbl.
 [17
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 520.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 520.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 521.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 521.
 (./ElegantBookdown.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 520.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 520.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 521.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 521.
 Package rerunfilecheck Info: File `ElegantBookdown.out' has not changed.
 (rerunfilecheck)             Checksum: E58E4C20670F7E3F6F7F69478EEE48F4;3375.
  ) 
