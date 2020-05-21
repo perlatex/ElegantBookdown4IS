@@ -95,7 +95,7 @@ univ_discip_enter_top_one_percent
 
 ```{r, eval=FALSE}
 univ_discip_enter_top_one_percent %>% 
-  filter(discipline_cn == "数学") %>% 
+  filter(discipline_cn == "工程学") %>% 
   arrange(-cites)
 ```
 

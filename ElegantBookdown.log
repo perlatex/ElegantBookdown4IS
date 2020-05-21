@@ -1,11 +1,11 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.5.11)  18 MAY 2020 16:40
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.5.20)  21 MAY 2020 15:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **ElegantBookdown.tex
 (./ElegantBookdown.tex
 LaTeX2e <2020-02-02> patch level 5
-L3 programming layer <2020-05-05> (g:/Tinytex/texmf-dist/tex/latex/elegantbook/
+L3 programming layer <2020-05-15> (g:/Tinytex/texmf-dist/tex/latex/elegantbook/
 elegantbook.cls
 Document Class: elegantbook 2020/04/12 v3.11 ElegantBook document class
 (g:/Tinytex/texmf-dist/tex/latex/kvoptions/kvoptions.sty
@@ -40,7 +40,7 @@ File: bk11.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
 ) (g:/Tinytex/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2011/12/19 v6.7a set line spacing
 ) (g:/Tinytex/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2020/01/14 v7.00d Hypertext links for LaTeX
+Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
 (g:/Tinytex/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2020/03/06 v1.0d TeX engine tests
 ) (g:/Tinytex/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
@@ -67,26 +67,26 @@ Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 \Hy@linkcounter=\count173
 \Hy@pagecounter=\count174
 (g:/Tinytex/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2020/01/14 v7.00d Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2020-05-15 v7.00e Hyperref: PDFDocEncoding definition (HO)
 ) (g:/Tinytex/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 ) (g:/Tinytex/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count175
-Package hyperref Info: Hyper figures OFF on input line 4547.
-Package hyperref Info: Link nesting OFF on input line 4552.
-Package hyperref Info: Hyper index ON on input line 4555.
-Package hyperref Info: Plain pages OFF on input line 4562.
-Package hyperref Info: Backreferencing OFF on input line 4567.
+Package hyperref Info: Hyper figures OFF on input line 4464.
+Package hyperref Info: Link nesting OFF on input line 4469.
+Package hyperref Info: Hyper index ON on input line 4472.
+Package hyperref Info: Plain pages OFF on input line 4479.
+Package hyperref Info: Backreferencing OFF on input line 4484.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4800.
+Package hyperref Info: Bookmarks ON on input line 4717.
 \c@Hy@tempcnt=\count176
 (g:/Tinytex/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 5159.
+LaTeX Info: Redefining \url on input line 5076.
 \XeTeXLinkMargin=\dimen136
 (g:/Tinytex/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -97,15 +97,15 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 \Fld@menulength=\count177
 \Field@Width=\dimen137
 \Fld@charsize=\dimen138
-Package hyperref Info: Hyper figures OFF on input line 6430.
-Package hyperref Info: Link nesting OFF on input line 6435.
-Package hyperref Info: Hyper index ON on input line 6438.
-Package hyperref Info: backreferencing OFF on input line 6445.
-Package hyperref Info: Link coloring OFF on input line 6450.
-Package hyperref Info: Link coloring with OCG OFF on input line 6455.
-Package hyperref Info: PDF/A mode OFF on input line 6460.
-LaTeX Info: Redefining \ref on input line 6500.
-LaTeX Info: Redefining \pageref on input line 6504.
+Package hyperref Info: Hyper figures OFF on input line 6347.
+Package hyperref Info: Link nesting OFF on input line 6352.
+Package hyperref Info: Hyper index ON on input line 6355.
+Package hyperref Info: backreferencing OFF on input line 6362.
+Package hyperref Info: Link coloring OFF on input line 6367.
+Package hyperref Info: Link coloring with OCG OFF on input line 6372.
+Package hyperref Info: PDF/A mode OFF on input line 6377.
+LaTeX Info: Redefining \ref on input line 6417.
+LaTeX Info: Redefining \pageref on input line 6421.
 (g:/Tinytex/texmf-dist/tex/generic/atbegshi/atbegshi.sty
 Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
 )
@@ -115,9 +115,9 @@ Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
 )
 Package hyperref Info: Driver (autodetected): hxetex.
 (g:/Tinytex/texmf-dist/tex/latex/hyperref/hxetex.def
-File: hxetex.def 2020/01/14 v7.00d Hyperref driver for XeTeX
+File: hxetex.def 2020-05-15 v7.00e Hyperref driver for XeTeX
 (g:/Tinytex/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2020/01/14 v7.00d Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2020-05-15 v7.00e Hyperref: PDF Unicode definition (HO)
 ) (g:/Tinytex/texmf-dist/tex/generic/stringenc/stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
@@ -174,7 +174,7 @@ Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
 \CommentStream=\write3
 Excluding comment 'comment') (g:/Tinytex/texmf-dist/tex/latex/ctex/ctex.sty (g:
 /Tinytex/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2020-05-05 L3 programming layer (loader) 
+Package: expl3 2020-05-15 L3 programming layer (loader) 
 (g:/Tinytex/texmf-dist/tex/latex/l3backend/l3backend-xdvipdfmx.def
 File: l3backend-xdvipdfmx.def 2020-05-05 L3 backend support: xdvipdfmx
 \g__graphics_track_int=\count188
@@ -182,19 +182,20 @@ File: l3backend-xdvipdfmx.def 2020-05-05 L3 backend support: xdvipdfmx
 \g__pdf_backend_object_int=\count189
 \g__pdf_backend_annotation_int=\count190
 ))
-Package: ctex 2020/05/02 v2.5.1 Chinese adapter in LaTeX (CTEX)
+Package: ctex 2020/05/16 v2.5.2 Chinese adapter in LaTeX (CTEX)
 (g:/Tinytex/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
-Package: xparse 2020-03-06 L3 Experimental document command parser
+Package: xparse 2020-05-15 L3 Experimental document command parser
+(g:/Tinytex/texmf-dist/tex/latex/l3packages/xparse/xparse-generic.tex
 \l__xparse_current_arg_int=\count191
 \g__xparse_grabber_int=\count192
 \l__xparse_m_args_int=\count193
 \l__xparse_v_nesting_int=\count194
-) (g:/Tinytex/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
-Package: l3keys2e 2020-03-06 LaTeX2e option processing using LaTeX3 keys
+)) (g:/Tinytex/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+Package: l3keys2e 2020-05-15 LaTeX2e option processing using LaTeX3 keys
 ) (g:/Tinytex/texmf-dist/tex/latex/ctex/ctexhook.sty
-Package: ctexhook 2020/05/02 v2.5.1 Document and package hooks (CTEX)
+Package: ctexhook 2020/05/16 v2.5.2 Document and package hooks (CTEX)
 ) (g:/Tinytex/texmf-dist/tex/latex/ctex/ctexpatch.sty
-Package: ctexpatch 2020/05/02 v2.5.1 Patching commands (CTEX)
+Package: ctexpatch 2020/05/16 v2.5.2 Patching commands (CTEX)
 ) (g:/Tinytex/texmf-dist/tex/latex/base/fix-cm.sty
 Package: fix-cm 2015/01/14 v1.1t fixes to LaTeX
 (g:/Tinytex/texmf-dist/tex/latex/base/ts1enc.def
@@ -209,13 +210,13 @@ Package: everysel 2011/10/28 v1.2 EverySelectfont Package (MS)
 \g__ctex_section_depth_int=\count196
 \g__ctex_font_size_int=\count197
 (g:/Tinytex/texmf-dist/tex/latex/ctex/config/ctexopts.cfg
-File: ctexopts.cfg 2020/05/02 v2.5.1 Option configuration file (CTEX)
+File: ctexopts.cfg 2020/05/16 v2.5.2 Option configuration file (CTEX)
 ) (g:/Tinytex/texmf-dist/tex/latex/ctex/engine/ctex-engine-xetex.def
-File: ctex-engine-xetex.def 2020/05/02 v2.5.1 XeLaTeX adapter (CTEX)
+File: ctex-engine-xetex.def 2020/05/16 v2.5.2 XeLaTeX adapter (CTEX)
 (g:/Tinytex/texmf-dist/tex/xelatex/xecjk/xeCJK.sty
 Package: xeCJK 2020/05/01 v3.8.3 Typesetting CJK scripts with XeLaTeX
 (g:/Tinytex/texmf-dist/tex/latex/l3packages/xtemplate/xtemplate.sty
-Package: xtemplate 2020-03-06 L3 Experimental prototype document functions
+Package: xtemplate 2020-05-15 L3 Experimental prototype document functions
 \l__xtemplate_tmp_dim=\dimen148
 \l__xtemplate_tmp_int=\count198
 \l__xtemplate_tmp_muskip=\muskip17
@@ -314,9 +315,9 @@ Package: zhnumber 2020/05/01 v2.8 Typesetting numbers with Chinese glyphs
 (g:/Tinytex/texmf-dist/tex/latex/zhnumber/zhnumber-utf8.cfg
 File: zhnumber-utf8.cfg 2020/05/01 v2.8 Chinese numerals with UTF8 encoding
 )) (g:/Tinytex/texmf-dist/tex/latex/ctex/scheme/ctex-scheme-plain.def
-File: ctex-scheme-plain.def 2020/05/02 v2.5.1 Plain scheme for generic (CTEX)
+File: ctex-scheme-plain.def 2020/05/16 v2.5.2 Plain scheme for generic (CTEX)
 ) (g:/Tinytex/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-windows.def
-File: ctex-fontset-windows.def 2020/05/02 v2.5.1 Windows fonts definition (CTEX
+File: ctex-fontset-windows.def 2020/05/16 v2.5.2 Windows fonts definition (CTEX
 )
 
 Package fontspec Info: Could not resolve font "KaiTi/B" (it probably doesn't
@@ -349,7 +350,7 @@ Package fontspec Info: Font family 'SimSun(0)' created for font 'SimSun' with
 (fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.: 
 
 )) (g:/Tinytex/texmf-dist/tex/latex/ctex/config/ctex.cfg
-File: ctex.cfg 2020/05/02 v2.5.1 Configuration file (CTEX)
+File: ctex.cfg 2020/05/16 v2.5.2 Configuration file (CTEX)
 ) (g:/Tinytex/texmf-dist/tex/latex/newtx/newtxtext.sty
 Package: newtxtext 2020/03/02 v1.625
 
@@ -445,9 +446,9 @@ Package: enumitem 2019/06/20 v3.9 Customized lists
 \enit@count@id=\count290
 \enitdp@description=\count291
 ) (g:/Tinytex/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2020/01/03 v3.4h Customizing captions (AR)
+Package: caption 2020/05/10 v3.4j Customizing captions (AR)
 (g:/Tinytex/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2020/01/03 v1.8h caption3 kernel (AR)
+Package: caption3 2020/05/10 v1.11 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 61.
 \captionmargin=\dimen186
 \captionmargin@=\dimen187
@@ -1398,9 +1399,9 @@ Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
 ]
 第\nobreakspace {}1{}\nobreakspace {}章 1.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 10.0pt on input line 140.
+(Font)              scaled to size 10.0pt on input line 141.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 10.0pt on input line 140.
+(Font)              scaled to size 10.0pt on input line 141.
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-14-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-14-1.pdf>
@@ -1410,13 +1411,13 @@ ype pdf)
 Overfull \vbox (33.25189pt too high) has occurred while \output is active []
 
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 8.0pt on input line 188.
+(Font)              scaled to size 8.0pt on input line 189.
 [4]
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-18-1.pdf>
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 12.0pt on input line 206.
+(Font)              scaled to size 12.0pt on input line 207.
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-19-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-19-1.pdf>
@@ -1441,7 +1442,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 ] [9]
 第\nobreakspace {}3{}\nobreakspace {}章 3.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 6.0pt on input line 332.
+(Font)              scaled to size 6.0pt on input line 331.
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-39-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-39-1.pdf>
@@ -1454,7 +1455,7 @@ ype pdf)
 [11] [12]
 附录\nobreakspace {}A A.
 
-Overfull \hbox (6.75562pt too wide) in paragraph at lines 408--465
+Overfull \hbox (6.75562pt too wide) in paragraph at lines 407--464
  [][] 
  []
 
@@ -1482,27 +1483,39 @@ File: ElegantBookdown_files/figure-latex/unnamed-chunk-54-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-54-1.pdf>
 [16]
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 2 in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no 2 in font nullfont!
+
+Overfull \hbox (95.2693pt too wide) in paragraph at lines 517--558
+ [][] 
+ []
+
+[17]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
-(Font)              scaled to size 10.95pt on input line 511.
+(Font)              scaled to size 10.95pt on input line 584.
 No file ElegantBookdown.bbl.
-[17
+[18
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 521.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 521.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 594.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 594.
 (./ElegantBookdown.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 521.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 521.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 594.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 594.
 Package rerunfilecheck Info: File `ElegantBookdown.out' has not changed.
-(rerunfilecheck)             Checksum: E58E4C20670F7E3F6F7F69478EEE48F4;3375.
+(rerunfilecheck)             Checksum: 505830E57FB413DB4626EE99685A8378;3548.
  ) 
 Here is how much of TeX's memory you used:
- 37936 strings out of 481454
- 779574 string characters out of 5929846
- 1407404 words of memory out of 5000000
- 54479 multiletter control sequences out of 15000+600000
+ 38024 strings out of 481249
+ 782802 string characters out of 5924806
+ 1412055 words of memory out of 5000000
+ 54769 multiletter control sequences out of 15000+600000
  570181 words of font info for 87 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  68i,12n,126p,853b,869s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on ElegantBookdown.pdf (19 pages).
+Output written on ElegantBookdown.pdf (20 pages).

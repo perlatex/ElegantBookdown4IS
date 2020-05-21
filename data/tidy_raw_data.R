@@ -46,8 +46,7 @@ read_plus <- function(flnm) {
     dplyr::filter(!is.na(year)) %>%
 	dplyr::mutate(discipline = stringr::str_to_title(discipline)) %>%
     dplyr::mutate(
-      univ = flnm %>% stringr::str_extract(., "(?<=UnivDisciplineTimeSerial/).*?(?=\\.csv)")
-    )
+      univ = flnm %>% stringr::str_extract(., "(?<=UnivDisciplineTimeSerial/).*?(?=\\.csv)"))
 }
 
 univ_discip_timeserial <-

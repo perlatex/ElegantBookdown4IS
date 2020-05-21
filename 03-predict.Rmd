@@ -302,7 +302,7 @@ post_draw %>%
   scale_fill_manual(values = c("gray80", "skyblue")) +
   annotate("text",
     x = 2013, y = 2950,
-    label = "进入ESI前1%学科的阈值线(2020-03-26数据)"
+    label = "进入ESI前1%学科的阈值线(2020-05-14数据)"
   ) +
   ggforce::geom_mark_ellipse(aes(
     x = 2018, y = 3500,
@@ -355,7 +355,7 @@ post_draw %>%
 ```{r, eval=FALSE}
 focus_discip <- c("工程学")
 focus_univ <- c("华中师范大学", "重庆师范大学", 
-				 "广西师范大学", "四川师范大学")
+			    "广西师范大学", "四川师范大学")
 
 dt <- univ_discip_timeserial_2000_to_2019 %>% 
 	dplyr::filter(univ_cn %in% focus_univ) %>% 

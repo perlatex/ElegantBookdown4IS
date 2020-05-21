@@ -184,7 +184,7 @@ dcc %>%
 	      axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
 	labs(x = NULL, y = NULL,
          title = "Top30师范大学进入1%ESI学科情况", 
-    	  subtitle = 'ESI数据库2020年03月26日数据'
+    	  subtitle = 'ESI数据库2020年05月14日数据'
     	) 
 ```
 
@@ -227,7 +227,7 @@ univ_discip_cum_last_ten_year %>%
     force = 1,
     min.segment.length = 0
   ) +
- geom_hline(aes(yintercept = Threshold0326)) +
+ geom_hline(aes(yintercept = Threshold0514)) +
  annotate("text", x = 1250, y = 3400, 
 			 label = "进入ESI前1%学科阈值线", size = 4, color = "red") +
   theme_minimal() +
@@ -237,7 +237,7 @@ univ_discip_cum_last_ten_year %>%
   ) +
   labs(
   	title = "师范类院校工程学科进入前1%ESI学科",
-	subtitle = "ESI数据库2020年03月26日数据",
+	subtitle = "ESI数据库2020年05月14日数据",
     x = "累积发文量(2010-2020)",
     y = "累积引文量(2010-2020)"
   )
@@ -260,9 +260,9 @@ label_school <- c("四川师范大学", "北京师范大学", "南京师范大�
 				  "华东师范大学")
 
 univ_discip_cum_last_ten_year %>% 
-	filter(discipline_cn %in% focus_discipline) %>% 
-	mutate(
-    label = ifelse(univ_cn %in% label_school, univ_cn, "")
+	dplyr::filter(discipline_cn %in% focus_discipline) %>% 
+	dplyr::mutate(
+     label = ifelse(univ_cn %in% label_school, univ_cn, "")
   ) %>%
 	
 	
@@ -281,7 +281,7 @@ univ_discip_cum_last_ten_year %>%
     force = 1,
     min.segment.length = 0
   ) +
- geom_hline(aes(yintercept = Threshold0326)) +
+ geom_hline(aes(yintercept = Threshold0514)) +
  annotate("text", x = 3500, y = 11500, 
 			 label = "进入ESI前1%学科阈值线", size = 4, color = "red") +
   theme_minimal() +
@@ -291,7 +291,7 @@ univ_discip_cum_last_ten_year %>%
   ) +
   labs(
   	title = "师范类院校化学学科进入前1%ESI学科",
-	subtitle = "ESI数据库2020年03月26日数据",
+	subtitle = "ESI数据库2020年05月14日数据",
     x = "累积发文量(2010-2020)",
     y = "累积引文量(2010-2020)"
   )
@@ -305,9 +305,9 @@ label_school <- c("四川师范大学", "北京师范大学", "南京师范大�
 				  "杭州师范大学", "华南师范大学", "陕西师范大学","华中师范大学")
 
 univ_discip_cum_last_ten_year %>% 
-	filter(discipline_cn %in% focus_discipline) %>% 
-	mutate(
-    label = ifelse(univ_cn %in% label_school, univ_cn, "")
+	dplyr::filter(discipline_cn %in% focus_discipline) %>% 
+	dplyr::mutate(
+      label = ifelse(univ_cn %in% label_school, univ_cn, "")
   ) %>%
 	
 	
@@ -326,7 +326,7 @@ univ_discip_cum_last_ten_year %>%
     force = 1,
     min.segment.length = 0
   ) +
- geom_hline(aes(yintercept = Threshold0326)) +
+ geom_hline(aes(yintercept = Threshold0514)) +
  annotate("text", x = 500, y = 23000, 
 			 label = "进入ESI前1%学科阈值线", size = 4, color = "red") +
   theme_minimal() +
@@ -336,7 +336,7 @@ univ_discip_cum_last_ten_year %>%
   ) +
   labs(
   	title = "师范类院校物理学科进入前1%ESI学科",
-	subtitle = "ESI数据库2020年03月26日数据",
+	subtitle = "ESI数据库2020年05月14日数据",
     x = "累积发文量(2010-2020)",
     y = "累积引文量(2010-2020)"
   )
@@ -352,9 +352,9 @@ label_school <- c("四川师范大学", "北京师范大学", "南京师范大�
 				  "杭州师范大学", "华南师范大学", "陕西师范大学","曲阜师范大学")
 
 univ_discip_cum_last_ten_year %>% 
-	filter(discipline_cn %in% focus_discipline) %>% 
-	mutate(
-    label = ifelse(univ_cn %in% label_school, univ_cn, "")
+	dplyr::filter(discipline_cn %in% focus_discipline) %>% 
+	dplyr::mutate(
+    	label = ifelse(univ_cn %in% label_school, univ_cn, "")
   ) %>%
 	
 	
@@ -373,8 +373,8 @@ univ_discip_cum_last_ten_year %>%
     force = 1,
     min.segment.length = 0
   ) +
- geom_hline(aes(yintercept = Threshold0326)) +
- annotate("text", x = 300, y = 5200, 
+ geom_hline(aes(yintercept = Threshold0514)) +
+ annotate("text", x = 300, y = 4700, 
 			 label = "进入ESI前1%学科阈值线", size = 4, color = "red") +
   theme_minimal() +
   theme(
@@ -383,7 +383,7 @@ univ_discip_cum_last_ten_year %>%
   ) +
   labs(
   	title = "师范类院校数学学科进入前1%ESI学科",
-	subtitle = "ESI数据库2020年03月26日数据",
+	subtitle = "ESI数据库2020年05月14日数据",
     x = "累积发文量(2010-2020)",
     y = "累积引文量(2010-2020)"
   )

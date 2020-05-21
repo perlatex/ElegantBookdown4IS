@@ -1,0 +1,594 @@
+\documentclass[cn, 11pt, fancy, hide]{elegantbook}
+
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\hypersetup{
+  pdfcreator={LaTeX via pandoc}}
+
+
+\usepackage{longtable,booktabs}
+
+
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\setcounter{secnumdepth}{5}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+  \title{大数据背景下精准科研信息服务}
+
+\subtitle{2020年版}
+
+  \author{王敏杰}
+
+  \date{2020-05-21}
+
+% logo 图案
+  \logo{figure/logo.png}
+% 封面图片
+  \cover{figure/cover.jpg}
+% 版本号
+  \version{0.1}
+% 机构名
+% 引用格言
+  \extrainfo{Victory won't come to us unless we go to it. --- M. Moore}
+% 导言区 preamble
+\usepackage{framed,color}
+\definecolor{shadecolor}{RGB}{248,248,248}
+
+\frontmatter
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+\begin{document}
+% 封面
+\maketitle
+% 插入 before_body.tex
+
+% 目录
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+% 表目录
+% 图目录
+% 书籍主体部分
+\mainmatter
+
+\hypersetup{pageanchor=true}
+
+\hypertarget{ux524dux8a00}{%
+\chapter*{前言}\label{ux524dux8a00}}
+\addcontentsline{toc}{chapter}{前言}
+
+根据基本科学指标数据库（Essential Science Indicators，简称ESI）发布的最新统计数据显示：
+
+1、我国师范类院校有 ESI 学科的 25 所，北京师范大学进入 ESI 学科数量最多。从
+入选的学科来看，其中化学学科的频次最高。
+
+2、我校工程学近十年累积被引频次2781，距离ESI前1\%学科阈值线2843, 接近度97.82\%，有望入选ESI学科，但竞争依然激烈。
+
+3、根据贝叶斯数学模型分析，我校工程学科2020年有约80\%的概率进入ESI前百分之一学科。
+
+\hypertarget{ux8fdbux5ea6ux8868}{%
+\section*{进度表}\label{ux8fdbux5ea6ux8868}}
+\addcontentsline{toc}{section}{进度表}
+
+\begin{itemize}
+\tightlist
+\item
+  文献调研（3月底完成）
+\item
+  数据获取（4月中旬完成）
+\item
+  数学分析和模型评估（5月初完成）
+\item
+  报告初稿（5月中旬完成）
+\item
+  研讨会（待定）
+\item
+  正式稿发布（待定）
+\end{itemize}
+
+\hypertarget{ux5173ux4e8eux672cux6587ux6863}{%
+\section*{关于本文档}\label{ux5173ux4e8eux672cux6587ux6863}}
+\addcontentsline{toc}{section}{关于本文档}
+
+本报告使用R和Stan语言完成，数据和代码存放在GitHub仓库\url{https://github.com/perlatex/ElegantBookdown4IS}，欢迎批评指正。
+
+\hypertarget{ux611fux8c22}{%
+\section*{感谢}\label{ux611fux8c22}}
+\addcontentsline{toc}{section}{感谢}
+
+I am very grateful to \href{https://github.com/bbbales2}{Ben Bales} from the Stan Development Team for his patience in guiding Stan code.
+感谢彭凤老师在图书购买上提供的帮助，感谢研究生李晨阳协助完成数据收集和整理工作。感谢科睿唯安 (原汤森路透) 公司赵宇先生提供了非常专业地技术解释。
+
+\hypertarget{author}{%
+\chapter*{作者简介}\label{author}}
+\addcontentsline{toc}{chapter}{作者简介}
+
+王敏杰，四川师范大学研究生公选课《数据科学中的R语言》和《社会科学中的统计学》授课老师，毕业于西南交通大学量子物理专业，爱好数据科学，喜欢用R和Stan统计编程，
+联系方式 \href{mailto:38552109@qq.com}{\nolinkurl{38552109@qq.com}}
+
+\hypertarget{bigdata}{%
+\chapter{师范院校}\label{bigdata}}
+
+本章横向比较了我国师范类高校(Top30)近十年的发展情况，然后统计了各学科进入前百分之一ESI学科的情况。
+
+\hypertarget{ux5b66ux6821ux5217ux8868}{%
+\section{学校列表}\label{ux5b66ux6821ux5217ux8868}}
+
+\begin{table}[!h]
+
+\caption{\label{tab:unnamed-chunk-10}我国师范类学校(top30)列表}
+\centering
+\begin{tabular}[t]{ll}
+\toprule
+school & univ\\
+\midrule
+北京师范大学 & Beijing Normal University\\
+华东师范大学 & East China Normal University\\
+华中师范大学 & Central China Normal University\\
+南京师范大学 & Nanjing Normal University\\
+湖南师范大学 & Hunan Normal University\\
+\addlinespace
+东北师范大学 & Northeast Normal University\\
+华南师范大学 & South China Normal University\\
+陕西师范大学 & Shaanxi Normal University\\
+首都师范大学 & Capital Normal University\\
+浙江师范大学 & Zhejiang Normal University\\
+\addlinespace
+山东师范大学 & Shandong Normal University\\
+天津师范大学 & Tianjin Normal University\\
+福建师范大学 & Fujian Normal University\\
+河南师范大学 & Henan Normal University\\
+江西师范大学 & Jiangxi Normal University\\
+\addlinespace
+上海师范大学 & Shanghai Normal University\\
+安徽师范大学 & Anhui Normal University\\
+西北师范大学 & Northwest Normal University\\
+广西师范大学 & Guangxi Normal University\\
+杭州师范大学 & Hangzhou Normal University\\
+\addlinespace
+云南师范大学 & Yunnan Normal University\\
+哈尔滨师范大学 & Harbin Normal University\\
+河北师范大学 & Hebei Normal University\\
+江苏师范大学 & Jiangsu Normal University\\
+四川师范大学 & Sichuan Normal University\\
+\addlinespace
+辽宁师范大学 & Liaoning Normal University\\
+重庆师范大学 & Chongqing Normal University\\
+曲阜师范大学 & Qufu Normal University\\
+贵州师范大学 & Guizhou Normal University\\
+海南师范大学 & Hainan Normal University\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{ux5168ux666fux5927ux6570ux636e}{%
+\section{全景大数据}\label{ux5168ux666fux5927ux6570ux636e}}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-14-1} \end{center}
+
+这里我们高亮了\textbf{北京师范大学}和\textbf{四川师范大学}两所高校的发展曲线， 灰色背景的其他28所高校的发展情况。可见，近几年我国师范类高校科研论文的产出整体上稳步提升，
+符合科学发展规律。但也明显看到，四川师范大学作为西部高校，与东部发达地区的院校还存在一定的距离。
+
+\hypertarget{ux5e08ux8303ux7c7bux9662ux6821ux8fdbux5165ux524dux767eux5206ux4e4bux4e00esiux5b66ux79d1ux7684ux6570ux91cf}{%
+\section{师范类院校进入前百分之一ESI学科的数量}\label{ux5e08ux8303ux7c7bux9662ux6821ux8fdbux5165ux524dux767eux5206ux4e4bux4e00esiux5b66ux79d1ux7684ux6570ux91cf}}
+
+这里我们整理了师范类院校进入前百分之一ESI学科的数量。从学校来看，师范类院校有ESI学科的25所，其中最多的是北京师范大学14个学科，华东师范大学12个学科， 南京师范大学8个学科。从入选的学科来看，化学学科、材料学科和工程学入选频次最高。
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-18-1} \end{center}
+
+\hypertarget{ux5e08ux8303ux9662ux6821ux5404ux5b66ux79d1ux53d1ux5c55ux6001ux52bf}{%
+\section{师范院校各学科发展态势}\label{ux5e08ux8303ux9662ux6821ux5404ux5b66ux79d1ux53d1ux5c55ux6001ux52bf}}
+
+为跟踪学科发展态势，这里我们考察了各师范类高校在两个维度（累计产出和累计影响力）上的科研表现情况，图中红色标注表示该校已经进入前百分之一ESI学科，灰色表示还没有进入前百分之一ESI学科，由于ESI数据库比SCI数据库滞后两个月，因此图中阈值线附近的点，会有细微的偏差（可以理解为图中的阈值线会有细微的偏差）。
+
+\hypertarget{ux5de5ux7a0bux5b66}{%
+\subsection{工程学}\label{ux5de5ux7a0bux5b66}}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-19-1} \end{center}
+
+四川师范大学的科研产出超过杭州师范大学，但科研影响力差一点点，因此杭州师范大学率先进入了前百分之一ESI学科。
+
+\hypertarget{ux5316ux5b66}{%
+\subsection{化学}\label{ux5316ux5b66}}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-20-1} \end{center}
+
+\hypertarget{ux7269ux7406ux5b66}{%
+\subsection{物理学}\label{ux7269ux7406ux5b66}}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-21-1} \end{center}
+
+\hypertarget{ux6570ux5b66}{%
+\subsection{数学}\label{ux6570ux5b66}}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-22-1} \end{center}
+
+\hypertarget{progress}{%
+\chapter{学科发展}\label{progress}}
+
+\hypertarget{ux6f5cux529bux5b66ux79d1}{%
+\section{潜力学科}\label{ux6f5cux529bux5b66ux79d1}}
+
+当前四川师范大学在励精图治奋力耕耘，推动学科发展，其中\textbf{工程学}学科与进入ESI学科的阈值线最为接近，接近程度达到97.8\%。其他各学科的发展情况见表 \ref{tab:iris} 。
+
+\begin{table}[!h]
+
+\caption{\label{tab:iris}四川师范大学进入22ESI学科接近程度}
+\centering
+\begin{tabular}[t]{lrrrl}
+\toprule
+学科 & 累积论文数 & 被引频次 & 阈值线 & 接近程度\\
+\midrule
+工程学 & 237 & 2923 & 2755 & 106.10\%\\
+化学 & 505 & 5752 & 8188 & 70.25\%\\
+计算机科学 & 167 & 2473 & 3686 & 67.09\%\\
+材料科学 & 243 & 2811 & 6674 & 42.12\%\\
+数学 & 348 & 1526 & 4359 & 35.01\%\\
+\addlinespace
+物理学 & 572 & 5893 & 21050 & 28.00\%\\
+环境科学与生态学 & 94 & 536 & 4388 & 12.22\%\\
+植物学与动物学 & 54 & 336 & 2881 & 11.66\%\\
+精神病学与心理学 & 50 & 364 & 4077 & 8.93\%\\
+社会科学总论 & 25 & 107 & 1530 & 6.99\%\\
+\addlinespace
+经济与商业 & 15 & 241 & 4516 & 5.34\%\\
+农业科学 & 35 & 85 & 2361 & 3.60\%\\
+临床医学 & 16 & 99 & 3374 & 2.93\%\\
+神经系统学与行为学 & 14 & 150 & 6426 & 2.33\%\\
+微生物学 & 19 & 100 & 5492 & 1.82\%\\
+\addlinespace
+地球科学 & 22 & 104 & 6140 & 1.69\%\\
+药理学和毒理学 & 18 & 53 & 3453 & 1.53\%\\
+分子生物学与遗传学 & 40 & 215 & 14132 & 1.52\%\\
+生物学与生物化学 & 35 & 93 & 6316 & 1.47\%\\
+空间科学 & 2 & 152 & 40196 & 0.38\%\\
+\addlinespace
+综合交叉学科 & 1 & 2 & 2608 & 0.08\%\\
+免疫学 & 1 & 0 & 5149 & 0.00\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{ux7adeux4e89ux5bf9ux624b}{%
+\section{竞争对手}\label{ux7adeux4e89ux5bf9ux624b}}
+
+由表 \ref{tab:iris}可以看出\textbf{工程学}是入选前百分之一ESI学科的 潜力学科，但我们也要意识到，当前师范院校高校中，工程学进入ESI学科的有14所，未进入的16所，表 \ref{tab:iris2}列出了这未进入的16所高校的工程学科与阈值线的接近程度，可以看到，大学彼此之间竞争还很激烈。
+
+\begin{table}[!h]
+
+\caption{\label{tab:iris2}工程学科有可能进入ESI学科的师范大学}
+\centering
+\begin{tabular}[t]{lrrrl}
+\toprule
+学校 & 累积论文数 & 被引频次 & 阈值线 & 接近程度\\
+\midrule
+四川师范大学 & 237 & 2923 & 2755 & 106.10\%\\
+重庆师范大学 & 292 & 2850 & 2755 & 103.45\%\\
+广西师范大学 & 206 & 2755 & 2755 & 100.00\%\\
+西北师范大学 & 249 & 2500 & 2755 & 90.74\%\\
+云南师范大学 & 230 & 2474 & 2755 & 89.80\%\\
+\addlinespace
+湖南师范大学 & 317 & 2129 & 2755 & 77.28\%\\
+首都师范大学 & 276 & 1823 & 2755 & 66.17\%\\
+江西师范大学 & 184 & 1791 & 2755 & 65.01\%\\
+辽宁师范大学 & 165 & 1690 & 2755 & 61.34\%\\
+天津师范大学 & 225 & 1650 & 2755 & 59.89\%\\
+\addlinespace
+安徽师范大学 & 212 & 1501 & 2755 & 54.48\%\\
+贵州师范大学 & 111 & 1288 & 2755 & 46.75\%\\
+哈尔滨师范大学 & 119 & 1253 & 2755 & 45.48\%\\
+河北师范大学 & 143 & 1223 & 2755 & 44.39\%\\
+海南师范大学 & 55 & 515 & 2755 & 18.69\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{predict}{%
+\chapter{学科预测}\label{predict}}
+
+在前面一章，我们看到我校的潜力学科是工程学科，有望在2020年进入ESI的1\%学科。本章的主要工作是，计算并预测川师工程学科2020年进入ESI前百分之一学科的概率， 以及竞争对手的概率。
+
+\hypertarget{ux7edfux8ba1ux65b9ux6cd5}{%
+\section{统计方法}\label{ux7edfux8ba1ux65b9ux6cd5}}
+
+\begin{shaded}
+
+学科的发展与很多方面都有关系，因此建立一个完全正确的预测模型是不可能的。正如英国统计学家George E. P. Box所说 ``All models are wrong, but some are useful.'' 因此我们的模型是错误的，也可能没什么用，但我们依然坚持呈现出来，用图书馆人质朴的方式为我校的发展呐喊助威。
+
+\end{shaded}
+
+相关研究表明，科研论文被引频次服从负二项分布（具体可见附录），我们建立贝叶斯线性模型，并给定参数的先验概率：
+
+\begin{align*}
+y_i & \sim \text{NegBinomial}(\mu_i, \phi) \\
+\log(\mu_i) & = \alpha + \gamma_{j[i]} + \beta x_i \\
+\alpha & \sim \text{Normal}(0, 100) \\
+\beta & \sim \text{Normal}(0, 10)  \\
+\gamma & \sim \text{Normal}(0, 2)  \\
+\phi & \sim \text{HalfCauchy}(0, 2.5)
+\end{align*}
+
+\hypertarget{ux7ed3ux679cux5206ux6790}{%
+\section{结果分析}\label{ux7ed3ux679cux5206ux6790}}
+
+根据模型计算，我们预测了工程学科2020年的科研产出量的估计值282，以及50\%的可信赖区间(107, 417)，模型评估见附录。
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-39-1} \end{center}
+
+因此，四川师范大学近十年的累计科研影响力估计值以及分位数区间见下表\ref{tab:tabestimate} ，在阈值线变化不大或者不变的前提下，2020年进入ESI前百分之一学科的概率将为79.0\%
+
+\begin{table}[!h]
+
+\caption{\label{tab:tabestimate}四川师范大学工程学累计科研影响力估计值以及2020年进入ESI前百分之一学科的概率}
+\centering
+\begin{tabular}[t]{rrrrl}
+\toprule
+year & pred\_mean & quantile2.5 & quantile97.5 & prob\_above\_line\\
+\midrule
+2020 & 3280 & 2845 & 4464 & 97.7\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-43-1} \end{center}
+
+\hypertarget{ux7adeux4e89ux5bf9ux624bux7684ux6982ux7387}{%
+\section{竞争对手的概率}\label{ux7adeux4e89ux5bf9ux624bux7684ux6982ux7387}}
+
+是否进入ESI前百分之一学科，取决于这个机构近十年累计被引频次，统计的周期是一个滚动的窗口，我们在预测2020年的情况，需要计算2001年-2020年这个时间周期，如果2010年的被引频次很高，而2020年很低，那么十年为窗口的累计量就下滑，因此当前各学校的接近程度高不代表入选的概率也高。这里，我们采用相同的贝叶斯模型，计算竞争对手的工程学科入选概率.
+
+\begin{longtable}[]{@{}lllllll@{}}
+\toprule
+& univ\_cn & year & pred\_mean & Q2.5 & Q97.5 & prob\_above\_line\tabularnewline
+\midrule
+\endhead
+1 & 广西师范大学 & 2020 & 2694. & 2012 & 5038. & 25.6\%\tabularnewline
+2 & 华中师范大学 & 2020 & 3160. & 2543 & 4686. & 68.0\%\tabularnewline
+3 & 四川师范大学 & 2020 & 3168. & 2696. & 4269. & 79.3\%\tabularnewline
+4 & 重庆师范大学 & 2020 & 2957. & 2638 & 3667. & 60.5\%\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{shaded}
+
+我们是以阈值线不变或者变化很小为前提，进行的预测， 事实上，阈值线每两个月就会调整一次，尽管我们进入ESI学科概率比较大，但也不能掉以轻心。如果需要了解其他学科的预测信息或者对预测模型有不同见解的，非常欢迎与本文作者交流探讨。
+
+\end{shaded}
+
+\cleardoublepage
+
+\hypertarget{appendix-ux9644ux5f55}{%
+\appendix}
+
+
+\hypertarget{sound}{%
+\chapter{统计口径}\label{sound}}
+
+\hypertarget{ux6570ux636eux6765ux6e90}{%
+\section{数据来源}\label{ux6570ux636eux6765ux6e90}}
+
+基本科学指标数据库（Essential Science Indicators，简称ESI）是衡量科学研究绩效、跟踪科学发展趋势的基本分析评价工具，它是基于Clarivate Analytics公司（原汤森路透知识产权与科技事业部）Web of Science（SCIE/SSCI）所收录的全球11000多种学术期刊的1000多万条文献记录而建立的计量分析数据库。目前，ESI已成为当今世界范围内普遍用以评价高校、学术机构、国家/地区国际学术水平及影响力的重要评价指标工具之一，其数据库以学科分门别类(共分22个学科)，采集面覆盖全球几万乃至十几万家不同研究单位的学科。
+
+\hypertarget{ux5b66ux79d1ux5206ux7c7bux4ee5ux53caux5404ux5b66ux79d1ux8fdbux5165esiux7684ux9608ux503c}{%
+\section{学科分类以及各学科进入ESI的阈值}\label{ux5b66ux79d1ux5206ux7c7bux4ee5ux53caux5404ux5b66ux79d1ux8fdbux5165esiux7684ux9608ux503c}}
+
+ESI 学科分类
+一种较为宽泛的学科分类模式。ESI 学科分类模式基于期刊分类，由自然科学与
+社会科学的 22 个学科构成。艺术与人文期刊没有被包含。每一本期刊只被划分
+至 22 个 ESI 学科中的一个，没有重叠的学科设置使得分析变得更为简单。
+被归类为跨学科学科(Multidisciplinary field)的Science、Nature与PNAS期刊，会被按照各篇文章的参考文献(reference)与引用文献(citation)，重新为每篇文章单独分类，但每篇文章仍只会被分类到一个学科。
+
+\begin{table}[!h]
+
+\caption{\label{tab:unnamed-chunk-47}ESI学科分类以及各学科进入ESI的阈值(2020年5月14日数据)}
+\centering
+\begin{tabular}[t]{>{\bfseries\raggedright\arraybackslash}p{8em}lr}
+\toprule
+学科类型 & 学科 & 阈值20200514\\
+\rowcolor{gray!15}
+\midrule
+ & 计算机科学(Computer Science) & 3686\\
+
+\rowcolor{gray!15}
+ & 工程科学(Engineering) & 2755\\
+
+\rowcolor{gray!15}
+\multirow{-3}{8em}{\raggedright\arraybackslash 工学（3）} & 材料科学(Materials Sciences) & 6674\\
+
+ & 生物与生化(Biology \& Biochemistry) & 6316\\
+
+ & 环境／生态学(Environment/Ecology) & 4388\\
+
+ & 微生物学(Microbiology) & 5492\\
+
+\multirow{-4}{8em}{\raggedright\arraybackslash 生命科学（4）} & 分子生物与遗传学(Molecular Biology \& Genetics) & 14132\\
+
+\rowcolor{gray!15}
+ & 一般社会科学(Social Sciences, General) & 1530\\
+
+\rowcolor{gray!15}
+\multirow{-2}{8em}{\raggedright\arraybackslash 社会科学（2）} & 经济与商学(Economics \& Business) & 4516\\
+
+ & 化学(Chemistry) & 8188\\
+
+ & 地球科学(Geosciences) & 6140\\
+
+ & 数学(Mathematics) & 4359\\
+
+ & 物理学(Physics) & 21050\\
+
+\multirow{-5}{8em}{\raggedright\arraybackslash 理学（5）} & 空间科学(Space Science) & 40196\\
+
+\rowcolor{gray!15}
+ & 农业科学(Agricultural Sciences) & 2361\\
+
+\rowcolor{gray!15}
+\multirow{-2}{8em}{\raggedright\arraybackslash 农学（2）} & 植物与动物科学(Plant \& Animal Science) & 2881\\
+
+ & 临床医学(Clinical Medicine) & 3374\\
+
+ & 免疫学(Immunology) & 5149\\
+
+ & 神经科学与行为(Neuroscience \& Behavior) & 6426\\
+
+ & 药理学与毒物学(Pharmacology \& Toxicology) & 3453\\
+
+\multirow{-5}{8em}{\raggedright\arraybackslash 医学（5）} & 精神病学／心理学(Psychology/Psychiatry) & 4077\\
+
+\rowcolor{gray!15}
+其他（1） & 多学科(Multidisciplinary) & 2608\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{ux8d1dux53f6ux65afux6a21ux578bux53c2ux6570}{%
+\section{贝叶斯模型参数}\label{ux8d1dux53f6ux65afux6a21ux578bux53c2ux6570}}
+
+\hypertarget{ux88abux5f15ux9891ux6b21ux4e3aux4ec0ux4e48ux662fux8d1fux4e8cux9879ux5206ux5e03}{%
+\subsection{被引频次为什么是负二项分布}\label{ux88abux5f15ux9891ux6b21ux4e3aux4ec0ux4e48ux662fux8d1fux4e8cux9879ux5206ux5e03}}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-49-1} \end{center}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-50-1} \end{center}
+
+\hypertarget{ux540eux9a8cux6982ux7387ux5206ux5e03}{%
+\subsection{后验概率分布}\label{ux540eux9a8cux6982ux7387ux5206ux5e03}}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-51-1} \end{center}
+
+\hypertarget{ux540eux9a8cux6982ux7387ux68c0ux9a8c}{%
+\subsection{后验概率检验}\label{ux540eux9a8cux6982ux7387ux68c0ux9a8c}}
+
+\begin{center}\includegraphics[width=1\linewidth]{ElegantBookdown_files/figure-latex/unnamed-chunk-54-1} \end{center}
+
+\hypertarget{esi-ux6570ux636eux5b8cux5168ux4e0dux900fux660e}{%
+\subsection{ESI 数据完全不透明}\label{esi-ux6570ux636eux5b8cux5168ux4e0dux900fux660e}}
+
+5月更新的ESI数据库收录论文的时间范围是2010年------2020年2月底（十年零两个月）；
+
+\begin{itemize}
+\tightlist
+\item
+  我们只能检索到年
+
+  \begin{itemize}
+  \tightlist
+  \item
+    比如，7月份发布时，ESI数据库收录论文的时间范围是2010年2月------2020年4月
+  \item
+    我们能检索的2010年------2020年7月
+  \end{itemize}
+\item
+  在ESI检索到的数据，他们还要再筛查一次。
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ESI工程学和计算机这两个学科的引用有不少是来自会议论文的，但是ESI不统计来自会议论文的引用，所以实际表现没有您检索出的结果那么高。
+  \end{itemize}
+\end{itemize}
+
+\begin{table}[!h]
+
+\caption{\label{tab:unnamed-chunk-55}师范高校工程学科}
+\centering
+\begin{tabular}[t]{lrrrrrlr}
+\toprule
+univ\_cn & cum\_paper & cum\_cited & web\_of\_science & cites & top\_papers & is\_enter & Threshold0514\\
+\midrule
+安徽师范大学 & 212 & 1501 & NA & NA & NA & NA & 2755\\
+北京师范大学 & 1463 & 19377 & 1408 & 17751 & 29 & TRUE & 2755\\
+首都师范大学 & 276 & 1823 & NA & NA & NA & NA & 2755\\
+华中师范大学 & 320 & 3121 & 312 & 2765 & 9 & TRUE & 2755\\
+重庆师范大学 & 292 & 2850 & NA & NA & NA & NA & 2755\\
+\addlinespace
+华东师范大学 & 1050 & 11714 & 1014 & 10104 & 21 & TRUE & 2755\\
+福建师范大学 & 369 & 4124 & 362 & 3798 & 11 & TRUE & 2755\\
+广西师范大学 & 206 & 2755 & NA & NA & NA & NA & 2755\\
+贵州师范大学 & 111 & 1288 & NA & NA & NA & NA & 2755\\
+海南师范大学 & 55 & 515 & NA & NA & NA & NA & 2755\\
+\addlinespace
+杭州师范大学 & 193 & 3255 & 190 & 2939 & 6 & TRUE & 2755\\
+哈尔滨师范大学 & 119 & 1253 & NA & NA & NA & NA & 2755\\
+河北师范大学 & 143 & 1223 & NA & NA & NA & NA & 2755\\
+河南师范大学 & 430 & 3878 & 418 & 3633 & 10 & TRUE & 2755\\
+湖南师范大学 & 317 & 2129 & NA & NA & NA & NA & 2755\\
+\addlinespace
+江苏师范大学 & 434 & 5008 & 428 & 4419 & 10 & TRUE & 2755\\
+江西师范大学 & 184 & 1791 & NA & NA & NA & NA & 2755\\
+辽宁师范大学 & 165 & 1690 & NA & NA & NA & NA & 2755\\
+南京师范大学 & 1025 & 11602 & 998 & 10055 & 25 & TRUE & 2755\\
+东北师范大学 & 418 & 5815 & 405 & 5201 & 7 & TRUE & 2755\\
+\addlinespace
+西北师范大学 & 249 & 2500 & NA & NA & NA & NA & 2755\\
+曲阜师范大学 & 754 & 9640 & 739 & 8403 & 28 & TRUE & 2755\\
+陕西师范大学 & 531 & 4698 & 521 & 4195 & 10 & TRUE & 2755\\
+山东师范大学 & 698 & 6972 & 677 & 6418 & 23 & TRUE & 2755\\
+上海师范大学 & 351 & 3285 & 343 & 3008 & 5 & TRUE & 2755\\
+\addlinespace
+四川师范大学 & 237 & 2923 & NA & NA & NA & NA & 2755\\
+华南师范大学 & 700 & 7900 & 683 & 7241 & 16 & TRUE & 2755\\
+天津师范大学 & 225 & 1650 & NA & NA & NA & NA & 2755\\
+云南师范大学 & 230 & 2474 & NA & NA & NA & NA & 2755\\
+浙江师范大学 & 594 & 6974 & 584 & 6285 & 18 & TRUE & 2755\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{References}{%
+\chapter*{参考文献}\label{References}}
+\addcontentsline{toc}{chapter}{参考文献}
+
+{[}1{]} R Core Team (2013). R: A language and environment for statistical
+computing. R Foundation for Statistical Computing, Vienna, Austria.
+URL \url{http://www.R-project.org/}.
+
+{[}2{]} Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. ISBN 978-3-319-24277-4
+
+{[}3{]} Wickham, H., Grolemund, G. (2017). R for Data Science: Import, Tidy, Transform, Visualize, and Model Data. O'Reilly Media. ISBN: 1491910399
+
+{[}4{]} Xie Y, Allaire J, Grolemund G (2018). R Markdown: The Definitive Guide. Chapman and Hall/CRC, Boca Raton, Florida. ISBN 9781138359338
+
+{[}5{]} Gelman, A., Lee, D., \& Guo, J. (2015). Stan: A Probabilistic Programming Language for Bayesian Inference and Optimization. Journal of Educational and Behavioral Statistics, 40(5), 530--543.
+
+{[}6{]} Bürkner P (2017). brms: An R Package for Bayesian Multilevel Models Using Stan. Journal of Statistical Software, 80(1), 1--28.
+
+{[}7{]} Kay M (2020). tidybayes: Tidy Data and Geoms for Bayesian Models. doi: 10.5281/zenodo.1308151, R package version 2.0.3
+
+{[}8{]} Andrew Gelman, John Carlin, Hal Stern, David Dunson, Aki Vehtari, and Donald Rubin (2014). Bayesian Data Analysis. 3rd ed.~Chapman and Hall/CRC.
+
+{[}9{]} Kruschke, J. K. (2014). Doing Bayesian data analysis : a tutorial with R and BUGS. Burlington, MA: Academic Press.
+
+{[}10{]} McElreath, R. (2015). \emph{Statistical rethinking: A Bayesian course with examples in R and Stan.} Chapman \& Hall/CRC Press.
+
+{[}11{]} Kruschke, J. K. \& Liddell, T. M. (2018). The Bayesian New Statistics: Hypothesis testing, estimation, meta-analysis, and power analysis from a Bayesian perspective. Psychonomic Bulletin \& Review, 25:178-206.
+% 参考文献
+\bibliography{book.bib}
+
+
+
+% 插入 after_body.tex
+
+\end{document}
