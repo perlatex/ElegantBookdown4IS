@@ -6,6 +6,26 @@
 
 ## 研究规模贡献分析
 数据不准确，避免引起歧义。暂时不开展
+```{r}
+sicnu_contribution_by_college %>% 
+	select(discipline_cn, coll_name_cn, n_paper, n_cited) %>% 
+	group_by(discipline_cn) %>% 
+    arrange(discipline_cn, -n_cited)
+	
+```
+
+```{r}
+sicnu_contribution_by_college %>% 
+	select(discipline_cn, coll_name_cn, n_paper, n_cited) %>% 
+
+	group_by(discipline_cn) %>% 
+    arrange(discipline_cn, -n_cited) %>% 
+	mutate(
+	  across(c(n_paper, n_cited), ~scales::percent(./sum(.), accuracy = 0.01), 
+	  	   .names = "{col}_percent")
+	  ) %>% 
+	relocate(n_paper_percent, .after = "n_paper")
+```
 
 ## 学术影响力贡献分析
 

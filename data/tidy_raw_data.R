@@ -1,5 +1,7 @@
 library(tidyverse)
 source("add_cn.R", encoding = "UTF-8")
+source("map_issn_to_discipline.R", encoding = "UTF-8")
+source("recode_college_name.R", encoding = "UTF-8")
 
 
 
@@ -118,6 +120,47 @@ t %>% add_esi_threshold(discipline)
 
 
 
+##########################################################################
+read_wos <- function(flnm) {
+  read_tsv(flnm, quote = "", col_names = TRUE) %>% 
+    select(AU, AF, SO, DE, C1, RP, FU, CR, TC, SN, PY, UT) 
+}
+
+
+tbl <- here::here("data", "wos", "sichuan_normal_univ") %>%
+  fs::dir_ls(regexp = "*.txt", recurse = FALSE) %>%
+  purrr::map_dfr(~ read_wos(.)) 
+tbl
+
+t <- tbl %>% 
+  dplyr::select(C1, TC, SN) %>% 
+  dplyr::mutate(discipline = map_issn_to_discipline(SN)) %>% 
+  rowwise() %>% 
+  dplyr::mutate(coll = stringr::str_extract_all(C1, "Sichuan Normal Univ,\\s+([^,]*),") 
+  ) %>% 
+  tidyr::unnest(coll) %>% 
+  ungroup()
+
+
+sicnu_contribution_by_college <- t %>% 
+  dplyr::select(discipline, TC, coll) %>% 
+  dplyr::mutate(
+    across(coll, stringr::str_squish)
+  ) %>%
+  dplyr::mutate(coll_name_cn = recode_college_name(coll)) %>% 
+  dplyr::filter(!is.na(coll_name_cn), !is.na(discipline)) %>% 
+  dplyr::group_by(discipline, coll_name_cn) %>% 
+  dplyr::summarise(
+    n_paper = n(),
+    n_cited = sum(TC),
+    .groups = "drop"
+  ) %>% 
+  dplyr::arrange(-n_cited)  %>% 
+  add_discipline_cn(discipline) %>% 
+  dplyr::relocate(discipline_cn)
+##########################################################################
+
+
 
 
 
@@ -172,6 +215,9 @@ univ_discip_cum_last_ten_year <- univ_discip_timeserial %>%
 	add_school_cn(univ)
 
 
+# 7) sichuan normal univ: (college) / (discipline) / (n_paper) / (n_cited)
+sicnu_contribution_by_college
+
 
 
 # save to Rdata
@@ -182,6 +228,8 @@ save(Normal_University_Top30,
 	  
 	 univ_discip_enter_top_one_percent,
 	 univ_discip_cum_last_ten_year,
+	 
+	 sicnu_contribution_by_college,
 	 file = "myData.Rdata"
 )
 
