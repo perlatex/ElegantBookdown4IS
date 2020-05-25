@@ -28,3 +28,6 @@ sicnu_contribution_by_college %>%
 ## 学术影响力贡献分析
 
 
+```{r out.width = '100%', echo = FALSE}
+knitr::include_graphics("sankeyNetwork/sankeyNetwork.pdf")
+```
