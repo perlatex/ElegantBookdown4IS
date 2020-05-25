@@ -2,16 +2,14 @@
 
 
 
-
-
 ## 研究规模贡献分析
-数据不准确，避免引起歧义。暂时不开展
+
 ```{r}
-sicnu_contribution_by_college %>% 
+d <- sicnu_contribution_by_college %>% 
 	select(discipline_cn, coll_name_cn, n_paper, n_cited) %>% 
 	group_by(discipline_cn) %>% 
     arrange(discipline_cn, -n_cited)
-	
+d	
 ```
 
 ```{r}
@@ -29,4 +27,4 @@ sicnu_contribution_by_college %>%
 
 ## 学术影响力贡献分析
 
-数据不准确，避免引起歧义。暂时不开展
+

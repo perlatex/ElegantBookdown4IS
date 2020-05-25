@@ -4,9 +4,9 @@
 
 # 统计口径 {#sound}
 
-## 数据来源
+<!-- ## 数据来源 -->
 
-基本科学指标数据库（Essential Science Indicators，简称ESI）是衡量科学研究绩效、跟踪科学发展趋势的基本分析评价工具，它是基于Clarivate Analytics公司（原汤森路透知识产权与科技事业部）Web of Science（SCIE/SSCI）所收录的全球11000多种学术期刊的1000多万条文献记录而建立的计量分析数据库。目前，ESI已成为当今世界范围内普遍用以评价高校、学术机构、国家/地区国际学术水平及影响力的重要评价指标工具之一，其数据库以学科分门别类(共分22个学科)，采集面覆盖全球几万乃至十几万家不同研究单位的学科。
+<!-- 基本科学指标数据库（Essential Science Indicators，简称ESI）是衡量科学研究绩效、跟踪科学发展趋势的基本分析评价工具，它是基于Clarivate Analytics公司（原汤森路透知识产权与科技事业部）Web of Science（SCIE/SSCI）所收录的全球11000多种学术期刊的1000多万条文献记录而建立的计量分析数据库。目前，ESI已成为当今世界范围内普遍用以评价高校、学术机构、国家/地区国际学术水平及影响力的重要评价指标工具之一，其数据库以学科分门别类(共分22个学科)，采集面覆盖全球几万乃至十几万家不同研究单位的学科。 -->
 
 ## 学科分类以及各学科进入ESI的阈值
 
@@ -52,6 +52,17 @@ ESI_and_Threshold %>%
 <!-- <https://github.com/perlatex/ElegantBookdown4IS/tree/master/data> -->
 
 
+## 学校列表
+
+<!-- 我国师范类学校[top30列表](https://www.dxsbb.com/news/1448.html) -->
+```{r}
+Normal_University_Top30 %>% 
+ knitr::kable(
+  caption = "我国师范类学校(top30)列表",
+  booktabs = TRUE
+) %>% 
+  kable_styling(latex_options = "hold_position")
+```
 
 
 ## 贝叶斯模型参数
@@ -108,6 +119,8 @@ plot(brms_eng)
 fitted_draw <- d_eng %>% add_fitted_draws(brms_eng)
 fitted_draw
 ```
+
+
 ```{r, eval=FALSE}
 fitted_draw %>%
   group_by(year) %>%
@@ -139,11 +152,12 @@ pp_check(brms_eng, nsamples = 200)
 
 ### ESI 数据完全不透明
 
-5月更新的ESI数据库收录论文的时间范围是2010年——2020年2月底（十年零两个月）；
+5月14日更新的ESI数据库收录论文的时间范围是2010年——2020年2月底（十年零两个月）；
 
-- 我们只能检索到年
-   - 比如，7月份发布时，ESI数据库收录论文的时间范围是2010年2月——2020年4月
+- 我们只能检索到出版年。比如，7月份发布时，
    - 我们能检索的2010年——2020年7月
+   - ESI数据库收录论文的时间范围是2010年2月——2020年4月
+
 
 - 在ESI检索到的数据，他们还要再筛查一次。
    - ESI工程学和计算机这两个学科的引用有不少是来自会议论文的，但是ESI不统计来自会议论文的引用，所以实际表现没有您检索出的结果那么高。
@@ -151,6 +165,8 @@ pp_check(brms_eng, nsamples = 200)
 
 ```{r}
 focus_discipline <- c("工程学")
+
+options(knitr.kable.NA = '-')
 
 univ_discip_cum_last_ten_year %>% 
 	dplyr::filter(discipline_cn %in% focus_discipline) %>% 
@@ -163,9 +179,7 @@ univ_discip_cum_last_ten_year %>%
    booktabs = TRUE
 ) %>% 
   kable_styling(latex_options = "hold_position")
-  
-
-
+ 
 ```
 
 

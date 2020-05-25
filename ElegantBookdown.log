@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.5.20)  23 MAY 2020 12:45
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.5.20)  25 MAY 2020 13:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1355,18 +1355,20 @@ File: figure/logo.png Graphic file (type bmp)
 ]
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
 (Font)              scaled to size 17.28pt on input line 69.
-(./ElegantBookdown.toc)
+(./ElegantBookdown.toc [1
+
+
+])
 \tf@toc=\write9
 \openout9 = `ElegantBookdown.toc'.
 
-[1
-
-
-]
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
+(Font)              scaled to size 8.0pt on input line 74.
+[2]
 Package hyperref Info: Option `pageanchor' set `true' on input line 76.
 
 Package hyperref Warning: The anchor of a bookmark and its parent's must not
-(hyperref)                be the same. Added a new anchor on input line 93.
+(hyperref)                be the same. Added a new anchor on input line 95.
 
 
 Package fontspec Info: Could not resolve font "FangSong/BI" (it probably
@@ -1398,42 +1400,40 @@ Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
 
 ]
 第\nobreakspace {}1{}\nobreakspace {}章 1.
-LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 10.0pt on input line 141.
-LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 10.0pt on input line 141.
-File: ElegantBookdown_files/figure-latex/unnamed-chunk-14-1.pdf Graphic file (t
+File: ElegantBookdown_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (t
 ype pdf)
-<use ElegantBookdown_files/figure-latex/unnamed-chunk-14-1.pdf>
+<use ElegantBookdown_files/figure-latex/unnamed-chunk-13-1.pdf>
 [3
 
 ]
 Overfull \vbox (33.25189pt too high) has occurred while \output is active []
 
-LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 8.0pt on input line 189.
 [4]
+File: ElegantBookdown_files/figure-latex/unnamed-chunk-17-1.pdf Graphic file (t
+ype pdf)
+<use ElegantBookdown_files/figure-latex/unnamed-chunk-17-1.pdf>
+LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
+(Font)              scaled to size 12.0pt on input line 167.
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-18-1.pdf>
-LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 12.0pt on input line 207.
+[5]
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-19-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-19-1.pdf>
-[5]
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-20-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-20-1.pdf>
+[6]
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-21-1.pdf>
-[6]
-File: ElegantBookdown_files/figure-latex/unnamed-chunk-22-1.pdf Graphic file (t
-ype pdf)
-<use ElegantBookdown_files/figure-latex/unnamed-chunk-22-1.pdf>
 [7]
 第\nobreakspace {}2{}\nobreakspace {}章 2.
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
+(Font)              scaled to size 10.0pt on input line 198.
+LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
+(Font)              scaled to size 10.0pt on input line 198.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1442,47 +1442,201 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 ] [9]
 第\nobreakspace {}3{}\nobreakspace {}章 3.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 6.0pt on input line 331.
-File: ElegantBookdown_files/figure-latex/unnamed-chunk-39-1.pdf Graphic file (t
+(Font)              scaled to size 6.0pt on input line 301.
+File: ElegantBookdown_files/figure-latex/unnamed-chunk-38-1.pdf Graphic file (t
 ype pdf)
-<use ElegantBookdown_files/figure-latex/unnamed-chunk-39-1.pdf>
+<use ElegantBookdown_files/figure-latex/unnamed-chunk-38-1.pdf>
 [10
 
 ]
-File: ElegantBookdown_files/figure-latex/unnamed-chunk-43-1.pdf Graphic file (t
+File: ElegantBookdown_files/figure-latex/unnamed-chunk-42-1.pdf Graphic file (t
 ype pdf)
-<use ElegantBookdown_files/figure-latex/unnamed-chunk-43-1.pdf>
+<use ElegantBookdown_files/figure-latex/unnamed-chunk-42-1.pdf>
 [11] [12]
+第\nobreakspace {}4{}\nobreakspace {}章 4.
+
+Overfull \hbox (24.29071pt too wide) in paragraph at lines 359--359
+[]\T1/cmtt/m/n/10.95 #>    discipline_cn      coll_name_cn                     
+    n_paper n_cited[] 
+ []
+
+
+Overfull \hbox (24.29071pt too wide) in paragraph at lines 360--360
+[]\T1/cmtt/m/n/10.95 #>    <chr>              <chr>                            
+      <int>   <dbl>[] 
+ []
+
+
+Overfull \hbox (24.29068pt too wide) in paragraph at lines 361--361
+[]\T1/cmtt/m/n/10.95 #>  1  \TU/FangSong(0)/m/n/10.95 材 料 科 学             化 学 与
+ 材 料 科 学 学 院                        \T1/cmtt/m/n/10.95 171    2462[] 
+ []
+
+
+Overfull \hbox (24.29068pt too wide) in paragraph at lines 362--362
+[]\T1/cmtt/m/n/10.95 #>  2  \TU/FangSong(0)/m/n/10.95 材 料 科 学             物 理 与
+ 电 子 工 程 学 院                         \T1/cmtt/m/n/10.95 46     424[] 
+ []
+
+
+Overfull \hbox (24.29068pt too wide) in paragraph at lines 363--363
+[]\T1/cmtt/m/n/10.95 #>  3  \TU/FangSong(0)/m/n/10.95 材 料 科 学             可 视 化
+ 计 算 与 虚 拟 现 实 四 川 省 重 点 实 验 室       \T1/cmtt/m/n/10.95 18     311[] 
+ []
+
+
+Overfull \hbox (24.29068pt too wide) in paragraph at lines 364--364
+[]\T1/cmtt/m/n/10.95 #>  4  \TU/FangSong(0)/m/n/10.95 材 料 科 学             生 命 科
+ 学 学 院                                \T1/cmtt/m/n/10.95 3       7[] 
+ []
+
+
+Overfull \hbox (24.29068pt too wide) in paragraph at lines 365--365
+[]\T1/cmtt/m/n/10.95 #>  5  \TU/FangSong(0)/m/n/10.95 材 料 科 学             教 育 科
+ 学 学 院                                \T1/cmtt/m/n/10.95 3       4[] 
+ []
+
+
+Overfull \hbox (24.29068pt too wide) in paragraph at lines 366--366
+[]\T1/cmtt/m/n/10.95 #>  6  \TU/FangSong(0)/m/n/10.95 地 球 科 学             教 育 科
+ 学 学 院                                \T1/cmtt/m/n/10.95 4      21[] 
+ []
+
+
+Overfull \hbox (24.29068pt too wide) in paragraph at lines 367--367
+[]\T1/cmtt/m/n/10.95 #>  7  \TU/FangSong(0)/m/n/10.95 地 球 科 学             地 理 与
+ 资 源 科 学 学 院                          \T1/cmtt/m/n/10.95 4      16[] 
+ []
+
+
+Overfull \hbox (24.29068pt too wide) in paragraph at lines 368--368
+[]\T1/cmtt/m/n/10.95 #>  8  \TU/FangSong(0)/m/n/10.95 地 球 科 学             遥 感 与
+ 地 理 信 息 系 统 应 用 研 究 中 心              \T1/cmtt/m/n/10.95 1       4[] 
+ []
+
+
+Overfull \hbox (24.29068pt too wide) in paragraph at lines 369--369
+[]\T1/cmtt/m/n/10.95 #>  9  \TU/FangSong(0)/m/n/10.95 分 子 生 物 学 与 遗 传 学   生 命 科
+ 学 学 院                               \T1/cmtt/m/n/10.95 13      54[] 
+ []
+
+
+Overfull \hbox (24.29068pt too wide) in paragraph at lines 370--370
+[]\T1/cmtt/m/n/10.95 #> 10  \TU/FangSong(0)/m/n/10.95 分 子 生 物 学 与 遗 传 学   继 续 教
+ 育 学 院                                \T1/cmtt/m/n/10.95 1      32[] 
+ []
+
+
+Overfull \hbox (58.77469pt too wide) in paragraph at lines 377--377
+[]\T1/cmtt/m/n/10.95 #>    discipline_cn  coll_name_cn   n_paper n_paper_percen
+t n_cited n_cited_percent[] 
+ []
+
+
+Overfull \hbox (1.30139pt too wide) in paragraph at lines 378--378
+[]\T1/cmtt/m/n/10.95 #>    <chr>          <chr>            <int> <chr>         
+    <dbl> <chr>[] 
+ []
+
+
+Overfull \hbox (35.78534pt too wide) in paragraph at lines 379--379
+[]\T1/cmtt/m/n/10.95 #>  1  \TU/FangSong(0)/m/n/10.95 材 料 科 学         化 学 与 材 料
+ 科 学 学 院 \T1/cmtt/m/n/10.95 ~     171 70.95%             2462 76.75%[] 
+ []
+
+
+Overfull \hbox (35.78534pt too wide) in paragraph at lines 380--380
+[]\T1/cmtt/m/n/10.95 #>  2  \TU/FangSong(0)/m/n/10.95 材 料 科 学         物 理 与 电 子
+ 工 程 学 院 \T1/cmtt/m/n/10.95 ~      46 19.09%              424 13.22%[] 
+ []
+
+
+Overfull \hbox (76.01665pt too wide) in paragraph at lines 381--381
+[]\T1/cmtt/m/n/10.95 #>  3  \TU/FangSong(0)/m/n/10.95 材 料 科 学         可 视 化 计 算
+ 与 虚 拟 现 实 四 川 省 \T1/cmtt/m/n/10.95 ~      18 7.47%               311 9.69%[] 
+ []
+
+
+Overfull \hbox (1.30136pt too wide) in paragraph at lines 382--382
+[]\T1/cmtt/m/n/10.95 #>  4  \TU/FangSong(0)/m/n/10.95 材 料 科 学         生 命 科 学 学
+ 院          \T1/cmtt/m/n/10.95 3 1.24%                 7 0.22%[] 
+ []
+
+
+Overfull \hbox (1.30136pt too wide) in paragraph at lines 383--383
+[]\T1/cmtt/m/n/10.95 #>  5  \TU/FangSong(0)/m/n/10.95 材 料 科 学         教 育 科 学 学
+ 院          \T1/cmtt/m/n/10.95 3 1.24%                 4 0.12%[] 
+ []
+
+
+Overfull \hbox (7.04869pt too wide) in paragraph at lines 384--384
+[]\T1/cmtt/m/n/10.95 #>  6  \TU/FangSong(0)/m/n/10.95 地 球 科 学         教 育 科 学 学
+ 院          \T1/cmtt/m/n/10.95 4 44.44%               21 51.22%[] 
+ []
+
+
+Overfull \hbox (35.78534pt too wide) in paragraph at lines 385--385
+[]\T1/cmtt/m/n/10.95 #>  7  \TU/FangSong(0)/m/n/10.95 地 球 科 学         地 理 与 资 源
+ 科 学 学 院 \T1/cmtt/m/n/10.95 ~       4 44.44%               16 39.02%[] 
+ []
+
+
+Overfull \hbox (76.01665pt too wide) in paragraph at lines 386--386
+[]\T1/cmtt/m/n/10.95 #>  8  \TU/FangSong(0)/m/n/10.95 地 球 科 学         遥 感 与 地 理
+ 信 息 系 统 应 用 研 究 \T1/cmtt/m/n/10.95 ~       1 11.11%                4 9.76%[] 
+ []
+
+
+Overfull \hbox (35.78534pt too wide) in paragraph at lines 387--387
+[]\T1/cmtt/m/n/10.95 #>  9  \TU/FangSong(0)/m/n/10.95 分 子 生 物 学 与 遗 传 学 \T1/cmt
+t/m/n/10.95 ~  \TU/FangSong(0)/m/n/10.95 生 命 科 学 学 院         \T1/cmtt/m/n/10.95
+ 13 92.86%               54 62.79%[] 
+ []
+
+
+Overfull \hbox (35.78534pt too wide) in paragraph at lines 388--388
+[]\T1/cmtt/m/n/10.95 #> 10  \TU/FangSong(0)/m/n/10.95 分 子 生 物 学 与 遗 传 学 \T1/cmt
+t/m/n/10.95 ~  \TU/FangSong(0)/m/n/10.95 继 续 教 育 学 院          \T1/cmtt/m/n/10.9
+5 1 7.14%                32 37.21%[] 
+ []
+
+[13
+
+]
+第\nobreakspace {}5{}\nobreakspace {}章 5.
+[14
+
+]
 附录\nobreakspace {}A A.
 
-Overfull \hbox (6.75562pt too wide) in paragraph at lines 407--464
+Overfull \hbox (6.75562pt too wide) in paragraph at lines 434--491
  [][] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-File: ElegantBookdown_files/figure-latex/unnamed-chunk-49-1.pdf Graphic file (t
-ype pdf)
-<use ElegantBookdown_files/figure-latex/unnamed-chunk-49-1.pdf>
-[13
-
-
-]
-Overfull \vbox (33.57112pt too high) has occurred while \output is active []
-
-[14]
-File: ElegantBookdown_files/figure-latex/unnamed-chunk-50-1.pdf Graphic file (t
-ype pdf)
-<use ElegantBookdown_files/figure-latex/unnamed-chunk-50-1.pdf>
 File: ElegantBookdown_files/figure-latex/unnamed-chunk-51-1.pdf Graphic file (t
 ype pdf)
 <use ElegantBookdown_files/figure-latex/unnamed-chunk-51-1.pdf>
-[15]
-File: ElegantBookdown_files/figure-latex/unnamed-chunk-54-1.pdf Graphic file (t
-ype pdf)
-<use ElegantBookdown_files/figure-latex/unnamed-chunk-54-1.pdf>
+[15
+
+
+]
+Overfull \vbox (205.37935pt too high) has occurred while \output is active []
+
 [16]
+File: ElegantBookdown_files/figure-latex/unnamed-chunk-52-1.pdf Graphic file (t
+ype pdf)
+<use ElegantBookdown_files/figure-latex/unnamed-chunk-52-1.pdf>
+File: ElegantBookdown_files/figure-latex/unnamed-chunk-53-1.pdf Graphic file (t
+ype pdf)
+<use ElegantBookdown_files/figure-latex/unnamed-chunk-53-1.pdf>
+[17]
+File: ElegantBookdown_files/figure-latex/unnamed-chunk-56-1.pdf Graphic file (t
+ype pdf)
+<use ElegantBookdown_files/figure-latex/unnamed-chunk-56-1.pdf>
+[18]
 Missing character: There is no 1 in font nullfont!
 Missing character: There is no 2 in font nullfont!
 Missing character: There is no 1 in font nullfont!
@@ -1490,32 +1644,32 @@ Missing character: There is no 2 in font nullfont!
 Missing character: There is no 1 in font nullfont!
 Missing character: There is no 2 in font nullfont!
 
-Overfull \hbox (95.2693pt too wide) in paragraph at lines 517--558
+Overfull \hbox (95.2693pt too wide) in paragraph at lines 594--635
  [][] 
  []
 
-[17]
+[19]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
-(Font)              scaled to size 10.95pt on input line 584.
+(Font)              scaled to size 10.95pt on input line 661.
 No file ElegantBookdown.bbl.
-[18
+[20
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 594.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 594.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 671.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 671.
 (./ElegantBookdown.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 594.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 594.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 671.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 671.
 Package rerunfilecheck Info: File `ElegantBookdown.out' has not changed.
-(rerunfilecheck)             Checksum: 505830E57FB413DB4626EE99685A8378;3548.
+(rerunfilecheck)             Checksum: CEC0FF3177724B4E26E2DD13367981E1;3921.
  ) 
 Here is how much of TeX's memory you used:
- 38024 strings out of 481249
- 782802 string characters out of 5924806
+ 38050 strings out of 481249
+ 784229 string characters out of 5924806
  1412055 words of memory out of 5000000
- 54769 multiletter control sequences out of 15000+600000
- 570181 words of font info for 87 fonts, out of 8000000 for 9000
+ 54794 multiletter control sequences out of 15000+600000
+ 570189 words of font info for 88 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  68i,12n,126p,853b,869s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on ElegantBookdown.pdf (20 pages).
+Output written on ElegantBookdown.pdf (23 pages).
