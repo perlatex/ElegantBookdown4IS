@@ -139,8 +139,8 @@ source("./scripts/predict_prob_above_threshold.R")
 
 本报告使用R和Stan语言完成，数据和代码存放在GitHub仓库<https://github.com/perlatex/ElegantBookdown4IS>，欢迎批评指正。
 
-## 感谢 {-}
+<!-- ## 感谢 {-} -->
 
-I am very grateful to [Ben Bales](https://github.com/bbbales2) from the Stan Development Team for his patience in guiding Stan code.
-感谢彭凤老师在图书购买上提供的帮助，感谢研究生李晨阳协助完成数据收集和整理工作。感谢科睿唯安 (原汤森路透) 公司赵宇先生提供了非常专业地技术解释。
+<!-- I am very grateful to [Ben Bales](https://github.com/bbbales2) from the Stan Development Team for his patience in guiding Stan code. -->
+<!-- 感谢彭凤老师在图书购买上提供的帮助，感谢研究生李晨阳协助完成数据收集和整理工作。感谢科睿唯安 (原汤森路透) 公司赵宇先生提供了非常专业地技术解释。 -->
 
