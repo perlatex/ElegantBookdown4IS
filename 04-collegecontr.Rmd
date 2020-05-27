@@ -1,19 +1,30 @@
 # 学院对学科的贡献 {#collegecontr}
 
 
+本章讨论各学院机构对ESI学科的贡献，由于数据库的不同，统计出来的论文数量和被引频次与ESI数据库存在一定的差异。按照ESI的方法，一篇文章若有多个机构，那么这些机构对学科的贡献是对等的。
 
-## 研究规模贡献分析
+## 学院对ESI学科被引频次的贡献
 
-```{r}
+
+```{r out.width = '100%', echo = FALSE}
+knitr::include_graphics("sankeyNetwork/sankeyNetwork.pdf")
+```
+
+
+## 工程学术影响力贡献分析
+
+这里我们列出各学院对我校**工程学学科**学术影响力贡献的具体数据
+```{r, eval=FALSE}
 d <- sicnu_contribution_by_college %>% 
 	select(discipline_cn, coll_name_cn, n_paper, n_cited) %>% 
 	group_by(discipline_cn) %>% 
     arrange(discipline_cn, -n_cited)
-d	
+
 ```
 
 ```{r}
-sicnu_contribution_by_college %>% 
+d_contri <- 
+	sicnu_contribution_by_college %>% 
 	select(discipline_cn, coll_name_cn, n_paper, n_cited) %>% 
 
 	group_by(discipline_cn) %>% 
@@ -23,11 +34,25 @@ sicnu_contribution_by_college %>%
 	  	   .names = "{col}_percent")
 	  ) %>% 
 	relocate(n_paper_percent, .after = "n_paper")
+#d_contri
 ```
 
-## 学术影响力贡献分析
 
 
-```{r out.width = '100%', echo = FALSE}
-knitr::include_graphics("sankeyNetwork/sankeyNetwork.pdf")
+
+```{r}
+d_contri %>% 
+  dplyr::filter(discipline_cn == "工程学") %>% 
+  dplyr::rename("学科" = discipline_cn, 
+  			    "学院" = coll_name_cn, 
+  			    "论文数" = n_paper,
+  			    "论文数占比" = n_paper_percent,
+  			    "被引频次" = n_cited,
+  			    "被引频次占比" = n_cited_percent) %>%  
+  knitr::kable(
+     caption = "各学院对我校工程学学科学术影响力贡献",
+     booktabs = TRUE
+) %>% 
+  kable_styling(latex_options = "hold_position")
 ```
+

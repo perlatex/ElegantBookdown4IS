@@ -163,20 +163,20 @@ pp_check(brms_eng, nsamples = 200)
    - ESI工程学和计算机这两个学科的引用有不少是来自会议论文的，但是ESI不统计来自会议论文的引用，所以实际表现没有您检索出的结果那么高。
 
 
-```{r}
+```{r,eval = FALSE}
 focus_discipline <- c("工程学")
 
 options(knitr.kable.NA = '-')
 
 univ_discip_cum_last_ten_year %>% 
 	dplyr::filter(discipline_cn %in% focus_discipline) %>% 
-	select(-univ, -discipline, -discipline_cn) %>% 
-	rename(web_of_science = web_of_science_documents,
+	dplyr::select(-univ, -discipline, -discipline_cn) %>% 
+	dplyr::rename(web_of_science = web_of_science_documents,
 		   is_enter = is_enter_one_percent) %>% 
-	relocate(univ_cn) %>% 
-  knitr::kable(
-   caption = '师范高校工程学科',
-   booktabs = TRUE
+	dplyr::relocate(univ_cn) %>% 
+    knitr::kable(
+     caption = '师范高校工程学科',
+     booktabs = TRUE
 ) %>% 
   kable_styling(latex_options = "hold_position")
  
