@@ -26,7 +26,7 @@ univ_discip_cum_last_ten_year %>%
 
 ## 竞争对手
 
-由表 \@ref(tab:iris)可以看出**工程学**是入选前百分之一ESI学科的 潜力学科，但我们也要意识到，当前师范院校高校中，工程学进入ESI学科的有14所，未进入的16所，表 \@ref(tab:iris2)列出了这未进入的16所高校的工程学科与阈值线的接近程度，可以看到，大学彼此之间竞争还很激烈。
+由表 \@ref(tab:iris)可以看出**工程学**是入选前百分之一ESI学科的 潜力学科，但我们也要意识到，当前师范院校高校中，工程学进入ESI学科的有14所，未进入的16所，表 \@ref(tab:iris3)列出了这未进入的16所高校的工程学科与阈值线的接近程度，可以看到，大学彼此之间竞争还很激烈。
 
 ```{r, eval=FALSE}
 univ_discip_cum_last_ten_year %>% 
@@ -53,3 +53,25 @@ univ_discip_cum_last_ten_year %>%
    kable_styling(latex_options = "hold_position")
 ```
 
+
+```{r iris3}
+univ_discip_cum_last_ten_year %>% 
+	dplyr::filter(discipline_cn %in% "工程学") %>% 
+  #dplyr::filter(is.na(is_enter_one_percent)) %>% 
+  dplyr::mutate(prop = cum_cited / Threshold0514) %>% 
+  dplyr::select(univ_cn, cum_paper, cum_cited, 
+                Threshold0514, prop, is_enter_one_percent) %>% 
+  dplyr::arrange(desc(prop)) %>% 
+  dplyr::mutate(prop = scales::percent(prop, accuracy = 0.01)) %>% 
+  dplyr::mutate(is_enter = if_else(is_enter_one_percent, "是", "否")) %>% 
+   
+  dplyr::select("学校" = univ_cn, "累积论文数" = cum_paper, "被引频次" = cum_cited, 
+                "阈值线" = Threshold0514, "接近程度" = prop, "进入ESI" = is_enter) %>% 
+    knitr::kable(
+    caption = '师范类院校的工程学科进入ESI前百分之一学科的情况',
+    booktabs = TRUE
+  ) %>% 
+    kable_styling(latex_options = "hold_position")
+  
+#write_excel_csv("enter.csv")
+```
