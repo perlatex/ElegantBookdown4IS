@@ -1,0 +1,153 @@
+# 高被引论文 {#highly}
+
+## 我校高被引论文
+```{r, eval=FALSE}
+univ_discip_timeserial_2010_to_2020 %>% 
+	dplyr::filter(univ_cn == "四川师范大学") %>% 
+  dplyr::select(univ_cn, discipline_cn, discipline, year, n_paper, n_cited)
+```
+
+```{r, eval=FALSE}
+highcited_timeserial
+```
+当前四川师范大学在励精图治奋力耕耘，推动学科发展，科研产出稳步提升。
+
+
+```{r}
+univ_discip_timeserial_2010_to_2020 %>% 
+	dplyr::filter(univ_cn == "四川师范大学") %>% 
+  dplyr::select(univ_cn, discipline_cn, discipline, year, n_paper, n_cited) %>%
+  dplyr::mutate(year = as.character(year)) %>% 
+  
+  dplyr::left_join(highcited_timeserial, by = c("discipline", "year")) %>% 
+  
+  dplyr::group_by(year) %>% 
+  dplyr::summarise(
+    across(starts_with("n_"), sum, na.rm = T)
+  ) %>% 
+  
+  dplyr::select(
+    "年份" = year, 
+  	"论文数" = n_paper,
+  	"被引频次" = n_cited,
+  	"高被引论文数" = n_paper_high,
+  	"高被引论文被引频次" = n_cited_high
+  )  
+```
+
+```{r, results='asis', echo=FALSE}
+options(knitr.kable.NA = '')
+dis_select <- c("工程学", "化学", "计算机科学", "物理学", "数学", "材料科学")
+
+
+univ_discip_timeserial_2010_to_2020 %>% 
+	dplyr::filter(univ_cn == "四川师范大学") %>% 
+  dplyr::select(univ_cn, discipline_cn, discipline, year, n_paper, n_cited) %>%
+  dplyr::mutate(year = as.character(year)) %>% 
+  
+  dplyr::left_join(highcited_timeserial, by = c("discipline", "year")) %>% 
+  
+	tidyESI::add_discipline_cn(discipline) %>% 
+  dplyr::relocate(discipline_cn)  %>% 
+  
+  dplyr::filter(discipline_cn %in% dis_select) %>% 
+  dplyr::select(
+    "学科" = discipline_cn,
+    "年份" = year,
+  	"论文数" = n_paper,
+  	"被引频次" = n_cited,
+  	"高被引论文数" = n_paper_high,
+  	"高被引论文被引频次" = n_cited_high
+    ) %>%  
+ 
+  group_split(`学科`) %>%
+  map(~knitr::kable(.x, 
+        caption = glue::glue("我校{unique(.x$`学科`)}历年发展情况"),
+        booktabs = TRUE
+        ) %>%    
+         kable_styling("striped")
+       )
+
+```
+
+
+
+```{r}
+library(ggthemr)
+ggthemr('dust')
+
+dis_select <- c("工程学", "化学", "计算机科学", "物理学", "数学", "材料科学")
+
+
+univ_discip_timeserial_2010_to_2020 %>% 
+	dplyr::filter(univ_cn == "四川师范大学") %>% 
+  dplyr::select(univ_cn, discipline_cn, discipline, year, n_paper, n_cited) %>%
+  dplyr::mutate(year = as.character(year)) %>% 
+  
+  dplyr::left_join(highcited_timeserial, by = c("discipline", "year")) %>% 
+  
+	tidyESI::add_discipline_cn(discipline) %>% 
+  dplyr::relocate(discipline_cn)  %>% 
+  
+  dplyr::filter(discipline_cn %in% dis_select ) %>%
+  dplyr::mutate(n_cited_high = coalesce(n_cited_high, 0)) %>% 
+  dplyr::mutate(prop = n_cited_high / n_cited) %>% 
+
+
+  ggplot(aes(x = n_paper, y = n_cited)) +
+  geom_point(
+    aes(color = prop), 
+    size = 5
+    ) + 
+  
+  #scale_color_viridis_c() +
+  #scale_color_binned() +
+  #scale_color_distiller(type = "seq", palette = "OrRd", direction = 1) +
+  #scale_color_gradient2(low = "blue", high = "red") +
+  scale_color_continuous() +
+  facet_wrap(vars(discipline_cn), scales = "free")
+```
+
+
+## 从学科看
+从ESI学科来看，我校工程学学科与进入 ESI 学科的阈值线最为接近，接近程度约 106%，有望入选 ESI 学科。其他各学科的发展情况见下表：
+
+```{r}
+univ_discip_timeserial_2010_to_2020 %>% 
+	dplyr::filter(univ_cn == "四川师范大学") %>% 
+  dplyr::select(univ_cn, discipline_cn, discipline, year, n_paper, n_cited) %>%
+  dplyr::mutate(year = as.character(year)) %>% 
+  
+  dplyr::left_join(highcited_timeserial, by = c("discipline", "year")) %>% 
+  
+  dplyr::group_by(discipline) %>%
+  dplyr::summarise(
+    across(starts_with("n_"), sum, na.rm = TRUE)
+  ) %>%
+  tidyESI::add_esi_threshold(discipline, date = "last") %>%
+  
+  dplyr::rename(t20200514 = `20200514`) %>% 
+  dplyr::mutate(prop = n_cited / t20200514) %>% 
+  dplyr::arrange(desc(prop)) %>% 
+  dplyr::mutate(prop = scales::percent(prop, accuracy = 0.01)) %>% 
+	tidyESI::add_discipline_cn(discipline) %>% 
+  dplyr::relocate(discipline_cn)  %>% 
+  
+
+  dplyr::select(
+    "学科" = discipline_cn, 
+  	"论文数" = n_paper,
+  	"被引频次" = n_cited,
+  	"高被引论文数" = n_paper_high,
+  	"高被引论文被引频次" = n_cited_high,
+    "阈值20200514" = t20200514,
+    "接近度"= prop
+    ) #%>%  
+#   knitr::kable(
+#      caption = "我校各学科发展情况",
+#      booktabs = TRUE
+# ) %>%
+#   kable_styling(latex_options = "hold_position") 
+```
+
+## 这些引文多少是来自自己内部

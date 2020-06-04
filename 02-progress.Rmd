@@ -12,9 +12,10 @@ univ_discip_cum_last_ten_year %>%
   dplyr::mutate(prop = cum_cited/Threshold0514) %>% 
   dplyr::arrange(desc(prop)) %>% 
   dplyr::mutate(prop = scales::percent(prop, accuracy = 0.01)) %>% 
-  dplyr::select("学科" = discipline_cn, "累积论文数" = cum_paper, 
+  dplyr::select("学科" = discipline_cn, 
+  			    "累积论文数" = cum_paper, 
                 "被引频次" = cum_cited, 
-         "阈值线" = Threshold0514, "接近程度" = prop) %>% 
+                "阈值线" = Threshold0514, "接近程度" = prop) %>% 
   knitr::kable(
   caption = '四川师范大学进入22ESI学科接近程度',
   booktabs = TRUE
@@ -37,15 +38,18 @@ univ_discip_cum_last_ten_year %>%
 
 ```{r iris2}
 univ_discip_cum_last_ten_year %>% 
-	dplyr::filter(discipline_cn %in% "工程学") %>% 
+  dplyr::filter(discipline_cn %in% "工程学") %>% 
   dplyr::filter(is.na(is_enter_one_percent)) %>% 
   dplyr::mutate(prop = cum_cited / Threshold0514) %>% 
   dplyr::select(univ_cn, cum_paper, cum_cited, Threshold0514, prop) %>% 
   dplyr::arrange(desc(prop)) %>% 
   dplyr::mutate(prop = scales::percent(prop, accuracy = 0.01)) %>% 
    
-  dplyr::select("学校" = univ_cn, "累积论文数" = cum_paper, "被引频次" = cum_cited, 
-                "阈值线" = Threshold0514, "接近程度" = prop) %>% 
+  dplyr::select("学校" = univ_cn, 
+  			    "累积论文数" = cum_paper, 
+  			    "被引频次" = cum_cited, 
+                "阈值线" = Threshold0514, 
+  			    "接近程度" = prop) %>% 
    knitr::kable(
    caption = '工程学科有可能进入ESI学科的师范大学',
    booktabs = TRUE
@@ -56,7 +60,7 @@ univ_discip_cum_last_ten_year %>%
 
 ```{r iris3}
 univ_discip_cum_last_ten_year %>% 
-	dplyr::filter(discipline_cn %in% "工程学") %>% 
+  dplyr::filter(discipline_cn %in% "工程学") %>% 
   #dplyr::filter(is.na(is_enter_one_percent)) %>% 
   dplyr::mutate(prop = cum_cited / Threshold0514) %>% 
   dplyr::select(univ_cn, cum_paper, cum_cited, 

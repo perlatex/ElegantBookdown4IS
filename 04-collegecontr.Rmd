@@ -22,6 +22,8 @@ d <- sicnu_contribution_by_college %>%
 
 ```
 
+
+
 ```{r}
 d_contri <- 
 	sicnu_contribution_by_college %>% 
@@ -56,3 +58,51 @@ d_contri %>%
   kable_styling(latex_options = "hold_position")
 ```
 
+因篇幅原因，下面只列出部分学科的情况
+
+```{r, results='asis', echo=FALSE}
+dis_select <- c("工程学", "化学", "计算机科学", "物理学", "数学", "材料科学")
+
+d_contri %>% 
+  dplyr::filter(discipline_cn %in% dis_select) %>% 
+  dplyr::rename("学科" = discipline_cn, 
+  			    "学院" = coll_name_cn, 
+  			    "论文数" = n_paper,
+  			    "论文数贡献比" = n_paper_percent,
+  			    "被引频次" = n_cited,
+  			    "被引频次贡献比" = n_cited_percent) %>%  
+  
+  
+  group_split(`学科`) %>%
+  map(~knitr::kable(.x, 
+        caption = glue::glue("各学院对我校{unique(.x$`学科`)}学术影响力贡献"),
+        booktabs = TRUE
+        ) %>%    
+         kable_styling("striped")
+       )
+
+
+```
+
+```{r, results='asis', eval=FALSE}
+dis_select <- c("工程学", "化学", "计算机科学", "物理学", "数学", "材料科学")
+
+d_contri %>% 
+  dplyr::filter(discipline_cn %in% dis_select) %>% 
+  dplyr::rename("学科" = discipline_cn, 
+  			    "学院" = coll_name_cn, 
+  			    "论文数" = n_paper,
+  			    "论文数贡献比" = n_paper_percent,
+  			    "被引频次" = n_cited,
+  			    "被引频次贡献比" = n_cited_percent) %>%  
+  
+  
+  group_by(`学科`, .drop = FALSE) %>%
+  group_map(~knitr::kable(.x, 
+        caption = glue::glue("各学院对我校{.y}学科学术影响力贡献"),
+        booktabs = TRUE
+        ) %>%    
+         kable_styling("striped")
+       )
+
+```

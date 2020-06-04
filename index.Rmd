@@ -1,6 +1,6 @@
 --- 
 title: "从统计到预测:数据科学背景下精准科研信息服务"
-subtitle: "2020年版"
+subtitle: "2020年个人版"
 author: 
   - 王敏杰
 date: "`r Sys.Date()`"
@@ -47,6 +47,7 @@ knitr::opts_chunk$set(
 
 ```{r, results='hide'}
 library(tidyverse)
+library(tidyESI)  # devtools::install_github("perlatex/tidyESI")
 library(tidybayes)
 library(patchwork)
 library(gghighlight)
@@ -89,6 +90,12 @@ univ_discip_timeserial_2010_to_2019
 
 
 ```{r, eval=FALSE}
+univ_discip_timeserial_2010_to_2020
+```
+
+
+
+```{r, eval=FALSE}
 univ_discip_enter_top_one_percent
 ```
 
@@ -106,12 +113,17 @@ univ_discip_cum_last_ten_year
 
 
 
+```{r, eval=FALSE}
+sicnu_contribution_by_college
+```
+
 
 
 ```{r}
 source("./scripts/theme_mystyle.R")
 source("./scripts/predict_prob_above_threshold.R")
 ```
+
 
 根据基本科学指标数据库（Essential Science Indicators，简称ESI）发布的最新统计数据显示：
 
@@ -124,6 +136,71 @@ source("./scripts/predict_prob_above_threshold.R")
 
 4、西华师范大学工程学（被引频次2922）和西华大学工程学（被引频次2808）先后进入了ESI前百分之一学科。
 
+
+## ## 数据来源
+<!-- - WOS  最新更新日期: 2020-05-29 -->
+<!-- - InCites dataset updated  May 28, 2020. Includes Web of Science content indexed through Apr 30, 2020.  -->
+
+<!-- - ESI Essential Science Indicators dataset updated May 14, 2020. -->
+
+Essential Science Indicator（基本科学指标，以下简称ESI）是由世界上著名的学术信息出版机构美国科技信息所（ISI）于2001年推出的一种文献评价分析工具，是基于SCI和SSCI所收录的全球11000多种学术期刊的1000多万条文献记录而建立的计量分析数据库。
+
+<!-- 三个库更新时间不同步， -->
+<!-- 我最初的想法是合并呈现，然而三个库更新时间不同步，合并会带来更多的疑惑。 -->
+<!-- 因此，我们搜索2020年的数据是不断更新中的，我们的分析跟不上它的脚步 -->
+
+
+<!-- 为了解决数据库更新不同步，导致数据偏差的问题： -->
+<!-- 我们考察 2010-2019 这十年的变化， 不去纠结2020随时更新的问题   -->
+
+<!-- - WOS（没人关心） -->
+<!-- - Incite （老师关心） 高被引的要跟踪 -->
+<!-- - ESI （领导关心）    阈值线要跟踪 -->
+
+
+## 统计口径
+
+<!-- - 研究对象，常规报告，目的是完成工作量的，又不是报告， -->
+<!-- - 统计周期，尽可能的与ESI阈值涵盖的周期一致 -->
+
+- 统计对象：四川师范大学 (Sichuan Normal University)
+- 统计周期：最近十年（比如：2010年全年 - 2020年）
+
+
+## 技术指标
+
+- 什么是ESI学科分类
+
+ESI数据库将收录期刊划分为22个学科，再按学科进行各项统计。每种期刊只会分入一个学科，只有被归类为跨学科学科（MULTIDISCIPLINARY）的Science、Nature与PNAS期刊，会被按照各篇文章的参考文献与引用文献，重新为每篇文章单独分类，但每篇文章仍只会被分类到一个学科。
+
+
+- 什么叫进入ESI前百分之一学科
+
+ESI数据库以引文分析为基础，以10年为1个周期对全球所有大学及科研机构的SCI、SSCI论文的被引频次按22个学科进行由高到低排序，被引频次排在前1%的学科，称为该机构进入ESI前1%学科。
+
+
+
+- ESI学科阈值（ESI Thresholds）
+
+近十年，某一ESI学科被引次数排在前1%的作者和机构的最低被引次数。
+
+
+- 被引频次已经超过阈值线，但为什么没有进入ESI前百分之一学科
+
+主要有两方面的原因：一是统计来源不同，本报告的数据来源于INCITES、ESI、WoS数据库，INCITES、WoS用于查找机构学科论文的被引频次、论文数量等数据，ESI用于查看ESI学科基准线、学科阈值等数据，三个库存在数据更新不同步的现象，故在INCITES、WoS数据库中查到的被引频次，高于ESI数据库中的被引频次；二是INCITES、WoS数据库查到的被引频次包含会议文献的被引频次，而ESI只统计论文和综述两种文献的被引频次，因此得到的被引频次会有虚高现象。
+
+
+- 高被引论文和热点论文
+
+指同一年同一个ESI学科发表论文的被引次数按由高到低进行排序，排在前1%的论文；热点论文统计某一ESI学科最近两年发表的论文，按照最近两个月被引用次数进入前0.1%的论文而给出。
+高被引论文和热点论文有助于确定一个研究领域内的突破性研究，并在科学网络中用于确定和提炼最有影响力的研究论文；同时高被引论文的数量在很大程度上决定学科能否进入前1%。
+
+
+- 高被引论文与进入ESI前百分之一学科的关系
+
+高被引论文越多，进入ESI前百分之一学科的概率越大。
+  
+  
 ## 进度表 {-}
 
 - 文献调研（3月底完成）
@@ -139,8 +216,8 @@ source("./scripts/predict_prob_above_threshold.R")
 
 本报告使用R和Stan语言完成，数据和代码存放在GitHub仓库<https://github.com/perlatex/ElegantBookdown4IS>，欢迎批评指正。
 
-<!-- ## 感谢 {-} -->
+## 感谢 {-}
 
-<!-- I am very grateful to [Ben Bales](https://github.com/bbbales2) from the Stan Development Team for his patience in guiding Stan code. -->
-<!-- 感谢彭凤老师在图书购买上提供的帮助，感谢研究生李晨阳协助完成数据收集和整理工作。感谢科睿唯安 (原汤森路透) 公司赵宇先生提供了非常专业地技术解释。 -->
+I am very grateful to [Ben Bales](https://github.com/bbbales2) from the Stan Development Team for his patience in guiding Stan code.
+感谢彭凤老师在图书购买上提供的帮助，感谢研究生李晨阳协助完成数据收集和整理工作。感谢科睿唯安 (原汤森路透) 公司赵宇先生提供了非常专业地技术解释。
 
