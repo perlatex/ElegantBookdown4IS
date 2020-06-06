@@ -158,7 +158,8 @@ dcc <- dc %>%
 
 
 
-```{r, fig.asp=0.8}
+```{r, fig.asp=0.8, results="asis"}
+library(ggtext)
 dcc %>% 
 	group_by(univ_cn) %>% 
 	mutate(univ_occur_num = sum(is_enter_one_percent)) %>% 
@@ -167,8 +168,9 @@ dcc %>%
 	mutate(discip_occur_num = sum(is_enter_one_percent)) %>% 
 	ungroup() %>% 
 	
-	
-	mutate(univ_cn = glue::glue("{univ_cn}({univ_occur_num})") ) %>% 
+
+	#mutate(univ_cn = glue::glue("{univ_cn}({univ_occur_num})") ) %>% 
+	mutate(univ_cn = glue::glue("{univ_cn}<i style='color:#0072B2'>({univ_occur_num})</i>") ) %>% 
 	select(discipline_cn, univ_cn, is_enter_one_percent,
 		   discip_occur_num, univ_occur_num) %>% 
 
