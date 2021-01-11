@@ -393,4 +393,46 @@ univ_discip_cum_last_ten_year %>%
 	
 ```
 
+## 来张动图
+
+```{r, eval=FALSE}
+library(tidyverse)
+library(gganimate)
+
+
+#d <- readr::read_rds("univ_discip_timeserial_2000_to_2019.rds")
+d <- univ_discip_timeserial_2000_to_2019
+
+d_tidy <- d %>% 
+  select(year, univ_cn, discipline_cn, n_paper, n_cited) %>% 
+  mutate(year = as.integer(year)) %>% 
+  group_by(year, univ_cn) %>% 
+  summarise(
+    across(starts_with("n_"), sum)
+  ) %>% 
+  ungroup() %>% 
+  group_by(univ_cn) %>% 
+  mutate(
+    cum_paper = cumsum(n_paper),
+    cum_cited = cumsum(n_cited)
+    ) %>% 
+  arrange(univ_cn) %>% 
+  ungroup()
+
+d_tidy
+
+d_tidy %>%  
+  ggplot(aes(x = cum_paper, y = cum_cited, colour = univ_cn)) +
+  geom_point(alpha = 0.7, size = 6, show.legend = FALSE) +
+  geom_text(aes(label = univ_cn), size = 3, show.legend = FALSE) +
+  scale_size(range = c(2, 12)) +
+  scale_x_log10() +
+  labs(
+    x = "cum_paper",
+    y = "cum_cited"
+  ) +
+  transition_time(time = year) +
+  view_follow() +
+  labs(title = "year: {frame_time}")
+```
 
