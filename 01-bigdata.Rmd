@@ -436,3 +436,56 @@ d_tidy %>%
   labs(title = "year: {frame_time}")
 ```
 
+## traceplot
+
+https://github.com/emilmalta/30daychartchallenge/blob/master/script/13_correlation.R
+
+skill/ggplot2_emilmalta_30DayChartChallenge
+
+
+```{r}
+dt <- univ_discip_timeserial_2000_to_2019 %>% 
+  select(year, univ_cn, discipline_cn, n_paper, n_cited) %>% 
+  mutate(year = as.integer(year)) %>% 
+  filter(discipline_cn == "化学") %>% 
+
+  group_by(univ_cn) %>% 
+  mutate(
+    cum_paper = cumsum(n_paper),
+    cum_cited = cumsum(n_cited)
+    ) %>% 
+  ungroup()
+dt
+```
+
+```{r}
+library(shadowtext)
+
+dt %>%
+  ggplot(aes(x = cum_paper, y = cum_cited, color = univ_cn)) +
+  geom_path(alpha = .4, size = .5) +
+  geom_path(data = . %>% filter(univ_cn == "四川师范大学"), size = 2) +
+  geom_point(data = . %>% filter(year == max(year)), alpha = .5) +
+  geom_shadowtext(
+    data = . %>% filter(year == max(year)),
+    aes(label = univ_cn, size = cum_cited, group = univ_cn),
+    bg.color = "white",
+    check_overlap = TRUE, 
+    color = "black", 
+    size = 3, 
+    nudge_y = -.25
+  ) +
+  scale_size_area(max_size = 15, guide = "none") +
+  labs(y = NULL, x = NULL) +
+  theme(
+    legend.position = "none", 
+    plot.background = element_rect(fill = "#f7f7f7", color = NA),
+    panel.background = element_blank(),
+    panel.grid = element_line(color = "#e5e1d8"),
+    plot.caption.position = "plot", 
+    plot.margin = margin(10, 25, 10, 20), 
+    plot.title = element_text(size = 26),
+    plot.title.position = "plot"
+  ) 
+```
+
